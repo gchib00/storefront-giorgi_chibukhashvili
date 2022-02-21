@@ -29,7 +29,7 @@ const CategoryLabel = styled.label`
   }
   background: transparent;
 `;
-export class CategoryButton extends PureComponent {
+class CategoryButton extends PureComponent {
   render() {
     const { selectedCategory, optionType } = this.props;
     return (
@@ -59,5 +59,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => ({
   changeCategory,
 });
-
 export default connect(mapStateToProps, mapDispatchToProps())(CategoryButton);
