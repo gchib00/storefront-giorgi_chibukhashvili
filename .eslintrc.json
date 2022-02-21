@@ -17,5 +17,7 @@
         "react"
     ],
     "rules": {
+        "default-param-last": 0,
+        "react/destructuring-assignment": 0
     }
 }
