@@ -4,7 +4,7 @@ import { Query } from '@apollo/react-components';
 import { gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import Product from './Product';
+import ProductCard from './ProductCard';
 
 const ProductsGrid = styled.div`
   display: grid;
@@ -50,11 +50,10 @@ const FETCH_PRODUCTS = gql`
   }
 `;
 class PLP extends PureComponent {
-  // eslint-disable-next-line class-methods-use-this
   renderProducts = (data) => {
     return (
       data.category.products.map((product) => {
-        return <p>{product.name}</p>;
+        return <ProductCard product={product} />;
       })
     );
   };
@@ -63,7 +62,6 @@ class PLP extends PureComponent {
     let { selectedCategory } = this.props;
     selectedCategory = selectedCategory.toLowerCase();
     console.log('render');
-    // eslint-disable-next-line arrow-body-style
     return (
       <Query query={FETCH_PRODUCTS} variables={{ selectedCategory }}>
         { ({ loading, data }) => {
