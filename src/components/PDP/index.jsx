@@ -40,6 +40,16 @@ const FETCH_PRODUCT = gql`
 `;
 
 class PDP extends PureComponent {
+  state = {
+    mainImgIndex: 0,
+  };
+
+  changeMainImage = (newIndex) => {
+    this.setState({
+      mainImgIndex: newIndex,
+    });
+  };
+
   render() {
     const { id } = this.props.params;
     return (
@@ -49,9 +59,16 @@ class PDP extends PureComponent {
           console.log(data);
           return (
             <MainContainer>
-              <MainImage image={data.product.gallery[0]} />
-              <SideImages images={data.product.gallery} />
-              <ProductDetails product={data.product} />
+              <MainImage
+                image={data.product.gallery[this.state.mainImgIndex]}
+              />
+              <SideImages
+                images={data.product.gallery}
+                changeMainImage={this.changeMainImage}
+              />
+              <ProductDetails
+                product={data.product}
+              />
             </MainContainer>
           );
         }}

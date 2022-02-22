@@ -11,8 +11,14 @@ const MainContainer = styled.div`
 const SideImage = styled.img`
     height: 100px;
     width: 100px;
+    cursor: pointer;
 `;
 export default class SideImages extends PureComponent {
+  handleChange = (img, images) => {
+    const newIndex = images.indexOf(img); // determine index of the clicked image
+    this.props.changeMainImage(newIndex);
+  };
+
   renderSideImages = (images) => {
     const array = [];
     if (images) {
@@ -21,7 +27,7 @@ export default class SideImages extends PureComponent {
           src={img}
           alt="side image"
           key={img}
-          onClick={() => this.updateImgIndex(img)}
+          onClick={() => this.handleChange(img, images)}
         />,
       ));
     } else {
@@ -38,4 +44,5 @@ export default class SideImages extends PureComponent {
 }
 SideImages.propTypes = {
   images: PropTypes.array.isRequired,
+  changeMainImage: PropTypes.func.isRequired,
 };
