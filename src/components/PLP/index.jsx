@@ -53,7 +53,7 @@ class PLP extends PureComponent {
   renderProducts = (data) => {
     return (
       data.category.products.map((product) => {
-        return <ProductCard product={product} />;
+        return <ProductCard product={product} key={product.id} />;
       })
     );
   };
@@ -61,7 +61,6 @@ class PLP extends PureComponent {
   render() {
     let { selectedCategory } = this.props;
     selectedCategory = selectedCategory.toLowerCase();
-    console.log('render');
     return (
       <Query query={FETCH_PRODUCTS} variables={{ selectedCategory }}>
         { ({ loading, data }) => {

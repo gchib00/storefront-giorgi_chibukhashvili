@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const Price = styled.p`
   font-style: normal;
@@ -18,20 +19,31 @@ const ProductName = styled.p`
   margin-left: 1rem;
   line-height: 10px;
 `;
+class ProductDescription extends PureComponent {
+  determineAmount = (prices, selectedCurrency) => {
+    const relevantPriceObj = prices.find((priceObj) => (
+      priceObj.currency.label === selectedCurrency
+    ));
+    return relevantPriceObj.amount;
+  };
 
-export default class ProductDescription extends PureComponent {
   render() {
-    const { name, currency, amount } = this.props;
+    const { name, prices, selectedCurrency } = this.props;
+    const amount = this.determineAmount(prices, selectedCurrency);
     return (
       <>
         <ProductName>{name}</ProductName>
-        <Price>{currency} {amount}</Price>
+        <Price>{selectedCurrency} {amount}</Price>
       </>
     );
   }
 }
 ProductDescription.propTypes = {
   name: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
+  prices: PropTypes.array.isRequired,
+  selectedCurrency: PropTypes.string.isRequired,
 };
+const mapStateToProps = (state) => ({
+  selectedCurrency: state.selectedCurrency,
+});
+export default connect(mapStateToProps)(ProductDescription);
