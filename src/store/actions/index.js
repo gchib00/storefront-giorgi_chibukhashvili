@@ -10,3 +10,9 @@ export const setActiveCurrency = (currency) => {
     payload: currency,
   };
 };
+export const addItemToCart = (item) => {
+  return {
+    type: 'ADD_ITEM',
+    payload: item,
+  };
+};

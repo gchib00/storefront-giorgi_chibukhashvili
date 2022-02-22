@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, { PureComponent } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -18,7 +19,7 @@ export default class App extends PureComponent {
           <Header />
           <Routes>
             <Route path="/" element={<PLP />} />
-            <Route path="/product" element={<PDP />} />
+            <Route path="/product/:id" element={<PDP />} />
           </Routes>
         </BrowserRouter>
       </ApolloProvider>
