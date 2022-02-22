@@ -82,5 +82,3 @@ const mapStateToProps = (state) => ({
   selectedCategory: state.selectedCategory,
 });
 export default connect(mapStateToProps)(PLP);
-// {/* <Title>{this.displayTitle()}</Title> */}
-// {/* <ProductsGrid>{this.renderProducts()}</ProductsGrid> */}
