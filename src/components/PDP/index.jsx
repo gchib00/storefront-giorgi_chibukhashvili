@@ -56,7 +56,6 @@ class PDP extends PureComponent {
       <Query query={FETCH_PRODUCT} variables={{ id }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
-          console.log(data);
           return (
             <MainContainer>
               <MainImage

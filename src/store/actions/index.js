@@ -22,3 +22,15 @@ export const setScreenDimmer = (status) => {
     payload: status,
   };
 };
+export const setMiniCart = (status) => {
+  return {
+    type: 'SWITCH_MINICART',
+    payload: status,
+  };
+};
+export const initializeCart = (savedCartItems) => {
+  return {
+    type: 'USE_SAVED_CART',
+    payload: savedCartItems,
+  };
+};

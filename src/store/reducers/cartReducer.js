@@ -1,33 +1,9 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
 
-// algorithm that checks if the item already exists in cart:
 const itemExistsInCart = (newItem, state) => {
-  // find if such an item exists (by product ID):
-  const matchedItem = state.find((cartItem) => {
-    if (cartItem.productID === newItem.productID) {
-      return cartItem;
-    }
-    return null;
-  });
-  if (matchedItem) {
-    // check if attributes of both items are the same:
-    const arr1 = Object.entries(newItem.selectedAttributes);
-    const arr2 = Object.entries(matchedItem.selectedAttributes);
-    let matches = 0;
-    for (let i = 0; i < arr1.length; i++) {
-      for (let ii = 0; ii < arr2.length; ii++) {
-        if (arr1[i] === arr2[ii]) {
-          matches++;
-        }
-      }
-    }
-    if (matches !== arr1.length) {
-      // if matches and arr length aren't equal,
-      // it means that an item with same exact attributes doesn't already exist in the cart
-      return false;
-    }
-    return true; // such an item already exists in cart
+  // find if such an item exists (via uniqueItemID):
+  if (state.find((cartItem) => (cartItem.uniqueItemID === newItem.uniqueItemID))) {
+    return true;
   }
   return false; // item doesn't exist in cart
 };
@@ -42,13 +18,20 @@ const cartReducer = (state = [], action) => {
       let newState = [...state];
       if (itemExistsInCart(newItem, state)) {
         // increase quanitity by 1:
-        const oldItem = newState.find((cartItem) => cartItem.productID === newItem.productID);
-        oldItem.quantity += 1;
-        newState = [...state, oldItem];
+        newState = newState.map((cartItem) => {
+          if (cartItem.productID === newItem.productID) {
+            cartItem.quantity += 1;
+          }
+          return cartItem;
+        });
       } else {
+        newItem.quantity = 1;
         newState = [...state, newItem];
       }
       return newState;
+    }
+    case ('USE_SAVED_CART'): {
+      return action.payload;
     }
     default: return state;
   }

@@ -23,22 +23,29 @@ const Button = styled.button`
     }
 `;
 class CTAButton extends PureComponent {
-  saveToCart = (productID, available, selectedAttributes) => {
+  saveToCart = (productID, available, selectedAttributes, cartItems) => {
     if (!available) { return null; }
-    return addItemToCart({
+    const uniqueItemID = productID + JSON.stringify(selectedAttributes.toString);
+    const item = {
       productID,
+      uniqueItemID,
       selectedAttributes,
-    });
+    };
+    this.props.addItemToCart(item);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    return alert('item added to state');
   };
 
   render() {
-    const { productID, available, selectedAttributes } = this.props;
+    // eslint-disable-next-line object-curly-newline
+    const { productID, available, selectedAttributes, cartItems } = this.props;
     if (!available) {
       return null; // don't show CTAButton if product is out of stock
     }
     return (
-      <Button onClick={() => this.saveToCart(productID, available, selectedAttributes)}>
-        ADD TO CART
+      <Button
+        onClick={() => this.saveToCart(productID, available, selectedAttributes, cartItems)}
+      >ADD TO CART
       </Button>
     );
   }
@@ -47,8 +54,13 @@ CTAButton.propTypes = {
   available: PropTypes.bool.isRequired,
   productID: PropTypes.string.isRequired,
   selectedAttributes: PropTypes.object.isRequired,
+  addItemToCart: PropTypes.func.isRequired,
+  cartItems: PropTypes.array.isRequired,
 };
+const mapStateToProps = (state) => ({
+  cartItems: state.cartItems,
+});
 const mapDispatchToProps = () => ({
   addItemToCart,
 });
-export default connect(null, mapDispatchToProps())(CTAButton);
+export default connect(mapStateToProps, mapDispatchToProps())(CTAButton);

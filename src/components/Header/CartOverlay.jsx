@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { setScreenDimmer, setMiniCart } from '../../store/actions';
 import CartSVG from '../../static/cart.svg';
 
 const CartIcon = styled.div`
@@ -10,7 +13,12 @@ const CartIcon = styled.div`
     opacity: 0.4;
   }
 `;
-export default class CartOverlay extends Component {
+class CartOverlay extends Component {
+  cartDisplay = () => {
+    this.props.setMiniCart(true);
+    this.props.setScreenDimmer(true);
+  };
+
   render() {
     return (
       <CartIcon onClick={this.cartDisplay}>
@@ -20,3 +28,12 @@ export default class CartOverlay extends Component {
     );
   }
 }
+CartOverlay.propTypes = {
+  setScreenDimmer: PropTypes.func.isRequired,
+  setMiniCart: PropTypes.func.isRequired,
+};
+const mapDispatchToProps = () => ({
+  setScreenDimmer,
+  setMiniCart,
+});
+export default connect(null, mapDispatchToProps())(CartOverlay);
