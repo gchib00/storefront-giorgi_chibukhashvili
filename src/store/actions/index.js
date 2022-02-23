@@ -16,3 +16,9 @@ export const addItemToCart = (item) => {
     payload: item,
   };
 };
+export const setScreenDimmer = (status) => {
+  return {
+    type: 'SWITCH_DIMMER',
+    payload: status,
+  };
+};

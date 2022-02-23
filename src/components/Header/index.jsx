@@ -8,11 +8,12 @@ const MainContainer = styled.div`
   position: relative;
   height: 80px;
   width: 100%;
-  z-index: 4;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: 'Raleway', sans-serif;
+  z-index: 4;
+  background-color: white;
 `;
 
 export default class Header extends PureComponent {
