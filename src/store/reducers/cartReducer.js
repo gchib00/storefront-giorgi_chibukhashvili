@@ -5,7 +5,7 @@ const itemExistsInCart = (newItem, state) => {
   if (state.find((cartItem) => (cartItem.uniqueItemID === newItem.uniqueItemID))) {
     return true;
   }
-  return false; // item doesn't exist in cart
+  return false;
 };
 
 const cartReducer = (state = [], action) => {
@@ -32,6 +32,21 @@ const cartReducer = (state = [], action) => {
     }
     case ('USE_SAVED_CART'): {
       return action.payload;
+    }
+    case ('UPDATE_ITEM'): {
+      const { uniqueItemID, newQuantity } = action.payload;
+      let newState = [...state];
+      newState = newState.map((cartItem) => {
+        if (cartItem.uniqueItemID === uniqueItemID) {
+          cartItem.quantity = newQuantity;
+        }
+        if (cartItem.quantity < 1) {
+          return null;
+        }
+        return cartItem;
+      });
+      newState = newState.filter((cartItem) => cartItem !== null);
+      return newState;
     }
     default: return state;
   }

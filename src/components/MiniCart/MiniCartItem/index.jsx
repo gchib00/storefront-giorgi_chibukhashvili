@@ -41,7 +41,7 @@ const FETCH_PRODUCT = gql`
 `;
 export default class MiniCartItem extends PureComponent {
   render() {
-    const { productID, quantity } = this.props;
+    const { productID, uniqueItemID, quantity } = this.props;
     return (
       <Query query={FETCH_PRODUCT} variables={{ id: productID }}>
         { ({ loading, data }) => {
@@ -55,6 +55,7 @@ export default class MiniCartItem extends PureComponent {
               <SecondaryContainer>
                 <QuantityModifier
                   quantity={quantity}
+                  uniqueItemID={uniqueItemID}
                 />
                 <ItemImage
                   image={data.product.gallery[0]}
@@ -69,5 +70,6 @@ export default class MiniCartItem extends PureComponent {
 }
 MiniCartItem.propTypes = {
   productID: PropTypes.string.isRequired,
+  uniqueItemID: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
 };

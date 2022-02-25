@@ -34,3 +34,12 @@ export const initializeCart = (savedCartItems) => {
     payload: savedCartItems,
   };
 };
+export const updateCartItem = (uniqueItemID, newQuantity) => {
+  return {
+    type: 'UPDATE_ITEM',
+    payload: {
+      uniqueItemID,
+      newQuantity,
+    },
+  };
+};

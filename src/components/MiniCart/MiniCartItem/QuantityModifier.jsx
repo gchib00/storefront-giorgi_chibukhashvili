@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { updateCartItem } from '../../../store/actions';
 
 const MainContainer = styled.div`
   display: flex;
@@ -38,17 +40,25 @@ const Quantity = styled.h2`
     font-weight: 200;
     font-size: 1rem;
 `;
-export default class QuantityModifier extends PureComponent {
+class QuantityModifier extends PureComponent {
+  changeQuantity = (uniqueItemID, quantity, change) => {
+    const newQuantity = quantity + change;
+    this.props.updateCartItem(uniqueItemID, newQuantity);
+    console.log('new state (?) => ', this.props.cartItems);
+    const updatedState = JSON.stringify(this.props.cartItems);
+    localStorage.setItem('cartItems', updatedState);
+  };
+
   render() {
-    const { quantity } = this.props;
+    const { quantity, uniqueItemID } = this.props;
     return (
       <MainContainer>
         <ModifierBox>
-          <Modifier onClick={this.addOne}>+</Modifier>
+          <Modifier onClick={() => this.changeQuantity(uniqueItemID, quantity, +1)}>+</Modifier>
         </ModifierBox>
         <Quantity>{quantity}</Quantity>
         <ModifierBox>
-          <Modifier onClick={this.subtractOne}>-</Modifier>
+          <Modifier onClick={() => this.changeQuantity(uniqueItemID, quantity, -1)}>-</Modifier>
         </ModifierBox>
       </MainContainer>
     );
@@ -56,4 +66,14 @@ export default class QuantityModifier extends PureComponent {
 }
 QuantityModifier.propTypes = {
   quantity: PropTypes.number.isRequired,
+  uniqueItemID: PropTypes.string.isRequired,
+  updateCartItem: PropTypes.func.isRequired,
+  cartItems: PropTypes.array.isRequired,
 };
+const mapStateToProps = (state) => ({
+  cartItems: state.cartItems,
+});
+const mapDispatchToProps = () => ({
+  updateCartItem,
+});
+export default connect(mapStateToProps, mapDispatchToProps())(QuantityModifier);

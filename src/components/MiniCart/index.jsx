@@ -10,19 +10,19 @@ import MiniCartTitle from './MiniCartTitle';
 import MiniCartItem from './MiniCartItem';
 
 const MainContainer = styled.div` 
-    position: absolute;
-    z-index: 3;
-    min-height: 300px;
-    min-width: 385px;
-    background: white;
-    left: 58vw;
-    @media(min-width: 1280px) { left: 66vw }
-    @media(min-width: 1500px) { left: 70vw }
-    @media(min-width: 1700px) { left: 72vw }
-    @media(min-width: 1800px) { left: 75vw }
-    @media(min-width: 1900px) { left: 78vw }
-    @media(min-width: 2000px) { left: 80vw }
-    z-index: 4;    
+  position: absolute;
+  z-index: 3;
+  min-height: 300px;
+  min-width: 385px;
+  background: white;
+  left: 58vw;
+  @media(min-width: 1280px) { left: 66vw }
+  @media(min-width: 1500px) { left: 70vw }
+  @media(min-width: 1700px) { left: 72vw }
+  @media(min-width: 1800px) { left: 75vw }
+  @media(min-width: 1900px) { left: 78vw }
+  @media(min-width: 2000px) { left: 80vw }
+  z-index: 4;    
 `;
 class MiniCart extends PureComponent {
   handleDimmerClick = () => {
@@ -35,13 +35,13 @@ class MiniCart extends PureComponent {
     if (!miniCart || !screenDimmer) {
       return null;
     }
+    console.log('cartItems=', cartItems);
     return (
       <>
         <MainContainer>
           <MiniCartTitle />
           {
             cartItems.map((cartItem) => {
-              console.log('uniqueItemID = ', cartItem.uniqueItemID);
               return (
                 <MiniCartItem
                   productID={cartItem.productID}
