@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { updateCartItem } from '../../../store/actions';
+import { updateCartItemQuantity } from '../../../store/actions';
 
 const MainContainer = styled.div`
   display: flex;
@@ -43,8 +43,7 @@ const Quantity = styled.h2`
 class QuantityModifier extends PureComponent {
   changeQuantity = (uniqueItemID, quantity, change) => {
     const newQuantity = quantity + change;
-    this.props.updateCartItem(uniqueItemID, newQuantity);
-    console.log('new state (?) => ', this.props.cartItems);
+    this.props.updateCartItemQuantity(uniqueItemID, newQuantity);
     const updatedState = JSON.stringify(this.props.cartItems);
     localStorage.setItem('cartItems', updatedState);
   };
@@ -67,13 +66,13 @@ class QuantityModifier extends PureComponent {
 QuantityModifier.propTypes = {
   quantity: PropTypes.number.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
-  updateCartItem: PropTypes.func.isRequired,
+  updateCartItemQuantity: PropTypes.func.isRequired,
   cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
   cartItems: state.cartItems,
 });
 const mapDispatchToProps = () => ({
-  updateCartItem,
+  updateCartItemQuantity,
 });
 export default connect(mapStateToProps, mapDispatchToProps())(QuantityModifier);

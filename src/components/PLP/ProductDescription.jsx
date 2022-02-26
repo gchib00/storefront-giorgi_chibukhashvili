@@ -22,7 +22,7 @@ const ProductName = styled.p`
 class ProductDescription extends PureComponent {
   determineAmount = (prices, selectedCurrency) => {
     const relevantPriceObj = prices.find((priceObj) => (
-      priceObj.currency.label === selectedCurrency
+      priceObj.currency.label === selectedCurrency.label
     ));
     return {
       amount: relevantPriceObj.amount,
@@ -44,7 +44,7 @@ class ProductDescription extends PureComponent {
 ProductDescription.propTypes = {
   name: PropTypes.string.isRequired,
   prices: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.string.isRequired,
+  selectedCurrency: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,

@@ -17,7 +17,7 @@ const cartReducer = (state = [], action) => {
       const newItem = action.payload;
       let newState = [...state];
       if (itemExistsInCart(newItem, state)) {
-        // increase quanitity by 1:
+        // increase quantity by 1:
         newState = newState.map((cartItem) => {
           if (cartItem.productID === newItem.productID) {
             cartItem.quantity += 1;
@@ -33,7 +33,7 @@ const cartReducer = (state = [], action) => {
     case ('USE_SAVED_CART'): {
       return action.payload;
     }
-    case ('UPDATE_ITEM'): {
+    case ('UPDATE_ITEM_QUANTITY'): {
       const { uniqueItemID, newQuantity } = action.payload;
       let newState = [...state];
       newState = newState.map((cartItem) => {
@@ -46,6 +46,17 @@ const cartReducer = (state = [], action) => {
         return cartItem;
       });
       newState = newState.filter((cartItem) => cartItem !== null);
+      return newState;
+    }
+    case ('UPDATE_ITEM_PRICE'): {
+      const { uniqueItemID, newPrice } = action.payload;
+      let newState = [...state];
+      newState = newState.map((cartItem) => {
+        if (cartItem.uniqueItemID === uniqueItemID) {
+          cartItem.productPrice = newPrice;
+        }
+        return cartItem;
+      });
       return newState;
     }
     default: return state;

@@ -13,6 +13,14 @@ const MainContainer = styled.div`
 export default class ProductDetails extends PureComponent {
   state = {
     selectedAttributes: {},
+    productPrice: 0,
+  };
+
+  setProductPrice = (relevantPriceObj) => {
+    return this.setState((prevState) => ({
+      ...prevState,
+      productPrice: relevantPriceObj,
+    }));
   };
 
   render() {
@@ -25,11 +33,13 @@ export default class ProductDetails extends PureComponent {
         {/* <ProductAttributes /> */}
         <ProductPrice
           prices={product.prices}
+          setProductPrice={this.setProductPrice}
         />
         <CTAButton
           productID={product.id}
           available={product.inStock}
           selectedAttributes={this.state.selectedAttributes}
+          productPrice={this.state.productPrice}
         />
         <ProductDescription
           description={product.description}

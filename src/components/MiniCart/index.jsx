@@ -35,7 +35,6 @@ class MiniCart extends PureComponent {
     if (!miniCart || !screenDimmer) {
       return null;
     }
-    console.log('cartItems=', cartItems);
     return (
       <>
         <MainContainer>
@@ -63,7 +62,6 @@ class MiniCart extends PureComponent {
 MiniCart.propTypes = {
   screenDimmer: PropTypes.bool.isRequired,
   miniCart: PropTypes.bool.isRequired,
-  // setScreenDimmer: PropTypes.func.isRequired,
   setMiniCart: PropTypes.func.isRequired,
   cartItems: PropTypes.array.isRequired,
 };

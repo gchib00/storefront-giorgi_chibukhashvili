@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ItemAttributes from './ItemAttributes';
+import { updateCartItemPrice } from '../../../store/actions';
 
 const MainContainer = styled.div`
     display: flex;
@@ -34,9 +35,22 @@ const ItemPrice = styled.p`
     line-height: 3px;
 `;
 class ItemInfo extends PureComponent {
-  determineAmount = (prices, selectedCurrency) => {
+  componentDidMount() {
+    const newPrice = this.determineAmount();
+    this.props.updateCartItemPrice(this.props.uniqueItemID, newPrice.amount);
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.selectedCurrency.label !== this.props.selectedCurrency.label) {
+      const newPrice = this.determineAmount();
+      this.props.updateCartItemPrice(this.props.uniqueItemID, newPrice.amount);
+    }
+  }
+
+  determineAmount = () => {
+    const { prices, selectedCurrency } = this.props;
     const relevantPriceObj = prices.find((priceObj) => (
-      priceObj.currency.label === selectedCurrency
+      priceObj.currency.label === selectedCurrency.label
     ));
     return {
       amount: relevantPriceObj.amount,
@@ -45,8 +59,8 @@ class ItemInfo extends PureComponent {
   };
 
   render() {
-    const { name, prices, selectedCurrency } = this.props;
-    const price = this.determineAmount(prices, selectedCurrency);
+    const { name } = this.props;
+    const price = this.determineAmount();
     return (
       <MainContainer>
         <ItemTitle>{name}</ItemTitle>
@@ -58,10 +72,15 @@ class ItemInfo extends PureComponent {
 }
 ItemInfo.propTypes = {
   name: PropTypes.string.isRequired,
+  uniqueItemID: PropTypes.string.isRequired,
   prices: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.string.isRequired,
+  selectedCurrency: PropTypes.object.isRequired,
+  updateCartItemPrice: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,
 });
-export default connect(mapStateToProps)(ItemInfo);
+const mapDispatchToProps = () => ({
+  updateCartItemPrice,
+});
+export default connect(mapStateToProps, mapDispatchToProps())(ItemInfo);

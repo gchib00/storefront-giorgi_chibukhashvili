@@ -22,9 +22,23 @@ const Price = styled.p`
     color: #1D1F22;
 `;
 class ProductPrice extends PureComponent {
-  determineAmount = (prices, selectedCurrency) => {
+  componentDidMount() {
+    // eslint-disable-next-line max-len
+    const newPrice = this.determineAmount(this.props.prices, this.props.selectedCurrency);
+    this.props.setProductPrice(newPrice.amount);
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.selectedCurrency.label !== this.props.selectedCurrency.label) {
+      const newPrice = this.determineAmount();
+      this.props.setProductPrice(newPrice.amount);
+    }
+  }
+
+  determineAmount = () => {
+    const { prices, selectedCurrency } = this.props;
     const relevantPriceObj = prices.find((priceObj) => (
-      priceObj.currency.label === selectedCurrency
+      priceObj.currency.label === selectedCurrency.label
     ));
     return {
       amount: relevantPriceObj.amount,
@@ -33,8 +47,7 @@ class ProductPrice extends PureComponent {
   };
 
   render() {
-    const { prices, selectedCurrency } = this.props;
-    const price = this.determineAmount(prices, selectedCurrency);
+    const price = this.determineAmount();
     return (
       <div>
         <AttributeTitle>Price:</AttributeTitle>
@@ -45,7 +58,8 @@ class ProductPrice extends PureComponent {
 }
 ProductPrice.propTypes = {
   prices: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.string.isRequired,
+  selectedCurrency: PropTypes.object.isRequired,
+  setProductPrice: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,

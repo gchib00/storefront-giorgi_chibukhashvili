@@ -30,33 +30,28 @@ class CTAButton extends PureComponent {
     }
   }
 
-  saveToCart = (productID, available, selectedAttributes) => {
+  saveToCart = (productID, selectedAttributes, productPrice) => {
     const uniqueItemID = productID + JSON.stringify(selectedAttributes.toString);
+    console.log('productPrice value as the CTA is clicked =', productPrice);
     const item = {
       productID,
       uniqueItemID,
+      productPrice,
       selectedAttributes,
     };
     this.props.addItemToCart(item);
-    // this.saveToLocalStorage();
     return alert('item added to state');
   };
-    // this.saveToLocalStorage();
-
-  // saveToLocalStorage = () => {
-  //   // console.log('this.props.cartITems=', this.props.cartItems);
-  //   const updatedState = JSON.stringify(this.props.cartItems);
-  //   return localStorage.setItem('cartItems', updatedState);
-  // };
 
   render() {
-    const { productID, available, selectedAttributes } = this.props;
+    // eslint-disable-next-line object-curly-newline
+    const { productID, available, selectedAttributes, productPrice } = this.props;
     if (!available) {
       return null; // don't show CTAButton if product is out of stock
     }
     return (
       <Button
-        onClick={() => this.saveToCart(productID, available, selectedAttributes)}
+        onClick={() => this.saveToCart(productID, selectedAttributes, productPrice)}
       >ADD TO CART
       </Button>
     );
@@ -68,6 +63,7 @@ CTAButton.propTypes = {
   selectedAttributes: PropTypes.object.isRequired,
   addItemToCart: PropTypes.func.isRequired,
   cartItems: PropTypes.array.isRequired,
+  productPrice: PropTypes.number.isRequired,
 };
 const mapStateToProps = (state) => ({
   cartItems: state.cartItems,

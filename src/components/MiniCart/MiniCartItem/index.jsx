@@ -50,7 +50,9 @@ export default class MiniCartItem extends PureComponent {
             <MainContainer>
               <ItemInfo
                 name={data.product.name}
+                uniqueItemID={uniqueItemID}
                 prices={data.product.prices}
+                quantity={quantity}
               />
               <SecondaryContainer>
                 <QuantityModifier

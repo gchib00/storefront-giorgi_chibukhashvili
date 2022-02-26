@@ -12,13 +12,6 @@ const ProductsGrid = styled.div`
   grid-template-rows: 1fr;
   font-family: 'Raleway', sans-serif;
 `;
-// const Title = styled.h1`
-//   font-family: 'Raleway';
-//   font-style: normal;
-//   font-weight: normal;
-//   font-size: 37px;
-//   margin-left: 4rem;
-// `;
 const FETCH_PRODUCTS = gql`
   query($selectedCategory: String!){ 
     category(input: {title: $selectedCategory}){

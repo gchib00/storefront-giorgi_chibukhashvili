@@ -12,13 +12,13 @@ import SideImages from './SideImages';
 import MainImage from './MainImage';
 
 const MainContainer = styled.main`
-    width: 80%;
-    margin: auto;
-    margin-top: 3rem;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
+  width: 80%;
+  margin: auto;
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
 `;
 const FETCH_PRODUCT = gql`
   query($id: String!){ 

@@ -28,8 +28,12 @@ const getCurrencies = (data) => {
   const currencies = [];
   if (data) {
     data.map((currency) => {
+      const valueObj = JSON.stringify({
+        symbol: currency.symbol,
+        label: currency.label,
+      });
       return (currencies.push(
-        <option value={currency.label} key={currency.label}>
+        <option value={valueObj} key={currency.label}>
           {currency.symbol}
         </option>,
       ));
@@ -39,7 +43,8 @@ const getCurrencies = (data) => {
 };
 class CurrencySelector extends PureComponent {
   handleCurrencyChange = (e) => {
-    this.props.setActiveCurrency(e.target.value);
+    const currency = JSON.parse(e.target.value);
+    this.props.setActiveCurrency(currency);
   };
 
   render() {
@@ -53,7 +58,7 @@ class CurrencySelector extends PureComponent {
               defaultValue={selectedCurrency}
               onChange={(e) => this.handleCurrencyChange(e)}
             >
-              {getCurrencies(data.currencies, selectedCurrency)}
+              {getCurrencies(data.currencies)}
             </SelectCurrency>
           );
         }}
@@ -62,7 +67,7 @@ class CurrencySelector extends PureComponent {
   }
 }
 CurrencySelector.propTypes = {
-  selectedCurrency: PropTypes.string.isRequired,
+  selectedCurrency: PropTypes.object.isRequired,
   setActiveCurrency: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
