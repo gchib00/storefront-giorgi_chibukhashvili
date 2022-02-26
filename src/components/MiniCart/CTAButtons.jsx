@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
@@ -39,8 +41,15 @@ const CheckoutButton = styled(Link)`
         opacity: 0.7;
     }
 `;
-export default class CTAButtons extends PureComponent {
+class CTAButtons extends PureComponent {
   render() {
+    if (this.props.cartItems.length < 1) {
+      return (
+        <MainContainer>
+          <h4>Your cart is empty</h4>
+        </MainContainer>
+      );
+    }
     return (
       <MainContainer>
         <ViewbagButton to="/cart">VIEW BAG</ViewbagButton>
@@ -49,3 +58,11 @@ export default class CTAButtons extends PureComponent {
     );
   }
 }
+CTAButtons.propTypes = {
+  cartItems: PropTypes.array.isRequired,
+};
+const mapStateToProps = (state) => ({
+  cartItems: state.cartItems,
+});
+
+export default connect(mapStateToProps)(CTAButtons);

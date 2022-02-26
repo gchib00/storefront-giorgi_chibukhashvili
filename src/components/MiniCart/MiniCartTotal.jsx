@@ -77,7 +77,10 @@ class MiniCartTotal extends Component {
   }
 
   render() {
-    const { selectedCurrency } = this.props;
+    const { selectedCurrency, cartItems } = this.props;
+    if (cartItems.length < 1) {
+      return null;
+    }
     return (
       <MainContainer>
         <TotalTitle>Total</TotalTitle>
