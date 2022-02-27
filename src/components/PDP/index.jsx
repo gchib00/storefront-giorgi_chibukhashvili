@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
 import { gql } from '@apollo/client';
-import withRouter from '../HigherOrderComponents/withRouter';
+import withRouter from '../HigherOrderComponents';
 import ProductDetails from './ProductDetails';
 import SideImages from './SideImages';
 import MainImage from './MainImage';
