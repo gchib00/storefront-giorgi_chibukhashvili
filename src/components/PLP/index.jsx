@@ -5,6 +5,7 @@ import { gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductCard from './ProductCard';
+import CategoryTitle from './CategoryTitle';
 
 const ProductsGrid = styled.div`
   display: grid;
@@ -50,9 +51,12 @@ class PLP extends PureComponent {
         { ({ loading, data }) => {
           if (loading) { return null; }
           return (
-            <ProductsGrid>
-              {this.renderProducts(data)}
-            </ProductsGrid>
+            <>
+              <CategoryTitle />
+              <ProductsGrid>
+                {this.renderProducts(data)}
+              </ProductsGrid>
+            </>
           );
         }}
       </Query>

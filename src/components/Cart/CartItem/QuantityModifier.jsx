@@ -36,9 +36,9 @@ const Modifier = styled.h1`
   user-select: none;
 `;
 const Quantity = styled.h2`
-  font-family: 'Raleway';
-  font-weight: 200;
-  font-size: 1rem;
+    font-family: 'Raleway';
+    font-weight: 200;
+    font-size: 1rem;
 `;
 class QuantityModifier extends PureComponent {
   changeQuantity = (uniqueItemID, quantity, change) => {
@@ -65,8 +65,13 @@ QuantityModifier.propTypes = {
   quantity: PropTypes.number.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
   updateCartItemQuantity: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
+  cartItems: PropTypes.array.isRequired,
 };
+const mapStateToProps = (state) => ({
+  cartItems: state.cartItems,
+});
 const mapDispatchToProps = () => ({
   updateCartItemQuantity,
 });
-export default connect(null, mapDispatchToProps())(QuantityModifier);
+export default connect(mapStateToProps, mapDispatchToProps())(QuantityModifier);

@@ -15,6 +15,7 @@ const MainContainer = styled.div`
   min-height: 300px;
   min-width: 385px;
   background: white;
+  top: 80px;
   left: 58vw;
   @media(min-width: 1280px) { left: 66vw }
   @media(min-width: 1500px) { left: 70vw }
@@ -42,7 +43,6 @@ class MiniCart extends PureComponent {
     if (!miniCart || !screenDimmer) {
       return null;
     }
-    // console.log('cartItems inside MiniCart.jsx =', cartItems);
     return (
       <>
         <MainContainer>

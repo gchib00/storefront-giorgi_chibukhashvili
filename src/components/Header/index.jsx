@@ -14,6 +14,7 @@ const MainContainer = styled.div`
   font-family: 'Raleway', sans-serif;
   z-index: 4;
   background-color: white;
+  margin-bottom: 80px;
 `;
 
 export default class Header extends PureComponent {

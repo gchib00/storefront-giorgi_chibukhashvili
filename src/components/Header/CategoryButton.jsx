@@ -38,11 +38,12 @@ class CategoryButton extends PureComponent {
         <Radio
           type="radio"
           checked={selectedCategory === optionType}
-          onChange={() => {
+          onClick={() => {
             this.props.changeCategory(optionType);
             this.props.navigate('/');
           }}
           id={optionType}
+          readOnly
         />
         <CategoryLabel htmlFor={optionType}>
           {optionType}
