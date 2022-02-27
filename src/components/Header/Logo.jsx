@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import LogoSVG from '../../static/logo.svg';
 
 const LogoContainer = styled.div`
@@ -13,7 +14,9 @@ export default class Logo extends PureComponent {
   render() {
     return (
       <LogoContainer>
-        <img src={LogoSVG} alt="logo" />
+        <Link to="/">
+          <img src={LogoSVG} alt="logo" />
+        </Link>
       </LogoContainer>
     );
   }

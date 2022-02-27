@@ -25,6 +25,13 @@ const MainContainer = styled.div`
   z-index: 4;    
 `;
 class MiniCart extends PureComponent {
+  componentDidUpdate(prevProps) {
+    if (prevProps.cartItems !== this.props.cartItems) {
+      const updatedState = JSON.stringify(this.props.cartItems);
+      localStorage.setItem('cartItems', updatedState);
+    }
+  }
+
   handleDimmerClick = () => {
     // if user clicks on dimmed screen, disable both the dimmer and the mini cart
     this.props.setMiniCart(false);
@@ -35,6 +42,7 @@ class MiniCart extends PureComponent {
     if (!miniCart || !screenDimmer) {
       return null;
     }
+    // console.log('cartItems inside MiniCart.jsx =', cartItems);
     return (
       <>
         <MainContainer>

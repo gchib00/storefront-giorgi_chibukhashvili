@@ -44,8 +44,6 @@ class QuantityModifier extends PureComponent {
   changeQuantity = (uniqueItemID, quantity, change) => {
     const newQuantity = quantity + change;
     this.props.updateCartItemQuantity(uniqueItemID, newQuantity);
-    const updatedState = JSON.stringify(this.props.cartItems);
-    localStorage.setItem('cartItems', updatedState);
   };
 
   render() {
@@ -67,6 +65,7 @@ QuantityModifier.propTypes = {
   quantity: PropTypes.number.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
   updateCartItemQuantity: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
