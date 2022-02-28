@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const MainContainer = styled.div`
   display: flex;
@@ -20,13 +22,32 @@ const ItemsAmount = styled.span`
     font-size: 16px;
     margin-left: 0.5rem;
 `;
-export default class MiniCartTitle extends PureComponent {
+class MiniCartTitle extends PureComponent {
+  getItemsCount = () => {
+    const { cartItems } = this.props;
+    let counter = 0;
+    if (cartItems.length > 0) {
+      cartItems.map((item) => {
+        return counter += item.quantity;
+      });
+      return counter;
+    }
+    return null;
+  };
+
   render() {
     return (
       <MainContainer>
         <Text>My bag.</Text>
-        <ItemsAmount>14 items</ItemsAmount>
+        <ItemsAmount>{this.getItemsCount()}</ItemsAmount>
       </MainContainer>
     );
   }
 }
+MiniCartTitle.propTypes = {
+  cartItems: PropTypes.array.isRequired,
+};
+const mapStateToProps = (state) => ({
+  cartItems: state.cartItems,
+});
+export default connect(mapStateToProps)(MiniCartTitle);

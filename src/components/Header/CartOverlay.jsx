@@ -13,6 +13,17 @@ const CartIcon = styled.div`
     opacity: 0.4;
   }
 `;
+const Counter = styled.span`
+  text-align: center;
+  position: absolute;
+  bottom: 14px;
+  left: 15px;
+  width: 20px;
+  height: 20px;
+  background: black;
+  border-radius: 50%;
+  color: white;
+`;
 class CartOverlay extends Component {
   cartDisplay = () => {
     const { screenDimmer, miniCart } = this.props;
@@ -20,10 +31,23 @@ class CartOverlay extends Component {
     this.props.setScreenDimmer(!screenDimmer);
   };
 
+  getItemsCount = () => {
+    const { cartItems } = this.props;
+    let counter = 0;
+    if (cartItems.length > 0) {
+      cartItems.map((item) => {
+        return counter += item.quantity;
+      });
+      return counter;
+    }
+    return null;
+  };
+
   render() {
     return (
       <CartIcon onClick={this.cartDisplay}>
         <img src={CartSVG} alt="cart" />
+        <Counter>{this.getItemsCount()}</Counter>
       </CartIcon>
     );
   }
@@ -33,10 +57,12 @@ CartOverlay.propTypes = {
   miniCart: PropTypes.bool.isRequired,
   setScreenDimmer: PropTypes.func.isRequired,
   setMiniCart: PropTypes.func.isRequired,
+  cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
   screenDimmer: state.screenDimmer,
   miniCart: state.miniCart,
+  cartItems: state.cartItems,
 });
 const mapDispatchToProps = () => ({
   setScreenDimmer,
