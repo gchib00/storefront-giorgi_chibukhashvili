@@ -15,8 +15,8 @@ const MainContainer = styled.div`
 const ModifierBox = styled.div`
   display: block;
   box-sizing: border-box;
-  width: 25px;
-  height: 25px;
+  width: 45px;
+  height: 45px;
   border: 1px solid #1D1F22;
   text-align: center; 
   background-color: white;
@@ -30,15 +30,14 @@ const ModifierBox = styled.div`
 const Modifier = styled.h1`
   font-family: 'Raleway';
   font-weight: 200;
-  font-size: 1.6rem;
   position: relative;
-  bottom: 1.28rem;
+  bottom: 1.16rem;
   user-select: none;
 `;
 const Quantity = styled.h2`
-    font-family: 'Raleway';
-    font-weight: 200;
-    font-size: 1rem;
+  font-family: 'Raleway';
+  font-weight: 200;
+  font-size: 1rem;
 `;
 class QuantityModifier extends PureComponent {
   changeQuantity = (uniqueItemID, quantity, change) => {
@@ -65,13 +64,8 @@ QuantityModifier.propTypes = {
   quantity: PropTypes.number.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
   updateCartItemQuantity: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
-  cartItems: PropTypes.array.isRequired,
 };
-const mapStateToProps = (state) => ({
-  cartItems: state.cartItems,
-});
 const mapDispatchToProps = () => ({
   updateCartItemQuantity,
 });
-export default connect(mapStateToProps, mapDispatchToProps())(QuantityModifier);
+export default connect(null, mapDispatchToProps())(QuantityModifier);

@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react';
+/* eslint-disable react/prefer-stateless-function */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
@@ -49,7 +50,7 @@ const FETCH_PRODUCT = gql`
     }
   }
 `;
-export default class CartItem extends PureComponent {
+export default class CartItem extends Component {
   render() {
     const { cartItem } = this.props;
     return (

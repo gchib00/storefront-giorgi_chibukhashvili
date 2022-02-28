@@ -1,4 +1,4 @@
-const dimmerReducer = (state = true, action) => {
+const dimmerReducer = (state = false, action) => {
   switch (action.type) {
     case ('SWITCH_DIMMER'): {
       return action.payload;

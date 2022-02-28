@@ -15,25 +15,31 @@ const CartIcon = styled.div`
 `;
 class CartOverlay extends Component {
   cartDisplay = () => {
-    this.props.setMiniCart(true);
-    this.props.setScreenDimmer(true);
+    const { screenDimmer, miniCart } = this.props;
+    this.props.setMiniCart(!miniCart);
+    this.props.setScreenDimmer(!screenDimmer);
   };
 
   render() {
     return (
       <CartIcon onClick={this.cartDisplay}>
         <img src={CartSVG} alt="cart" />
-        {/* {this.cartItemAmount(this.props.items)} */}
       </CartIcon>
     );
   }
 }
 CartOverlay.propTypes = {
+  screenDimmer: PropTypes.bool.isRequired,
+  miniCart: PropTypes.bool.isRequired,
   setScreenDimmer: PropTypes.func.isRequired,
   setMiniCart: PropTypes.func.isRequired,
 };
+const mapStateToProps = (state) => ({
+  screenDimmer: state.screenDimmer,
+  miniCart: state.miniCart,
+});
 const mapDispatchToProps = () => ({
   setScreenDimmer,
   setMiniCart,
 });
-export default connect(null, mapDispatchToProps())(CartOverlay);
+export default connect(mapStateToProps, mapDispatchToProps())(CartOverlay);

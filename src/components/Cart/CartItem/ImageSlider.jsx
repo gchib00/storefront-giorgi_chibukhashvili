@@ -17,12 +17,14 @@ const Left = styled.img`
     position: relative;
     z-index: 9;
     bottom: 56%;
+    cursor: pointer;
 `;
 const Right = styled.img`
     position: relative;
     z-index: 9;
     bottom: 56%;
     left: 95px;
+    cursor: pointer;
 `;
 
 export default class ImageSlider extends PureComponent {
@@ -31,7 +33,9 @@ export default class ImageSlider extends PureComponent {
   };
 
   changeImage = (direction) => {
-    if (this.state.index === 0) {
+    const { images } = this.props;
+    const { index } = this.state;
+    if (index + direction < 0 || index + direction === images.length) {
       return null;
     }
     return this.setState((prevState) => ({
@@ -40,12 +44,11 @@ export default class ImageSlider extends PureComponent {
     }));
   };
 
-  hideArrow = (e) => {
+  hideArrow = () => {
     const { images } = this.props;
     if (images.length === 1) {
       return { display: 'none' };
     }
-    console.log(e.target.value);
     // if (this.state.index === 0 &&)
     return null;
   };
@@ -56,16 +59,16 @@ export default class ImageSlider extends PureComponent {
       <MainContainer>
         <Image src={images[this.state.index]} />
         <Left
-          onClick={this.changeImage(-1)}
+          onClick={() => this.changeImage(-1)}
           src={ChevronLeft}
           alt="chevron-left"
-          style={(e) => this.hideArrow(e)}
+          style={this.hideArrow()}
         />
         <Right
-          onClick={this.changeImage(+1)}
+          onClick={() => this.changeImage(+1)}
           src={ChevronRight}
           alt="chevron-right"
-          style={(e) => this.hideArrow(e)}
+          style={this.hideArrow()}
         />
       </MainContainer>
     );
