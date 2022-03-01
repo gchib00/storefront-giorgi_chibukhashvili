@@ -5,6 +5,7 @@ import ProductName from './ProductName';
 import ProductPrice from './ProductPrice';
 import ProductDescription from './ProductDescription';
 import CTAButton from './CTAButton';
+import ProductAttributes from './ProductAttributes';
 
 const MainContainer = styled.div`
     font-family: 'Raleway', sans-serif;
@@ -12,7 +13,7 @@ const MainContainer = styled.div`
 `;
 export default class ProductDetails extends PureComponent {
   state = {
-    selectedAttributes: {},
+    // selectedAttributes: [],
     productPrice: 0,
   };
 
@@ -30,7 +31,9 @@ export default class ProductDetails extends PureComponent {
         <ProductName
           name={product.name}
         />
-        {/* <ProductAttributes /> */}
+        <ProductAttributes
+          product={product}
+        />
         <ProductPrice
           prices={product.prices}
           setProductPrice={this.setProductPrice}
@@ -38,7 +41,7 @@ export default class ProductDetails extends PureComponent {
         <CTAButton
           productID={product.id}
           available={product.inStock}
-          selectedAttributes={this.state.selectedAttributes}
+          selectedAttributes={product.attributes}
           productPrice={this.state.productPrice}
         />
         <ProductDescription

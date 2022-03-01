@@ -35,6 +35,16 @@ const FETCH_PRODUCT = gql`
           label,
           symbol 
         }
+      },
+      attributes {
+        id,
+        name,
+        type,
+        items {
+          displayValue,
+          value,
+          id
+        }
       }
     }
   }
@@ -49,9 +59,8 @@ export default class MiniCartItem extends PureComponent {
           return (
             <MainContainer>
               <ItemInfo
-                name={data.product.name}
+                product={data.product}
                 uniqueItemID={uniqueItemID}
-                prices={data.product.prices}
                 quantity={quantity}
               />
               <SecondaryContainer>

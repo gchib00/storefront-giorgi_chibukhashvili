@@ -8,6 +8,7 @@ import ProductTitle from './ProductTitle';
 import ProductPrice from './ProductPrice';
 import QuantityModifier from './QuantityModifier';
 import ImageSlider from './ImageSlider';
+import ProductAttributes from '../../PDP/ProductAttributes';
 
 const MainContainer = styled.div`
   font-family: 'Raleway', sans-serif;
@@ -47,6 +48,16 @@ const FETCH_PRODUCT = gql`
           symbol 
         }
       }
+      attributes {
+        id,
+        name,
+        type,
+        items {
+          displayValue,
+          value,
+          id
+        }
+      }
     }
   }
 `;
@@ -57,13 +68,14 @@ export default class CartItem extends Component {
       <Query query={FETCH_PRODUCT} variables={{ id: cartItem.productID }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
+          console.log('data=', data);
           return (
             <MainContainer>
               <FirstDiv>
                 <ProductTitle productName={data.product.name} />
                 <ProductPrice prices={data.product.prices} />
                 <br />
-                <p>product attributes</p>
+                <ProductAttributes product={data.product} />
               </FirstDiv>
               <SecondDiv>
                 <QuantityModifier

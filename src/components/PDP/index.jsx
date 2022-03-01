@@ -34,6 +34,16 @@ const FETCH_PRODUCT = gql`
           label,
           symbol 
         }
+      },
+      attributes {
+        id,
+        name,
+        type,
+        items {
+          displayValue,
+          value,
+          id
+        }
       }
     }
   }

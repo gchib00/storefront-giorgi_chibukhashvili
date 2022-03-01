@@ -15,10 +15,10 @@ const MainContainer = styled.div`
 const ModifierBox = styled.div`
   display: block;
   box-sizing: border-box;
-  width: 25px;
-  height: 25px;
+  width: 33px;
+  height: 33px;
   border: 1px solid #1D1F22;
-  text-align: center; 
+  text-align: center;
   background-color: white;
   cursor: pointer;
   &:hover {
@@ -28,11 +28,12 @@ const ModifierBox = styled.div`
   }
 `;
 const Modifier = styled.h1`
+  align-self: center;
   font-family: 'Raleway';
   font-weight: 200;
   font-size: 1.6rem;
   position: relative;
-  bottom: 1.28rem;
+  bottom: 1rem;
   user-select: none;
 `;
 const Quantity = styled.h2`

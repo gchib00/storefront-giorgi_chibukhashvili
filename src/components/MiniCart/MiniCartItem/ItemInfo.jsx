@@ -2,37 +2,34 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import ItemAttributes from './ItemAttributes';
 import { updateCartItemPrice } from '../../../store/actions';
+import ProductAttributes from '../../PDP/ProductAttributes';
 
 const MainContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    min-height: 137px;
-    text-overflow: none;
-    margin-top: 0.6rem;
-    margin-bottom: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 137px;
+  text-overflow: none;
+  margin: 0.6rem 0rem 0.6rem 1rem;
 `;
 const ItemTitle = styled.p`
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    align-items: center;
-    color: #1D1F22;
-    margin-left: 1rem;
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  align-items: center;
+  color: #1D1F22;
 `;
 const ItemPrice = styled.p`
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    align-items: center;
-    color: #1D1F22;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    line-height: 3px;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  align-items: center;
+  color: #1D1F22;
+  margin-right: 1rem;
+  line-height: 3px;
 `;
 class ItemInfo extends PureComponent {
   componentDidMount() {
@@ -48,8 +45,8 @@ class ItemInfo extends PureComponent {
   }
 
   determineAmount = () => {
-    const { prices, selectedCurrency } = this.props;
-    const relevantPriceObj = prices.find((priceObj) => (
+    const { product, selectedCurrency } = this.props;
+    const relevantPriceObj = product.prices.find((priceObj) => (
       priceObj.currency.label === selectedCurrency.label
     ));
     return {
@@ -59,21 +56,20 @@ class ItemInfo extends PureComponent {
   };
 
   render() {
-    const { name } = this.props;
+    const { product } = this.props;
     const price = this.determineAmount();
     return (
       <MainContainer>
-        <ItemTitle>{name}</ItemTitle>
+        <ItemTitle>{product.name}</ItemTitle>
         <ItemPrice>{price.symbol} {price.amount}</ItemPrice>
-        <ItemAttributes />
+        <ProductAttributes product={product} optionBoxSize="small" />
       </MainContainer>
     );
   }
 }
 ItemInfo.propTypes = {
-  name: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
-  prices: PropTypes.array.isRequired,
   selectedCurrency: PropTypes.object.isRequired,
   updateCartItemPrice: PropTypes.func.isRequired,
 };

@@ -32,7 +32,6 @@ class CTAButton extends PureComponent {
 
   saveToCart = (productID, selectedAttributes, productPrice) => {
     const uniqueItemID = productID + JSON.stringify(selectedAttributes.toString);
-    console.log('productPrice value as the CTA is clicked =', productPrice);
     const item = {
       productID,
       uniqueItemID,
@@ -60,7 +59,7 @@ class CTAButton extends PureComponent {
 CTAButton.propTypes = {
   available: PropTypes.bool.isRequired,
   productID: PropTypes.string.isRequired,
-  selectedAttributes: PropTypes.object.isRequired,
+  selectedAttributes: PropTypes.array.isRequired,
   addItemToCart: PropTypes.func.isRequired,
   cartItems: PropTypes.array.isRequired,
   productPrice: PropTypes.number.isRequired,
