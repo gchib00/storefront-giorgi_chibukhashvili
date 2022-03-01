@@ -9,22 +9,6 @@ import MiniCartTotal from './MiniCartTotal';
 import MiniCartTitle from './MiniCartTitle';
 import MiniCartItem from './MiniCartItem';
 
-// const MainContainer = styled.div`
-//   position: absolute;
-//   z-index: 3;
-//   min-height: 300px;
-//   min-width: 385px;
-//   background: white;
-//   top: 80px;
-//   left: 58vw;
-//   @media(min-width: 1280px) { left: 66vw }
-//   @media(min-width: 1500px) { left: 70vw }
-//   @media(min-width: 1700px) { left: 72vw }
-//   @media(min-width: 1800px) { left: 75vw }
-//   @media(min-width: 1900px) { left: 78vw }
-//   @media(min-width: 2000px) { left: 80vw }
-//   z-index: 4;
-// `;
 const MainContainer = styled.div` 
   position: absolute;
   z-index: 3;
@@ -46,6 +30,7 @@ class MiniCart extends PureComponent {
   handleDimmerClick = () => {
     // if user clicks on dimmed screen, disable both the dimmer and the mini cart
     this.props.setMiniCart(false);
+    this.props.setScreenDimmer(false);
   };
 
   render() {
@@ -74,7 +59,7 @@ class MiniCart extends PureComponent {
           <MiniCartTotal />
           <CTAButtons />
         </MainContainer>
-        <ScreenDimmer onClick={this.handleDimmerClick} />
+        <ScreenDimmer onClick={() => this.handleDimmerClick()} />
       </>
     );
   }
