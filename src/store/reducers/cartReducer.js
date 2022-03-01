@@ -28,6 +28,7 @@ const cartReducer = (state = [], action) => {
         newItem.quantity = 1;
         newState = [...state, newItem];
       }
+      // newState.productPrice = newState.productPrice.toFixed(2);
       return newState;
     }
     case ('USE_SAVED_CART'): {

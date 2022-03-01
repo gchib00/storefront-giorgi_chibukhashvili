@@ -51,7 +51,7 @@ class MiniCartTotal extends Component {
     });
     this.setState((prevState) => ({
       ...prevState,
-      total: newTotal,
+      total: newTotal.toFixed(2),
     }));
   };
 
