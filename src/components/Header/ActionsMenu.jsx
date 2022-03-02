@@ -6,10 +6,10 @@ import CartOverlay from './CartOverlay';
 const ActionsMenuContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   height: 24px;
-  width: 80px;
+  width: 220px;
   padding: 40px;
   margin-right: 3rem;
 `;
