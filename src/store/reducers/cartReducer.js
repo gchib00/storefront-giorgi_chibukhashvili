@@ -60,6 +60,27 @@ const cartReducer = (state = [], action) => {
       });
       return newState;
     }
+    case ('UPDATE_ITEM_OPTION'): {
+      const { uniqueItemID, attribute } = action.payload;
+      let newState = [...state];
+      // find cartItem that needs to be updated:
+      const updatedItem = newState.find((cartItem) => cartItem.uniqueItemID === uniqueItemID);
+      // update cartItem's attributes:
+      updatedItem.selectedAttributes = updatedItem.selectedAttributes.map((attr) => {
+        if (attr.name === attribute.name) {
+          attr = attribute;
+        }
+        return attr;
+      });
+      // pass it back to the array - replace the old cartItem with the new one:
+      newState = newState.map((cartItem) => {
+        if (cartItem.uniqueItemID === updatedItem.uniqueItemID) {
+          return updatedItem;
+        }
+        return cartItem;
+      });
+      return newState;
+    }
     default: return state;
   }
 };

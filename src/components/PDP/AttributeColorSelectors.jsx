@@ -25,12 +25,8 @@ const ColorSelectorBox = styled.label`
 const Selector = styled.input`
   display: none;
   &:checked + label {
-    background-color: black;
-    color: white;
-  }
-  &:checked + #colorbox {
+    border: 2px black solid;
     opacity: 0.7;
-    border: 3px black solid;
   }
 `;
 export default class AttributeColorSelectors extends PureComponent {
@@ -39,21 +35,33 @@ export default class AttributeColorSelectors extends PureComponent {
   determineBoxSize = () => {
     const { optionBoxSize } = this.props;
     if (optionBoxSize && optionBoxSize === 'small') {
-      return {
-        height: '33px',
-        width: '33px',
-      };
+      return { height: '33px', width: '33px' };
     }
-    return {
-      height: '45px',
-      width: '63px',
-    };
+    return { height: '45px', width: '63px' };
   };
 
   wrapStyle = (backgroundColor) => {
     const wrapObj = this.determineBoxSize();
     wrapObj.backgroundColor = backgroundColor;
     return wrapObj;
+  };
+
+  saveChoice = (option) => {
+    const { attribute, setSelectedAttributes } = this.props;
+    const { name } = attribute;
+    const attributeChoice = { name, option };
+    setSelectedAttributes(attributeChoice);
+  };
+
+  populateOption = (attributeName, optionValue) => {
+    const { selectedAttributes } = this.props;
+    const match = selectedAttributes.find((selectedAttr) => (
+      selectedAttr.name === attributeName && selectedAttr.option.value === optionValue
+    ));
+    if (match) {
+      return true;
+    }
+    return false;
   };
 
   render() {
@@ -64,8 +72,9 @@ export default class AttributeColorSelectors extends PureComponent {
           <Selector
             type="radio"
             value={option.value}
-            // defaultChecked={this.populateOptions(attribute.name, item.value)}
-            onClick={() => alert(`clicked option ${option.value}`)}
+            checked={this.populateOption(attribute.name, option.value)}
+            readOnly
+            onClick={() => this.saveChoice(option)}
             id={option.id}
           />
           <ColorSelectorBox
@@ -80,4 +89,6 @@ export default class AttributeColorSelectors extends PureComponent {
 AttributeColorSelectors.propTypes = {
   attribute: PropTypes.object.isRequired,
   optionBoxSize: PropTypes.string,
+  selectedAttributes: PropTypes.array.isRequired,
+  setSelectedAttributes: PropTypes.func.isRequired,
 };

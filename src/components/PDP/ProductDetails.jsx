@@ -8,12 +8,12 @@ import CTAButton from './CTAButton';
 import ProductAttributes from './ProductAttributes';
 
 const MainContainer = styled.div`
-    font-family: 'Raleway', sans-serif;
-    width: 340px;
+  font-family: 'Raleway', sans-serif;
+  width: 340px;
 `;
 export default class ProductDetails extends PureComponent {
   state = {
-    // selectedAttributes: [],
+    selectedAttributes: [],
     productPrice: 0,
   };
 
@@ -21,6 +21,20 @@ export default class ProductDetails extends PureComponent {
     return this.setState((prevState) => ({
       ...prevState,
       productPrice: relevantPriceObj,
+    }));
+  };
+
+  setSelectedAttributes = (attribute) => {
+    const currentAttributes = [...this.state.selectedAttributes];
+    if (!currentAttributes.find((attr) => attr.name === attribute.name)) {
+      currentAttributes.push(attribute);
+    } else {
+      const index = currentAttributes.map((e) => e.name).indexOf(attribute.name);
+      currentAttributes.splice(index, 1, attribute);
+    }
+    return this.setState((prevState) => ({
+      ...prevState,
+      selectedAttributes: currentAttributes,
     }));
   };
 
@@ -33,6 +47,8 @@ export default class ProductDetails extends PureComponent {
         />
         <ProductAttributes
           product={product}
+          selectedAttributes={this.state.selectedAttributes}
+          setSelectedAttributes={this.setSelectedAttributes}
         />
         <ProductPrice
           prices={product.prices}
@@ -41,7 +57,7 @@ export default class ProductDetails extends PureComponent {
         <CTAButton
           productID={product.id}
           available={product.inStock}
-          selectedAttributes={product.attributes}
+          selectedAttributes={this.state.selectedAttributes}
           productPrice={this.state.productPrice}
         />
         <ProductDescription

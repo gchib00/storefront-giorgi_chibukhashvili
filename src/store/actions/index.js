@@ -16,18 +16,6 @@ export const addItemToCart = (item) => {
     payload: item,
   };
 };
-export const setScreenDimmer = (status) => {
-  return {
-    type: 'SWITCH_DIMMER',
-    payload: status,
-  };
-};
-export const setMiniCart = (status) => {
-  return {
-    type: 'SWITCH_MINICART',
-    payload: status,
-  };
-};
 export const initializeCart = (savedCartItems) => {
   return {
     type: 'USE_SAVED_CART',
@@ -52,12 +40,24 @@ export const updateCartItemPrice = (uniqueItemID, newPrice) => {
     },
   };
 };
-export const changeCartTotal = (amount, quantity) => {
+export const updateCartItemOption = (uniqueItemID, attribute) => {
   return {
-    type: 'CHANGE_TOTAL',
+    type: 'UPDATE_ITEM_OPTION',
     payload: {
-      amount,
-      quantity,
+      uniqueItemID,
+      attribute,
     },
+  };
+};
+export const setScreenDimmer = (status) => {
+  return {
+    type: 'SWITCH_DIMMER',
+    payload: status,
+  };
+};
+export const setMiniCart = (status) => {
+  return {
+    type: 'SWITCH_MINICART',
+    payload: status,
   };
 };

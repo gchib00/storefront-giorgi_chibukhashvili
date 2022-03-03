@@ -36,7 +36,6 @@ const FETCH_PRODUCT = gql`
         }
       },
       attributes {
-        id,
         name,
         type,
         items {

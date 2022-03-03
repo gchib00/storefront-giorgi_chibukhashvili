@@ -1,8 +1,10 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { updateCartItemPrice } from '../../../store/actions';
+import { updateCartItemPrice, updateCartItemOption } from '../../../store/actions';
 import ProductAttributes from '../../PDP/ProductAttributes';
 
 const MainContainer = styled.div`
@@ -55,14 +57,47 @@ class ItemInfo extends PureComponent {
     };
   };
 
+  setSelectedAttributes = (attribute) => {
+    // console.log('attribute=', attribute);
+    const { uniqueItemID, cartItems } = this.props;
+    console.log(cartItems);
+    this.props.updateCartItemOption(uniqueItemID, attribute);
+    // let currentState = [...cartItems];
+    // // find cartItem that needs to be updated:
+    // const updatedItem = currentState.find((cartItem) => cartItem.uniqueItemID === uniqueItemID);
+    // // update cartItem's attributes:
+    // updatedItem.selectedAttributes = updatedItem.selectedAttributes.map((attr) => {
+    //   if (attr.name === attribute.name) {
+    //     return attr.option = attribute.option;
+    //   }
+    //   return attr;
+    // });
+    // // pass it back to the array - replace the old cartItem with the new one:
+    // currentState = currentState.map((cartItem) => {
+    //   if (cartItem.uniqueItemID === updatedItem.uniqueItemID) {
+    //     return updatedItem;
+    //   }
+    //   return cartItem;
+    // });
+    // return this.setState((prevState) => ({
+    //   ...prevState,
+    //   selectedAttributes: currentState,
+    // }));
+  };
+
   render() {
-    const { product } = this.props;
+    const { product, selectedAttributes } = this.props;
     const price = this.determineAmount();
     return (
       <MainContainer>
         <ItemTitle>{product.name}</ItemTitle>
         <ItemPrice>{price.symbol} {price.amount}</ItemPrice>
-        <ProductAttributes product={product} optionBoxSize="small" />
+        <ProductAttributes
+          product={product}
+          selectedAttributes={selectedAttributes}
+          setSelectedAttributes={this.setSelectedAttributes}
+          optionBoxSize="small"
+        />
       </MainContainer>
     );
   }
@@ -70,13 +105,18 @@ class ItemInfo extends PureComponent {
 ItemInfo.propTypes = {
   product: PropTypes.object.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
+  selectedAttributes: PropTypes.array.isRequired,
   selectedCurrency: PropTypes.object.isRequired,
   updateCartItemPrice: PropTypes.func.isRequired,
+  updateCartItemOption: PropTypes.func.isRequired,
+  cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,
+  cartItems: state.cartItems,
 });
 const mapDispatchToProps = () => ({
   updateCartItemPrice,
+  updateCartItemOption,
 });
 export default connect(mapStateToProps, mapDispatchToProps())(ItemInfo);

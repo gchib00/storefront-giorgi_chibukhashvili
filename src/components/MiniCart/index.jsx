@@ -35,7 +35,6 @@ class MiniCart extends PureComponent {
 
   render() {
     const { miniCart, screenDimmer, cartItems } = this.props;
-    console.log('cartItems:', cartItems);
     if (!miniCart || !screenDimmer) {
       this.props.setMiniCart(false);
       this.props.setScreenDimmer(false);
@@ -52,6 +51,7 @@ class MiniCart extends PureComponent {
                   productID={cartItem.productID}
                   uniqueItemID={cartItem.uniqueItemID}
                   quantity={cartItem.quantity}
+                  selectedAttributes={cartItem.selectedAttributes}
                   key={cartItem.uniqueItemID}
                 />
               );

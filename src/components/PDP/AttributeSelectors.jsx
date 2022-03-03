@@ -28,10 +28,6 @@ const Selector = styled.input`
     background-color: black;
     color: white;
   }
-  &:checked + #colorbox {
-    opacity: 0.7;
-    border: 3px black solid;
-  }
 `;
 export default class AttributeSelectors extends PureComponent {
   determineBoxSize = () => {
@@ -49,19 +45,38 @@ export default class AttributeSelectors extends PureComponent {
     return null;
   };
 
+  saveChoice = (option) => {
+    const { attribute, setSelectedAttributes } = this.props;
+    const { name } = attribute;
+    const attributeChoice = { name, option };
+    setSelectedAttributes(attributeChoice);
+  };
+
+  populateOption = (attributeName, optionValue) => {
+    const { selectedAttributes } = this.props;
+    const match = selectedAttributes.find((selectedAttr) => (
+      selectedAttr.name === attributeName && selectedAttr.option.value === optionValue
+    ));
+    if (match) {
+      return true;
+    }
+    return false;
+  };
+
   render() {
     const { attribute } = this.props;
     return (
       attribute.items.map((option) => (
-        <div key={option.id}>
+        <div key={attribute.name + option.id}>
           <Selector
             type="radio"
             value={option.value}
-            // defaultChecked={this.populateOptions(attribute.name, item.value)}
-            onClick={() => alert(`clicked option ${option.value}`)}
-            id={option.id}
+            checked={this.populateOption(attribute.name, option.value)}
+            readOnly
+            onClick={() => this.saveChoice(option)}
+            id={attribute.name + option.id}
           />
-          <SelectorBox htmlFor={option.id} style={this.determineBoxSize()}>
+          <SelectorBox htmlFor={attribute.name + option.id} style={this.determineBoxSize()}>
             {option.value}
           </SelectorBox>
         </div>
@@ -72,4 +87,6 @@ export default class AttributeSelectors extends PureComponent {
 AttributeSelectors.propTypes = {
   attribute: PropTypes.object.isRequired,
   optionBoxSize: PropTypes.string,
+  selectedAttributes: PropTypes.array.isRequired,
+  setSelectedAttributes: PropTypes.func.isRequired,
 };

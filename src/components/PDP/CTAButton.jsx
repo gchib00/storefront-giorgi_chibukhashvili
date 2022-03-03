@@ -30,8 +30,18 @@ class CTAButton extends PureComponent {
     }
   }
 
+  createUniqueID = (productID, selectedAttributes) => {
+    let stringifiedAttributes = productID;
+    // eslint-disable-next-line array-callback-return
+    selectedAttributes.map((selectedAttr) => {
+      stringifiedAttributes += selectedAttr.option.value;
+    });
+    return stringifiedAttributes;
+  };
+
   saveToCart = (productID, selectedAttributes, productPrice) => {
-    const uniqueItemID = productID + JSON.stringify(selectedAttributes.toString);
+    // const uniqueItemID = productID + JSON.stringify(selectedAttributes.toString);
+    const uniqueItemID = this.createUniqueID(productID, selectedAttributes);
     const item = {
       productID,
       uniqueItemID,
