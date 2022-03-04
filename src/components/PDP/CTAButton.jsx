@@ -37,7 +37,6 @@ class CTAButton extends PureComponent {
       selectedAttributes,
     };
     this.props.addItemToCart(item);
-    return alert('item added to state');
   };
 
   render() {

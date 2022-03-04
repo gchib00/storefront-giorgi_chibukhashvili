@@ -27,7 +27,7 @@ const cartReducer = (state = [], action) => {
       if (itemExistsInCart(newItem, state)) {
         // increase quantity by 1:
         newState = newState.map((cartItem) => {
-          if (cartItem.productID === newItem.productID) {
+          if (cartItem.uniqueItemID === newItem.uniqueItemID) {
             cartItem.quantity += 1;
           }
           return cartItem;
