@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
 import { gql } from '@apollo/client';
+import { connect } from 'react-redux';
+import { updateCartItemOption } from '../../../store/actions';
 import ProductTitle from './ProductTitle';
 import ProductPrice from './ProductPrice';
 import QuantityModifier from './QuantityModifier';
@@ -49,7 +51,6 @@ const FETCH_PRODUCT = gql`
         }
       }
       attributes {
-        id,
         name,
         type,
         items {
@@ -61,21 +62,30 @@ const FETCH_PRODUCT = gql`
     }
   }
 `;
-export default class CartItem extends Component {
+class CartItem extends Component {
+  setSelectedAttributes = (attribute) => {
+    const { uniqueItemID } = this.props.cartItem;
+    this.props.updateCartItemOption(uniqueItemID, attribute);
+  };
+
   render() {
     const { cartItem } = this.props;
+    const { selectedAttributes } = cartItem;
     return (
       <Query query={FETCH_PRODUCT} variables={{ id: cartItem.productID }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
-          console.log('data=', data);
           return (
             <MainContainer>
               <FirstDiv>
                 <ProductTitle productName={data.product.name} />
                 <ProductPrice prices={data.product.prices} />
                 <br />
-                <ProductAttributes product={data.product} />
+                <ProductAttributes
+                  product={data.product}
+                  selectedAttributes={selectedAttributes}
+                  setSelectedAttributes={this.setSelectedAttributes}
+                />
               </FirstDiv>
               <SecondDiv>
                 <QuantityModifier
@@ -93,4 +103,9 @@ export default class CartItem extends Component {
 }
 CartItem.propTypes = {
   cartItem: PropTypes.object.isRequired,
+  updateCartItemOption: PropTypes.func.isRequired,
 };
+const mapDispatchToProps = () => ({
+  updateCartItemOption,
+});
+export default connect(null, mapDispatchToProps())(CartItem);
