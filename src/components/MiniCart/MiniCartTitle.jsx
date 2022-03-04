@@ -32,7 +32,7 @@ class MiniCartTitle extends PureComponent {
       });
       return counter;
     }
-    return null;
+    return 0;
   };
 
   render() {

@@ -7,7 +7,13 @@ const itemExistsInCart = (newItem, state) => {
   }
   return false;
 };
-
+const createUniqueID = (productID, selectedAttributes) => {
+  let stringifiedAttributes = productID;
+  selectedAttributes.map((selectedAttr) => {
+    return stringifiedAttributes += selectedAttr.option.value;
+  });
+  return stringifiedAttributes;
+};
 const cartReducer = (state = [], action) => {
   switch (action.type) {
     case ('CLEAR_CART'): {
@@ -15,6 +21,8 @@ const cartReducer = (state = [], action) => {
     }
     case ('ADD_ITEM'): {
       const newItem = action.payload;
+      const uniqueItemID = createUniqueID(newItem.productID, newItem.selectedAttributes);
+      newItem.uniqueItemID = uniqueItemID;
       let newState = [...state];
       if (itemExistsInCart(newItem, state)) {
         // increase quantity by 1:
@@ -28,7 +36,6 @@ const cartReducer = (state = [], action) => {
         newItem.quantity = 1;
         newState = [...state, newItem];
       }
-      // newState.productPrice = newState.productPrice.toFixed(2);
       return newState;
     }
     case ('USE_SAVED_CART'): {
@@ -72,6 +79,35 @@ const cartReducer = (state = [], action) => {
         }
         return attr;
       });
+      // update item's unique ID:
+      updatedItem.uniqueItemID = createUniqueID(
+        updatedItem.productID,
+        updatedItem.selectedAttributes,
+      );
+      // check if an exact same item had already been added to the cart:
+      let existingItems = newState.map((cartItem) => {
+        if (cartItem.uniqueItemID === updatedItem.uniqueItemID) {
+          return cartItem;
+        }
+        return null;
+      });
+      existingItems = existingItems.filter((item) => item !== null);
+      if (existingItems.length > 1) {
+        let itemQuantity = 0;
+        existingItems.forEach((item) => {
+          itemQuantity += item.quantity;
+        });
+        newState = newState.map((cartItem) => {
+          if (cartItem.uniqueItemID === updatedItem.uniqueItemID) {
+            return null;
+          }
+          return cartItem;
+        });
+        newState = newState.filter((cartItem) => cartItem !== null);
+        updatedItem.quantity = itemQuantity;
+        newState.push(updatedItem);
+        return newState;
+      }
       // pass it back to the array - replace the old cartItem with the new one:
       newState = newState.map((cartItem) => {
         if (cartItem.uniqueItemID === updatedItem.uniqueItemID) {

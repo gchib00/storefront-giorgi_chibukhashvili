@@ -17,6 +17,16 @@ const apolloClient = new ApolloClient({
 });
 
 class App extends PureComponent {
+  componentDidMount() {
+    this.getSavedCart();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.cartItems !== this.props.cartItems) {
+      console.log(this.props.cartItems);
+    }
+  }
+
   getSavedCart = () => {
     const savedCart = JSON.parse(localStorage.getItem('cartItems'));
     if (savedCart) {
@@ -26,7 +36,6 @@ class App extends PureComponent {
   };
 
   render() {
-    this.getSavedCart();
     return (
       <ApolloProvider client={apolloClient}>
         <BrowserRouter>
@@ -44,8 +53,12 @@ class App extends PureComponent {
 }
 App.propTypes = {
   initializeCart: PropTypes.func.isRequired,
+  cartItems: PropTypes.array.isRequired,
 };
+const mapStateToProps = (state) => ({
+  cartItems: state.cartItems,
+});
 const mapDispatchToProps = () => ({
   initializeCart,
 });
-export default connect(null, mapDispatchToProps())(App);
+export default connect(mapStateToProps, mapDispatchToProps())(App);

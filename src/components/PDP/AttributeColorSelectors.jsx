@@ -64,21 +64,27 @@ export default class AttributeColorSelectors extends PureComponent {
     return false;
   };
 
+  timestampID = (str1) => {
+    // timestamping id or key values is necessary because user might select
+    // items that are of the same exact name and option(s)
+    return str1 + Date.now();
+  };
+
   render() {
     const { attribute } = this.props;
     return (
       attribute.items.map((option) => (
-        <div key={option.id}>
+        <div key={this.timestampID(option.id)}>
           <Selector
             type="radio"
             value={option.value}
             checked={this.populateOption(attribute.name, option.value)}
             readOnly
             onClick={() => this.saveChoice(option)}
-            id={option.id}
+            id={this.timestampID(option.id)}
           />
           <ColorSelectorBox
-            htmlFor={option.id}
+            htmlFor={this.timestampID(option.id)}
             style={this.wrapStyle(option.value)}
           />
         </div>

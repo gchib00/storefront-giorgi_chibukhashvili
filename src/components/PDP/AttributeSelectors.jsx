@@ -63,20 +63,29 @@ export default class AttributeSelectors extends PureComponent {
     return false;
   };
 
+  timestampID = (str1, str2) => {
+    // timestamping id or key values is necessary because user might select
+    // items that are of the same exact name and option(s)
+    return str1 + str2 + Date.now();
+  };
+
   render() {
     const { attribute } = this.props;
     return (
       attribute.items.map((option) => (
-        <div key={attribute.name + option.id}>
+        <div key={this.timestampID(attribute.name + option.id)}>
           <Selector
             type="radio"
             value={option.value}
             checked={this.populateOption(attribute.name, option.value)}
             readOnly
             onClick={() => this.saveChoice(option)}
-            id={attribute.name + option.id}
+            id={this.timestampID(attribute.name + option.id)}
           />
-          <SelectorBox htmlFor={attribute.name + option.id} style={this.determineBoxSize()}>
+          <SelectorBox
+            htmlFor={this.timestampID(attribute.name + option.id)}
+            style={this.determineBoxSize()}
+          >
             {option.value}
           </SelectorBox>
         </div>

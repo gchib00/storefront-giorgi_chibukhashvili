@@ -58,31 +58,8 @@ class ItemInfo extends PureComponent {
   };
 
   setSelectedAttributes = (attribute) => {
-    // console.log('attribute=', attribute);
-    const { uniqueItemID, cartItems } = this.props;
-    console.log(cartItems);
+    const { uniqueItemID } = this.props;
     this.props.updateCartItemOption(uniqueItemID, attribute);
-    // let currentState = [...cartItems];
-    // // find cartItem that needs to be updated:
-    // const updatedItem = currentState.find((cartItem) => cartItem.uniqueItemID === uniqueItemID);
-    // // update cartItem's attributes:
-    // updatedItem.selectedAttributes = updatedItem.selectedAttributes.map((attr) => {
-    //   if (attr.name === attribute.name) {
-    //     return attr.option = attribute.option;
-    //   }
-    //   return attr;
-    // });
-    // // pass it back to the array - replace the old cartItem with the new one:
-    // currentState = currentState.map((cartItem) => {
-    //   if (cartItem.uniqueItemID === updatedItem.uniqueItemID) {
-    //     return updatedItem;
-    //   }
-    //   return cartItem;
-    // });
-    // return this.setState((prevState) => ({
-    //   ...prevState,
-    //   selectedAttributes: currentState,
-    // }));
   };
 
   render() {
@@ -109,11 +86,9 @@ ItemInfo.propTypes = {
   selectedCurrency: PropTypes.object.isRequired,
   updateCartItemPrice: PropTypes.func.isRequired,
   updateCartItemOption: PropTypes.func.isRequired,
-  cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,
-  cartItems: state.cartItems,
 });
 const mapDispatchToProps = () => ({
   updateCartItemPrice,

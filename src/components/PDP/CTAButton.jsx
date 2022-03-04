@@ -18,8 +18,8 @@ const Button = styled.button`
   margin-bottom: 1rem;
   cursor: pointer;
   &:hover { 
-      transition: 300ms;
-      opacity: 0.7;
+    transition: 300ms;
+    opacity: 0.7;
   }
 `;
 class CTAButton extends PureComponent {
@@ -30,21 +30,9 @@ class CTAButton extends PureComponent {
     }
   }
 
-  createUniqueID = (productID, selectedAttributes) => {
-    let stringifiedAttributes = productID;
-    // eslint-disable-next-line array-callback-return
-    selectedAttributes.map((selectedAttr) => {
-      stringifiedAttributes += selectedAttr.option.value;
-    });
-    return stringifiedAttributes;
-  };
-
   saveToCart = (productID, selectedAttributes, productPrice) => {
-    // const uniqueItemID = productID + JSON.stringify(selectedAttributes.toString);
-    const uniqueItemID = this.createUniqueID(productID, selectedAttributes);
     const item = {
       productID,
-      uniqueItemID,
       productPrice,
       selectedAttributes,
     };
@@ -53,7 +41,6 @@ class CTAButton extends PureComponent {
   };
 
   render() {
-    // eslint-disable-next-line object-curly-newline
     const { productID, available, selectedAttributes, productPrice } = this.props;
     if (!available) {
       return null; // don't show CTAButton if product is out of stock
