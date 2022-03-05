@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Image = styled.img`
-    width: 100px;
-    height: 137px;
+  width: 100px;
+  height: 137px;
 `;
 export default class ItemImage extends PureComponent {
   render() {

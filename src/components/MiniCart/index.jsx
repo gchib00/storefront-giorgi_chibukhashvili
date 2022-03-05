@@ -17,7 +17,7 @@ const MainContainer = styled.div`
   background: white;
   top: 80px;
   right: 4vw;
-  z-index: 4;    
+  z-index: 3;    
 `;
 class MiniCart extends PureComponent {
   componentDidUpdate(prevProps) {

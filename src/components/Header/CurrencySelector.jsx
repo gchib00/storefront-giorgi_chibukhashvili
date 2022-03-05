@@ -1,79 +1,87 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Query } from '@apollo/react-components';
-import { gql } from '@apollo/client';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setActiveCurrency } from '../../store/actions';
+import CurrencyOptions from './CurrencyOptions';
+import ChevronDown from '../../static/chevronDown.svg';
 
-const SelectCurrency = styled.select`
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+`;
+const CurrencySelectorDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  cursor: pointer;
+`;
+const SelectedCurrency = styled.div`
   color: #43464E;
   border: none;
   font-size: 1.34rem;
   background: transparent;
-  outline: 0px;
+  outline: none;
   margin-right: 18px;
-  width: 44px;
-  cursor: pointer;
+  width: 4px;
+  z-index: 5;
 `;
-const GET_CURRENCIES = gql`
-query {
-  currencies{
-    label,
-    symbol
-  }
-}
+const Chevron = styled.img`
+  transform: scaleY(1);
 `;
-const getCurrencies = (data) => {
-  const currencies = [];
-  if (data) {
-    data.map((currency) => {
-      const valueObj = JSON.stringify({
-        symbol: currency.symbol,
-        label: currency.label,
-      });
-      return (currencies.push(
-        <option value={valueObj} key={currency.label}>
-          {currency.symbol}
-        </option>,
-      ));
-    });
-  }
-  return currencies;
-};
 class CurrencySelector extends PureComponent {
-  handleCurrencyChange = (e) => {
-    const currency = JSON.parse(e.target.value);
-    this.props.setActiveCurrency(currency);
+  state = {
+    dropdown: false,
+    chevronDirection: 1,
+  };
+
+  flipChevron = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      chevronDirection: prevState.chevronDirection * (-1),
+    }));
+  };
+
+  switchDropdown = (value) => {
+    this.flipChevron();
+    if (value === false) {
+      return this.setState((prevState) => ({
+        ...prevState,
+        dropdown: false,
+      }));
+    }
+    return this.setState((prevState) => ({
+      ...prevState,
+      dropdown: !prevState.dropdown,
+    }));
   };
 
   render() {
     const { selectedCurrency } = this.props;
     return (
-      <Query query={GET_CURRENCIES}>
-        { ({ loading, data }) => {
-          if (loading) { return null; }
-          return (
-            <SelectCurrency
-              defaultValue={selectedCurrency}
-              onChange={(e) => this.handleCurrencyChange(e)}
-            >
-              {getCurrencies(data.currencies)}
-            </SelectCurrency>
-          );
-        }}
-      </Query>
+      <MainContainer>
+        <CurrencySelectorDiv
+          id="currencySelector"
+          onClick={(e) => this.switchDropdown(e)}
+        >
+          <SelectedCurrency>
+            {selectedCurrency.symbol}
+          </SelectedCurrency>
+          <Chevron
+            src={ChevronDown}
+            alt="chevron"
+            style={{ transform: `scaleY(${this.state.chevronDirection})` }}
+          />
+        </CurrencySelectorDiv>
+        {!this.state.dropdown ? null : <CurrencyOptions switchDropdown={this.switchDropdown} />}
+      </MainContainer>
     );
   }
 }
 CurrencySelector.propTypes = {
   selectedCurrency: PropTypes.object.isRequired,
-  setActiveCurrency: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,
 });
-const mapDispatchToProps = () => ({
-  setActiveCurrency,
-});
-export default connect(mapStateToProps, mapDispatchToProps())(CurrencySelector);
+export default connect(mapStateToProps)(CurrencySelector);

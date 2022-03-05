@@ -8,20 +8,20 @@ import QuantityModifier from './QuantityModifier';
 import ItemImage from './ItemImage';
 
 const MainContainer = styled.div`
-    font-family: 'Raleway', sans-serif;
-    display: flex;
-    justify-content: space-between;
-    width: 98%;
-    min-height: 140px;
-    align-items: center;
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+  min-height: 140px;
+  align-items: center;
 `;
 const SecondaryContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    min-height: 137px;
-    margin-top: 0.6rem;
-    margin-bottom: 0.6rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  min-height: 137px;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
 `;
 const FETCH_PRODUCT = gql`
   query($id: String!){ 
