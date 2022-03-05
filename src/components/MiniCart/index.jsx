@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -20,24 +21,44 @@ const MainContainer = styled.div`
   z-index: 3;    
 `;
 class MiniCart extends PureComponent {
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside, true);
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.cartItems !== this.props.cartItems) {
       const updatedState = JSON.stringify(this.props.cartItems);
       localStorage.setItem('cartItems', updatedState);
     }
+    const { miniCart, screenDimmer } = this.props;
+    if (!miniCart || !screenDimmer) {
+      this.props.setMiniCart(false);
+      this.props.setScreenDimmer(false);
+    }
   }
 
-  handleDimmerClick = () => {
-    // if user clicks on dimmed screen, disable both the dimmer and the mini cart
-    this.props.setMiniCart(false);
-    this.props.setScreenDimmer(false);
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, true);
+  }
+
+  // Clicks outside the div should automatically close CartOverlay:
+  handleClickOutside = (e) => {
+    const { screenDimmer, miniCart } = this.props;
+    const domNode = ReactDOM.findDOMNode(this);
+    // mini-cart(along with its child-components) should be an exception:
+    if (e.target.id === 'miniCart' || e.path[1].id === 'miniCart') {
+      return null;
+    }
+    if (!domNode || !domNode.contains(e.target)) {
+      this.props.setMiniCart(!miniCart);
+      return this.props.setScreenDimmer(!screenDimmer);
+    }
+    return null;
   };
 
   render() {
     const { miniCart, screenDimmer, cartItems } = this.props;
     if (!miniCart || !screenDimmer) {
-      this.props.setMiniCart(false);
-      this.props.setScreenDimmer(false);
       return null;
     }
     return (

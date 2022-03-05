@@ -56,6 +56,7 @@ class CurrencyOptions extends PureComponent {
 
   handleCurrencyChange = (currencyObj) => {
     this.props.setActiveCurrency(currencyObj);
+    this.props.switchDropdown(false);
   };
 
   render() {

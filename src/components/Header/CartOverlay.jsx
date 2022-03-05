@@ -23,7 +23,7 @@ class CartOverlay extends Component {
 
   render() {
     return (
-      <CartIcon onClick={this.cartDisplay}>
+      <CartIcon id="miniCart" onClick={this.cartDisplay}>
         <img src={CartSVG} alt="cart" />
         <CartOverlayCounter />
       </CartIcon>
