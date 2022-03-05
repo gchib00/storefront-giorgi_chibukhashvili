@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const MainImageContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 704px;
-    width: 610px;
-    margin: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 704px;
+  width: 610px;
+  margin: 25px;
 `;
 const Image = styled.img`
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
 `;
 export default class MainImage extends PureComponent {
   render() {

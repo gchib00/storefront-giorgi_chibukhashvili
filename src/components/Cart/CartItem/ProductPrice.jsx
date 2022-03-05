@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 const Price = styled.p`
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 18px;
-    align-items: center;
-    color: #1D1F22;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 18px;
+  align-items: center;
+  color: #1D1F22;
+  margin: 0;
 `;
 class ProductPrice extends PureComponent {
   determineAmount = () => {

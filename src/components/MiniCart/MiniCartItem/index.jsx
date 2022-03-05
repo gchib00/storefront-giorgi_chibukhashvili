@@ -12,7 +12,7 @@ const MainContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 98%;
-  min-height: 140px;
+  min-height: 137px;
   align-items: center;
 `;
 const SecondaryContainer = styled.div`

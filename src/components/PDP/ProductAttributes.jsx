@@ -28,7 +28,7 @@ export default class ProductAttributes extends PureComponent {
     return (
       product.attributes.map((attribute) => (
         <div key={attribute.name + product.name}>
-          <AttributeTitle>{attribute.name}:</AttributeTitle>
+          {optionBoxSize === 'small' ? null : <AttributeTitle>{attribute.name}:</AttributeTitle>}
           <AttributesContainer>
             {attribute.type === 'swatch'
               ? <AttributeColorSelectors

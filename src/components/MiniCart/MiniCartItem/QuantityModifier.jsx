@@ -8,7 +8,7 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 137px;;
+  min-height: 137px;
   justify-content: space-between;
   margin-right: 1rem;
 `;

@@ -17,7 +17,7 @@ const MainContainer = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 1100px;
-  min-height: 186px;
+  min-height: 196px;
   border-top: 1px solid #E5E5E5;
   margin-left: 3rem;
   margin-bottom: 1rem;
@@ -36,7 +36,7 @@ const SecondDiv = styled.div`
   margin-top: 1rem;
 `;
 const FETCH_PRODUCT = gql`
-  query($id: String!){ 
+  query($id: String!){
     product(id: $id){
       id,
       name,

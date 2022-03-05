@@ -31,6 +31,7 @@ const ItemPrice = styled.p`
   align-items: center;
   color: #1D1F22;
   margin-right: 1rem;
+  margin-bottom: 46px;
   line-height: 3px;
 `;
 class ItemInfo extends PureComponent {

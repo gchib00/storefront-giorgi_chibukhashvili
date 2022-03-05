@@ -2,11 +2,20 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const MainImage = styled.img`
-    width: 94%; 
-    height: 78%; 
-    margin: 0.64rem;
-    margin-bottom: -6rem;
+const ImageContainer = styled.div`
+  width: 94%; 
+  height: 78%; 
+  margin: 0.64rem;
+  margin-bottom: -6rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+`;
+const Image = styled.img`
+  max-width: 94%; 
+  max-height: 78%; 
+  margin: 0.64rem;
+  margin-bottom: -6rem;
 `;
 const OutOfStockText = styled.p`
   position: relative;
@@ -39,12 +48,12 @@ export default class ProductImage extends PureComponent {
     const { source, available } = this.props;
     return (
       <>
-        <MainImage
-          src={source}
-          alt="product"
+        <ImageContainer
           onClick={this.showProductPage}
           style={this.outofstockStyle(available)}
-        />
+        >
+          <Image src={source} alt="product-image" />
+        </ImageContainer>
         <OutOfStockText>{this.outofstockText(available)}</OutOfStockText>
       </>
     );
