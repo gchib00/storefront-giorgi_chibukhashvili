@@ -30,31 +30,34 @@ class CTAButton extends PureComponent {
     }
   }
 
-  saveToCart = (productID, selectedAttributes, productPrice) => {
+  saveToCart = (productID, selectedAttributes, attributes, productPrice) => {
+    if (attributes.length !== selectedAttributes.length) {
+      return alert('All the available options need to be selected');
+    }
     const item = {
       productID,
       productPrice,
       selectedAttributes,
     };
-    this.props.addItemToCart(item);
+    return this.props.addItemToCart(item);
   };
 
   render() {
-    const { productID, available, selectedAttributes, productPrice } = this.props;
-    if (!available) {
+    const { product, selectedAttributes, productPrice } = this.props;
+    const { id, inStock, attributes } = product;
+    if (!inStock) {
       return null; // don't show CTAButton if product is out of stock
     }
     return (
       <Button
-        onClick={() => this.saveToCart(productID, selectedAttributes, productPrice)}
+        onClick={() => this.saveToCart(id, selectedAttributes, attributes, productPrice)}
       >ADD TO CART
       </Button>
     );
   }
 }
 CTAButton.propTypes = {
-  available: PropTypes.bool.isRequired,
-  productID: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired,
   selectedAttributes: PropTypes.array.isRequired,
   addItemToCart: PropTypes.func.isRequired,
   cartItems: PropTypes.array.isRequired,

@@ -55,8 +55,7 @@ export default class ProductDetails extends PureComponent {
           setProductPrice={this.setProductPrice}
         />
         <CTAButton
-          productID={product.id}
-          available={product.inStock}
+          product={product}
           selectedAttributes={this.state.selectedAttributes}
           productPrice={this.state.productPrice}
         />
