@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addItemToCart } from '../../store/actions';
 import RoundCartSVG from '../../static/roundCart.svg';
 
 const Cart = styled.img`
@@ -12,22 +14,18 @@ const Cart = styled.img`
   cursor: pointer;
   margin: 0;
 `;
-export default class CartButton extends PureComponent {
-  handleCartClick = (e) => {
-    // if (this.props.product.attributes.length === 0) {
-    //   e.preventDefault(); // this will prevent user from being redirected to PDP
-    //   alert('Item has been added to cart');
-    //   const object = {
-    //     product: this.props.product,
-    //     quantity: 1,
-    //     productOptions: [],
-    //   };
-    //   this.props.addToCart(object);
-    // } else {
-    //   this.showProductPage();
-    // }
-    e.preventDefault();
-    console.log('Placeholder fn');
+class CartButton extends PureComponent {
+  handleCartClick = (e, product) => {
+    if (product.attributes.length === 0) {
+      e.preventDefault(); // this will prevent user from being redirected to PDP
+      const item = {
+        productID: product.id,
+        productPrice: product.prices,
+        selectedAttributes: [],
+      };
+      this.props.addItemToCart(item);
+      alert('Item has been added to cart');
+    }
   };
 
   outofstockCart = (inStock) => {
@@ -43,7 +41,7 @@ export default class CartButton extends PureComponent {
     return (
       <Cart
         src={RoundCartSVG}
-        onClick={(e) => this.handleCartClick(e)}
+        onClick={(e) => this.handleCartClick(e, product)}
         style={(this.outofstockCart(available))}
       />
     );
@@ -51,4 +49,9 @@ export default class CartButton extends PureComponent {
 }
 CartButton.propTypes = {
   product: PropTypes.object.isRequired,
+  addItemToCart: PropTypes.func.isRequired,
 };
+const mapDispatchToProps = () => ({
+  addItemToCart,
+});
+export default connect(null, mapDispatchToProps())(CartButton);

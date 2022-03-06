@@ -45,8 +45,9 @@ class MiniCart extends PureComponent {
   handleClickOutside = (e) => {
     const { screenDimmer, miniCart } = this.props;
     const domNode = ReactDOM.findDOMNode(this);
+    const targetPathArr = e.composedPath();
     // mini-cart(along with its child-components) should be an exception:
-    if (e.target.id === 'miniCart' || e.path[1].id === 'miniCart') {
+    if (e.target.id === 'miniCart' || targetPathArr[1].id === 'miniCart') {
       return null;
     }
     if (!domNode || !domNode.contains(e.target)) {

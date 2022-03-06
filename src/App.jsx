@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import React, { PureComponent } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -19,12 +18,6 @@ const apolloClient = new ApolloClient({
 class App extends PureComponent {
   componentDidMount() {
     this.getSavedCart();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.cartItems !== this.props.cartItems) {
-      console.log(this.props.cartItems);
-    }
   }
 
   getSavedCart = () => {
@@ -53,12 +46,8 @@ class App extends PureComponent {
 }
 App.propTypes = {
   initializeCart: PropTypes.func.isRequired,
-  cartItems: PropTypes.array.isRequired,
 };
-const mapStateToProps = (state) => ({
-  cartItems: state.cartItems,
-});
 const mapDispatchToProps = () => ({
   initializeCart,
 });
-export default connect(mapStateToProps, mapDispatchToProps())(App);
+export default connect(null, mapDispatchToProps())(App);

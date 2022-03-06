@@ -8,19 +8,19 @@ const MainContainer = styled.div`
   align-items: center;
 `;
 const Text = styled.h3`
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 26px;
-    margin-left: 1rem;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 26px;
+  margin-left: 1rem;
 `;
 const ItemsAmount = styled.span`
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 200;
-    font-size: 16px;
-    margin-left: 0.5rem;
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 200;
+  font-size: 16px;
+  margin-left: 0.5rem;
 `;
 class MiniCartTitle extends PureComponent {
   getItemsCount = () => {

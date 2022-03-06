@@ -29,7 +29,16 @@ const FETCH_PRODUCTS = gql`
         }
         gallery,
         description,
-        category
+        category,
+        attributes {
+          name,
+          type,
+          items {
+            displayValue,
+            value,
+            id
+          }
+        }
       }
     }
   }

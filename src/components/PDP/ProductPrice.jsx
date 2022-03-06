@@ -23,7 +23,6 @@ const Price = styled.p`
 `;
 class ProductPrice extends PureComponent {
   componentDidMount() {
-    // eslint-disable-next-line max-len
     const newPrice = this.determineAmount(this.props.prices, this.props.selectedCurrency);
     this.props.setProductPrice(newPrice.amount);
   }

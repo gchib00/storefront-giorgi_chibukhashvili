@@ -1,5 +1,4 @@
-/* eslint-disable react/prefer-stateless-function */
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
@@ -62,17 +61,16 @@ const FETCH_PRODUCT = gql`
     }
   }
 `;
-class CartItem extends Component {
+class CartItem extends PureComponent {
   setSelectedAttributes = (attribute) => {
-    const { uniqueItemID } = this.props.cartItem;
+    const { uniqueItemID } = this.props;
     this.props.updateCartItemOption(uniqueItemID, attribute);
   };
 
   render() {
-    const { cartItem } = this.props;
-    const { selectedAttributes } = cartItem;
+    const { quantity, uniqueItemID, productID, selectedAttributes } = this.props;
     return (
-      <Query query={FETCH_PRODUCT} variables={{ id: cartItem.productID }}>
+      <Query query={FETCH_PRODUCT} variables={{ id: productID }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
           return (
@@ -89,8 +87,8 @@ class CartItem extends Component {
               </FirstDiv>
               <SecondDiv>
                 <QuantityModifier
-                  quantity={cartItem.quantity}
-                  uniqueItemID={cartItem.uniqueItemID}
+                  quantity={quantity}
+                  uniqueItemID={uniqueItemID}
                 />
                 <ImageSlider images={data.product.gallery} />
               </SecondDiv>
@@ -102,7 +100,10 @@ class CartItem extends Component {
   }
 }
 CartItem.propTypes = {
-  cartItem: PropTypes.object.isRequired,
+  productID: PropTypes.string.isRequired,
+  uniqueItemID: PropTypes.string.isRequired,
+  selectedAttributes: PropTypes.array.isRequired,
+  quantity: PropTypes.number.isRequired,
   updateCartItemOption: PropTypes.func.isRequired,
 };
 const mapDispatchToProps = () => ({

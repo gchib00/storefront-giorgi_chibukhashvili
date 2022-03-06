@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ const MainContainer = styled.div`
   align-items: center;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+  margin: 1.5rem 15px 1.5rem 15px;
 `;
 const TotalTitle = styled.p`
   font-family: 'Raleway', sans-serif;
@@ -31,7 +32,7 @@ const TotalPrice = styled.p`
   margin-right: 1rem;
   line-height: 3px;
 `;
-class MiniCartTotal extends Component {
+class MiniCartTotal extends PureComponent {
   state = {
     total: 0,
   };
@@ -71,11 +72,9 @@ class MiniCartTotal extends Component {
 MiniCartTotal.propTypes = {
   selectedCurrency: PropTypes.object.isRequired,
   cartItems: PropTypes.array.isRequired,
-  // cartTotal: PropTypes.number.isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,
   cartItems: state.cartItems,
-  cartTotal: state.cartTotal,
 });
 export default connect(mapStateToProps)(MiniCartTotal);

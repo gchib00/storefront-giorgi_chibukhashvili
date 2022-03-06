@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ const CartIcon = styled.div`
     opacity: 0.4;
   }
 `;
-class CartOverlay extends Component {
+class CartOverlay extends PureComponent {
   cartDisplay = () => {
     const { screenDimmer, miniCart } = this.props;
     this.props.setMiniCart(!miniCart);

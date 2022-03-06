@@ -11,7 +11,15 @@ class CartPage extends PureComponent {
       <>
         <CartTitle />
         {cartItems.map((cartItem) => {
-          return <CartItem cartItem={cartItem} key={cartItem.uniqueItemID} />;
+          return (
+            <CartItem
+              productID={cartItem.productID}
+              quantity={cartItem.quantity}
+              uniqueItemID={cartItem.uniqueItemID}
+              selectedAttributes={cartItem.selectedAttributes}
+              key={cartItem.uniqueItemID}
+            />
+          );
         })}
       </>
     );

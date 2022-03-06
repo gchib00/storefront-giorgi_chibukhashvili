@@ -44,8 +44,9 @@ class CurrencyOptions extends PureComponent {
   // Clicks outside the div should automatically close CurrencyOptions:
   handleClickOutside = (e) => {
     const domNode = ReactDOM.findDOMNode(this);
+    const targetPathArr = e.composedPath();
     // currencySelector div(along with its children) should be an exception:
-    if (e.target.id === 'currencySelector' || e.path[1].id === 'currencySelector') {
+    if (e.target.id === 'currencySelector' || targetPathArr[1].id === 'currencySelector') {
       return null;
     }
     if (!domNode || !domNode.contains(e.target)) {

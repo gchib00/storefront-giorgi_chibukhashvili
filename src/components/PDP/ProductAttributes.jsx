@@ -1,5 +1,3 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -31,18 +29,22 @@ export default class ProductAttributes extends PureComponent {
           {optionBoxSize === 'small' ? null : <AttributeTitle>{attribute.name}:</AttributeTitle>}
           <AttributesContainer>
             {attribute.type === 'swatch'
-              ? <AttributeColorSelectors
+              ? (
+                <AttributeColorSelectors
                   attribute={attribute}
                   selectedAttributes={selectedAttributes}
                   setSelectedAttributes={setSelectedAttributes}
                   optionBoxSize={optionBoxSize}
-              />
-              : <AttributeSelectors
+                />
+              )
+              : (
+                <AttributeSelectors
                   attribute={attribute}
                   selectedAttributes={selectedAttributes}
                   setSelectedAttributes={setSelectedAttributes}
                   optionBoxSize={optionBoxSize}
-              />}
+                />
+              )}
           </AttributesContainer>
         </div>
       ))

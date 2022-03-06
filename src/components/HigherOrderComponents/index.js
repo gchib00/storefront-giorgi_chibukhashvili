@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 
-// react-router-dom v6 stopped supporting 'withRouter',
+// react-router-dom v6 stopped supporting 'withRouter and 'withNavigation',
 // so we need to create a custom HOC in order to access params in class components
 import { useParams, useNavigate } from 'react-router-dom';
 

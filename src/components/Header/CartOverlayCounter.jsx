@@ -40,8 +40,6 @@ CartOverlayCounter.propTypes = {
   cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
-  screenDimmer: state.screenDimmer,
-  miniCart: state.miniCart,
   cartItems: state.cartItems,
 });
 export default connect(mapStateToProps)(CartOverlayCounter);
