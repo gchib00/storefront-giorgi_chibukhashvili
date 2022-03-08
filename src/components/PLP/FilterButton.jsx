@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import FilterSVG from '../../static/filter.svg';
 
 const MainContainer = styled.div`
@@ -21,15 +22,18 @@ const Filter = styled.img`
   width: 26px;
 `;
 export default class FilterButton extends PureComponent {
-  setFilterSidebar = (e) => {
-    alert(`${e.target} was clicked`);
+  setFilterSidebar = () => {
+    this.props.setFilterSlidebar(true);
   };
 
   render() {
     return (
-      <MainContainer onClick={(e) => this.setFilterSidebar(e)}>
+      <MainContainer onClick={() => this.setFilterSidebar()}>
         <Filter src={FilterSVG} alt="filter-icon" />
       </MainContainer>
     );
   }
 }
+FilterButton.propTypes = {
+  setFilterSlidebar: PropTypes.func.isRequired,
+};

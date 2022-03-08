@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,18 +20,28 @@ class FilterSidebar extends PureComponent {
   };
 
   componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside, true);
     this.setScreenDimmer(true);
   }
 
-  componentDidUpdate(prevState) {
-    if (prevState.screenDimmer !== this.state.screenDimmer) {
-      this.props.setFilterSlidebar(false);
+  componentDidUpdate() {
+    const { setFilterSlidebar } = this.props;
+    if (!this.state.screenDimmer) {
+      setFilterSlidebar(false);
     }
   }
 
   componentWillUnmount() {
-    this.setScreenDimmer(true);
+    document.removeEventListener('click', this.handleClickOutside, true);
   }
+
+  handleClickOutside = (e) => {
+    const domNode = ReactDOM.findDOMNode(this);
+    if (!domNode || !domNode.contains(e.target)) {
+      return this.props.setFilterSlidebar(false);
+    }
+    return null;
+  };
 
   setScreenDimmer = (bool) => {
     this.setState((prevState) => ({

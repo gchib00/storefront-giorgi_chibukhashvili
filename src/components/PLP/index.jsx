@@ -47,7 +47,7 @@ const FETCH_PRODUCTS = gql`
 `;
 class PLP extends PureComponent {
   state = {
-    showFilterSidebar: true,
+    showFilterSidebar: false,
   };
 
   setFilterSlidebar = (bool) => {
@@ -75,11 +75,15 @@ class PLP extends PureComponent {
           return (
             <>
               <CategoryTitle />
-              <FilterButton />
-              <FilterSiderbar
-                showFilterSidebar={this.state.showFilterSidebar}
+              <FilterButton
                 setFilterSlidebar={this.setFilterSlidebar}
               />
+              {this.state.showFilterSidebar ? (
+                <FilterSiderbar
+                  showFilterSidebar={this.state.showFilterSidebar}
+                  setFilterSlidebar={this.setFilterSlidebar}
+                />
+              ) : null}
               <ProductsGrid>
                 {this.renderProducts(data)}
               </ProductsGrid>
