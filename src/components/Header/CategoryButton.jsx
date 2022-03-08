@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import withNavigate from '../HigherOrderComponents';
-import { changeCategory } from '../../store/actions';
 
 const Radio = styled.input`
   display: none;
@@ -30,38 +27,28 @@ const CategoryLabel = styled.label`
   }
   background: transparent;
 `;
-class CategoryButton extends PureComponent {
+export default class CategoryButton extends PureComponent {
   render() {
-    const { selectedCategory, optionType } = this.props;
+    const { category, selectedCategory, handleCategoryChange } = this.props;
+    const categoryName = category.toUpperCase();
     return (
       <>
         <Radio
           type="radio"
-          checked={selectedCategory === optionType}
-          onClick={() => {
-            this.props.changeCategory(optionType);
-            this.props.navigate('/');
-          }}
-          id={optionType}
+          checked={selectedCategory === category}
+          onClick={() => handleCategoryChange(category)}
+          id={category}
           readOnly
         />
-        <CategoryLabel htmlFor={optionType}>
-          {optionType}
+        <CategoryLabel htmlFor={category}>
+          {categoryName}
         </CategoryLabel>
       </>
     );
   }
 }
 CategoryButton.propTypes = {
+  category: PropTypes.string.isRequired,
+  handleCategoryChange: PropTypes.func.isRequired,
   selectedCategory: PropTypes.string.isRequired,
-  optionType: PropTypes.string.isRequired,
-  changeCategory: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
 };
-const mapStateToProps = (state) => ({
-  selectedCategory: state.selectedCategory,
-});
-const mapDispatchToProps = () => ({
-  changeCategory,
-});
-export default withNavigate(connect(mapStateToProps, mapDispatchToProps())(CategoryButton));

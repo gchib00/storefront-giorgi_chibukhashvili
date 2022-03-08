@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
+import withRouter from '../HigherOrderComponents';
 
 const Title = styled.h1`
   font-family: 'Raleway';
@@ -12,16 +12,13 @@ const Title = styled.h1`
 `;
 class CategoryTitle extends PureComponent {
   render() {
-    const { selectedCategory } = this.props;
+    const selectedCategory = this.props.params.category;
     return (
-      <Title>{selectedCategory}</Title>
+      <Title>{selectedCategory.toUpperCase()}</Title>
     );
   }
 }
 CategoryTitle.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
+  params: PropTypes.object.isRequired,
 };
-const mapStateToProps = (state) => ({
-  selectedCategory: state.selectedCategory,
-});
-export default connect(mapStateToProps)(CategoryTitle);
+export default withRouter(CategoryTitle);

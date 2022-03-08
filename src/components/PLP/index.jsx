@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
 import { gql } from '@apollo/client';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import withRouter from '../HigherOrderComponents';
 import ProductCard from './ProductCard';
 import CategoryTitle from './CategoryTitle';
 import FilterButton from './FilterButton';
@@ -66,10 +66,9 @@ class PLP extends PureComponent {
   };
 
   render() {
-    let { selectedCategory } = this.props;
-    selectedCategory = selectedCategory.toLowerCase();
+    const { category } = this.props.params;
     return (
-      <Query query={FETCH_PRODUCTS} variables={{ selectedCategory }}>
+      <Query query={FETCH_PRODUCTS} variables={{ selectedCategory: category }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
           return (
@@ -95,9 +94,6 @@ class PLP extends PureComponent {
   }
 }
 PLP.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
+  params: PropTypes.object,
 };
-const mapStateToProps = (state) => ({
-  selectedCategory: state.selectedCategory,
-});
-export default connect(mapStateToProps)(PLP);
+export default withRouter(PLP);

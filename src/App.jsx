@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { initializeCart } from './store/actions';
@@ -35,7 +35,8 @@ class App extends PureComponent {
           <Header />
           <MiniCart />
           <Routes>
-            <Route path="/" element={<PLP />} />
+            <Route path="/" element={<Navigate to="/all" />} />
+            <Route path="/:category" element={<PLP />} />
             <Route path="/product/:id" element={<PDP />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
