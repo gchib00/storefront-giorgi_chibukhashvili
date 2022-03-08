@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setScreenDimmer, setMiniCart } from '../../store/actions';
+import { setMiniCart } from '../../store/actions';
 import ScreenDimmer from '../Misc/ScreenDimmer';
 import CTAButtons from './CTAButtons';
 import MiniCartTotal from './MiniCartTotal';
@@ -21,8 +21,13 @@ const MainContainer = styled.div`
   z-index: 3;    
 `;
 class MiniCart extends PureComponent {
+  state = {
+    screenDimmer: true,
+  };
+
   componentDidMount() {
     document.addEventListener('click', this.handleClickOutside, true);
+    this.setScreenDimmer(true);
   }
 
   componentDidUpdate(prevProps) {
@@ -30,10 +35,9 @@ class MiniCart extends PureComponent {
       const updatedState = JSON.stringify(this.props.cartItems);
       localStorage.setItem('cartItems', updatedState);
     }
-    const { miniCart, screenDimmer } = this.props;
-    if (!miniCart || !screenDimmer) {
+    const { miniCart } = this.props;
+    if (!miniCart || !this.state.screenDimmer) {
       this.props.setMiniCart(false);
-      this.props.setScreenDimmer(false);
     }
   }
 
@@ -41,9 +45,15 @@ class MiniCart extends PureComponent {
     document.removeEventListener('click', this.handleClickOutside, true);
   }
 
+  setScreenDimmer = (bool) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      screenDimmer: bool,
+    }));
+  };
+
   // Clicks outside the div should automatically close CartOverlay:
   handleClickOutside = (e) => {
-    const { screenDimmer, miniCart } = this.props;
     const domNode = ReactDOM.findDOMNode(this);
     const targetPathArr = e.composedPath();
     // mini-cart(along with its child-components) should be an exception:
@@ -51,14 +61,14 @@ class MiniCart extends PureComponent {
       return null;
     }
     if (!domNode || !domNode.contains(e.target)) {
-      this.props.setMiniCart(!miniCart);
-      return this.props.setScreenDimmer(!screenDimmer);
+      return this.props.setMiniCart(false);
     }
     return null;
   };
 
   render() {
-    const { miniCart, screenDimmer, cartItems } = this.props;
+    const { miniCart, cartItems } = this.props;
+    const { screenDimmer } = this.state;
     if (!miniCart || !screenDimmer) {
       return null;
     }
@@ -82,25 +92,24 @@ class MiniCart extends PureComponent {
           <MiniCartTotal />
           <CTAButtons />
         </MainContainer>
-        <ScreenDimmer onClick={() => this.handleDimmerClick()} />
+        <ScreenDimmer
+          screenDimmer={screenDimmer}
+          setScreenDimmer={this.setScreenDimmer}
+        />
       </>
     );
   }
 }
 MiniCart.propTypes = {
-  screenDimmer: PropTypes.bool.isRequired,
   miniCart: PropTypes.bool.isRequired,
   setMiniCart: PropTypes.func.isRequired,
-  setScreenDimmer: PropTypes.func.isRequired,
   cartItems: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
-  screenDimmer: state.screenDimmer,
   miniCart: state.miniCart,
   cartItems: state.cartItems,
 });
 const mapDispatchToProps = () => ({
-  setScreenDimmer,
   setMiniCart,
 });
 export default connect(mapStateToProps, mapDispatchToProps())(MiniCart);

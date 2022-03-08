@@ -49,12 +49,6 @@ export const updateCartItemOption = (uniqueItemID, attribute) => {
     },
   };
 };
-export const setScreenDimmer = (status) => {
-  return {
-    type: 'SWITCH_DIMMER',
-    payload: status,
-  };
-};
 export const setMiniCart = (status) => {
   return {
     type: 'SWITCH_MINICART',

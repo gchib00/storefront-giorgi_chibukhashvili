@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProductCard from './ProductCard';
 import CategoryTitle from './CategoryTitle';
+import FilterButton from './FilterButton';
+import FilterSiderbar from './FilterSidebar';
 
 const ProductsGrid = styled.div`
   display: grid;
@@ -44,6 +46,17 @@ const FETCH_PRODUCTS = gql`
   }
 `;
 class PLP extends PureComponent {
+  state = {
+    showFilterSidebar: true,
+  };
+
+  setFilterSlidebar = (bool) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      showFilterSidebar: bool,
+    }));
+  };
+
   renderProducts = (data) => {
     return (
       data.category.products.map((product) => {
@@ -62,6 +75,11 @@ class PLP extends PureComponent {
           return (
             <>
               <CategoryTitle />
+              <FilterButton />
+              <FilterSiderbar
+                showFilterSidebar={this.state.showFilterSidebar}
+                setFilterSlidebar={this.setFilterSlidebar}
+              />
               <ProductsGrid>
                 {this.renderProducts(data)}
               </ProductsGrid>
