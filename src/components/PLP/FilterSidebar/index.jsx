@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ScreenDimmer from '../../Misc/ScreenDimmer';
+import FilterItem from './FilterItem';
 
 const MainContainer = styled.div`
   position: absolute;
@@ -11,7 +12,6 @@ const MainContainer = styled.div`
   height: 100vh;
   width: 20vw;
   background-color: #ffffff;
-  border: 2px solid black;
   z-index: 4;
 `;
 class FilterSidebar extends PureComponent {
@@ -54,9 +54,14 @@ class FilterSidebar extends PureComponent {
     if (!this.props.showFilterSidebar) {
       return null;
     }
+    const items = [1];
     return (
       <>
-        <MainContainer>FilterSidebar</MainContainer>
+        <MainContainer>
+          {items.map((item) => (
+            <FilterItem item={item} />
+          ))}
+        </MainContainer>
         <ScreenDimmer
           screenDimmer={this.state.screenDimmer}
           setScreenDimmer={this.setScreenDimmer}
