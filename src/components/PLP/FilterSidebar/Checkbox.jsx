@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CheckmarkSVG from '../../../static/checkmark.svg';
 
 const MainContainer = styled.div`
-  height: 60px;
+  height: 40px;
   width: 80%;
   display: flex;
   justify-content: space-between;
@@ -38,12 +38,16 @@ export default class Checkbox extends PureComponent {
   };
 
   render() {
-    console.log('item (from Checkbox.jsx)=', this.props.item);
+    const { item } = this.props;
     return (
       <MainContainer>
-        <p>Item ABC</p>
-        <CheckboxEl htmlFor="test123" style={this.state.checked ? { background: '#5ECE7B' } : { background: '#FFFFFF' }}>
-          <Input type="checkbox" id="test123" onChange={() => this.handleChange()} />
+        {item.name}
+        <CheckboxEl
+          id="checkbox-el"
+          htmlFor={item.name}
+          style={this.state.checked ? { background: '#5ECE7B' } : { background: '#FFFFFF' }}
+        >
+          <Input type="checkbox" id={item.name} onChange={() => this.handleChange()} />
           <CheckmarkEl src={CheckmarkSVG} />
         </CheckboxEl>
       </MainContainer>

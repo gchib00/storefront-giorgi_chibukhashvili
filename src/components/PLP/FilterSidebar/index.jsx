@@ -1,5 +1,3 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable no-plusplus */
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
@@ -12,7 +10,9 @@ const MainContainer = styled.div`
   top: 80px;
   height: 100vh;
   width: 20vw;
+  padding-top: 40px;
   background-color: #ffffff;
+  font-family: 'Raleway', sans-serif;
   z-index: 4;
 `;
 export default class FilterSidebar extends PureComponent {
@@ -73,7 +73,7 @@ export default class FilterSidebar extends PureComponent {
         filteredAttributes.push(attr);
       }
     });
-    return filteredAttributes;
+    return filteredAttributes.reverse();
   };
 
   render() {
