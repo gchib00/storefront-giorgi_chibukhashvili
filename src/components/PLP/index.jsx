@@ -71,6 +71,7 @@ class PLP extends PureComponent {
       <Query query={FETCH_PRODUCTS} variables={{ selectedCategory: category }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
+          const allAttributes = data.category.products.map((product) => product.attributes);
           return (
             <>
               <CategoryTitle />
@@ -79,6 +80,7 @@ class PLP extends PureComponent {
               />
               {this.state.showFilterSidebar ? (
                 <FilterSiderbar
+                  allAttributes={allAttributes}
                   showFilterSidebar={this.state.showFilterSidebar}
                   setFilterSlidebar={this.setFilterSlidebar}
                 />

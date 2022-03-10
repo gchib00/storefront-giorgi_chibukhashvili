@@ -1,8 +1,9 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable no-plusplus */
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import ScreenDimmer from '../../Misc/ScreenDimmer';
 import FilterItem from './FilterItem';
 
@@ -14,7 +15,7 @@ const MainContainer = styled.div`
   background-color: #ffffff;
   z-index: 4;
 `;
-class FilterSidebar extends PureComponent {
+export default class FilterSidebar extends PureComponent {
   state = {
     screenDimmer: false,
   };
@@ -50,16 +51,41 @@ class FilterSidebar extends PureComponent {
     }));
   };
 
+  filterAttributes = () => {
+    const { allAttributes } = this.props;
+    const flattenedArr = allAttributes.flat();
+    const filteredAttributes = [];
+    flattenedArr.forEach((attr) => {
+      if (filteredAttributes.some((attr2) => attr2.name === attr.name)) {
+        const index = filteredAttributes.findIndex((attr2) => attr2.name === attr.name);
+        attr.items.forEach((option) => {
+          const arr = [...filteredAttributes[index].items];
+          if (!filteredAttributes[index].items.some((option2) => option2.value === option.value)) {
+            arr.push(option);
+            filteredAttributes[index] = {
+              name: attr.name,
+              type: attr.type,
+              items: [...arr],
+            };
+          }
+        });
+      } else {
+        filteredAttributes.push(attr);
+      }
+    });
+    return filteredAttributes;
+  };
+
   render() {
     if (!this.props.showFilterSidebar) {
       return null;
     }
-    const items = [1];
+    const items = this.filterAttributes();
     return (
       <>
         <MainContainer>
           {items.map((item) => (
-            <FilterItem item={item} />
+            <FilterItem item={item} key={item.name} />
           ))}
         </MainContainer>
         <ScreenDimmer
@@ -71,10 +97,7 @@ class FilterSidebar extends PureComponent {
   }
 }
 FilterSidebar.propTypes = {
+  allAttributes: PropTypes.array.isRequired,
   showFilterSidebar: PropTypes.bool.isRequired,
   setFilterSlidebar: PropTypes.func.isRequired,
 };
-const mapStateToProps = (state) => ({
-  selectedCategory: state.selectedCategory,
-});
-export default connect(mapStateToProps, null)(FilterSidebar);
