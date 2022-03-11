@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ScreenDimmer from '../../Misc/ScreenDimmer';
 import FilterItem from './FilterItem';
+import withRouter from '../../HigherOrderComponents';
 
 const MainContainer = styled.div`
   position: absolute;
@@ -15,9 +16,10 @@ const MainContainer = styled.div`
   font-family: 'Raleway', sans-serif;
   z-index: 4;
 `;
-export default class FilterSidebar extends PureComponent {
+class FilterSidebar extends PureComponent {
   state = {
     screenDimmer: false,
+    searchQueries: [],
   };
 
   componentDidMount() {
@@ -35,6 +37,26 @@ export default class FilterSidebar extends PureComponent {
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickOutside, true);
   }
+
+  updateSearchQueries = (newAttr, method) => {
+    let arr = [...this.state.searchQueries];
+    if (method === 'add') {
+      arr.push(newAttr);
+    } else if (method === 'remove') {
+      arr = arr.filter((attr) => attr !== newAttr);
+    } else if (method === 'addExclusive') {
+      arr = arr.filter((attr) => {
+        const str1 = attr.split('?')[0];
+        const str2 = newAttr.split('?')[0];
+        return str1 !== str2;
+      });
+      arr.push(newAttr);
+    }
+    this.setState((prevState) => ({
+      ...prevState,
+      searchQueries: [...arr],
+    }));
+  };
 
   handleClickOutside = (e) => {
     const domNode = ReactDOM.findDOMNode(this);
@@ -81,11 +103,16 @@ export default class FilterSidebar extends PureComponent {
       return null;
     }
     const items = this.filterAttributes();
+    console.log('searchQueries =>', this.state.searchQueries);
     return (
       <>
         <MainContainer>
           {items.map((item) => (
-            <FilterItem item={item} key={item.name} />
+            <FilterItem
+              item={item}
+              key={item.name}
+              updateSearchQueries={this.updateSearchQueries}
+            />
           ))}
         </MainContainer>
         <ScreenDimmer
@@ -101,3 +128,4 @@ FilterSidebar.propTypes = {
   showFilterSidebar: PropTypes.bool.isRequired,
   setFilterSlidebar: PropTypes.func.isRequired,
 };
+export default withRouter(FilterSidebar);

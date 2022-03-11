@@ -32,6 +32,12 @@ export default class Checkbox extends PureComponent {
   };
 
   handleChange = () => {
+    const { name } = this.props.item;
+    if (!this.state.checked) {
+      this.props.updateSearchQueries(name, 'add');
+    } else {
+      this.props.updateSearchQueries(name, 'remove');
+    }
     this.setState((prevState) => ({
       checked: !prevState.checked,
     }));
@@ -43,7 +49,6 @@ export default class Checkbox extends PureComponent {
       <MainContainer>
         {item.name}
         <CheckboxEl
-          id="checkbox-el"
           htmlFor={item.name}
           style={this.state.checked ? { background: '#5ECE7B' } : { background: '#FFFFFF' }}
         >
@@ -56,4 +61,5 @@ export default class Checkbox extends PureComponent {
 }
 Checkbox.propTypes = {
   item: PropTypes.object.isRequired,
+  updateSearchQueries: PropTypes.func.isRequired,
 };

@@ -25,26 +25,34 @@ export default class FilterItem extends PureComponent {
   };
 
   render() {
-    console.log('item=', this.props.item);
     switch (this.determineComp()) {
       case ('checkbox'): {
         return (
           <MainContainer>
-            <Checkbox item={this.props.item} />
+            <Checkbox
+              item={this.props.item}
+              updateSearchQueries={this.props.updateSearchQueries}
+            />
           </MainContainer>
         );
       }
       case ('colorboxes'): {
         return (
           <MainContainer>
-            <Colorboxes item={this.props.item} />
+            <Colorboxes
+              item={this.props.item}
+              updateSearchQueries={this.props.updateSearchQueries}
+            />
           </MainContainer>
         );
       }
       default: {
         return (
           <MainContainer>
-            <Select item={this.props.item} />
+            <Select
+              item={this.props.item}
+              updateSearchQueries={this.props.updateSearchQueries}
+            />
           </MainContainer>
         );
       }
@@ -53,4 +61,5 @@ export default class FilterItem extends PureComponent {
 }
 FilterItem.propTypes = {
   item: PropTypes.object.isRequired,
+  updateSearchQueries: PropTypes.func.isRequired,
 };
