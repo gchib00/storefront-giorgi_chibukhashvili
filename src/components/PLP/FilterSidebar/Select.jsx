@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-unused-prop-types */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -21,16 +22,50 @@ const Label = styled.label`
   margin-bottom: 5px;
 `;
 export default class Select extends PureComponent {
-  handleChange = (e) => {
-    // const { active } = this.state;
-    const attrName = this.props.item.name;
-    // eslint-disable-next-line no-unused-vars
-    const attrString = `${attrName}?${e.target.value}`;
-    if (e.target.value !== '-') {
-      this.props.updateSearchQueries(attrString, 'addExclusive');
-    } else {
-      this.props.updateSearchQueries(attrString, 'remove');
+  state = {
+    selectedOption: '',
+  };
+  // componentDidUpdate() {
+  //   const { searchQueries, item } = this.props;
+  //   if (searchQueries && searchQueries.some((attr) => attr.includes(item.name))) {
+  //     let selectedColorVal = searchQueries.find((attr) => attr.includes(item.name));
+  //     // eslint-disable-next-line prefer-destructuring
+  //     selectedColorVal = selectedColorVal.split('?')[1];
+  //     this.setState((prevState) => ({
+  //       ...prevState,
+  //       activeBox: selectedColorVal,
+  //     }));
+  //   }
+  // }
+
+  componentDidUpdate(_prevProps, prevState) {
+    const { selectedOption } = this.state;
+    const { searchQueries, item } = this.props;
+    if (prevState.selectedOption !== selectedOption) {
+      const attrName = item.name;
+      const attrString = `${attrName}?${selectedOption}`;
+      if (selectedOption !== '-') {
+        return this.props.updateSearchQueries(attrString, 'addExclusive');
+      }
+      return this.props.updateSearchQueries(attrString, 'remove');
     }
+    if (searchQueries && searchQueries.some((attr) => attr.includes(item.name))) {
+      let selectedColorVal = searchQueries.find((attr) => attr.includes(item.name));
+      // eslint-disable-next-line prefer-destructuring
+      selectedColorVal = selectedColorVal.split('?')[1];
+      return this.setState(() => ({
+        ...prevState,
+        selectedOption: selectedColorVal,
+      }));
+    }
+    return null;
+  }
+
+  handleChange = (e) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      selectedOption: e.target.value,
+    }));
   };
 
   render() {
@@ -41,7 +76,11 @@ export default class Select extends PureComponent {
         <Label htmlFor={item.name}>
           {item.name}:
         </Label>
-        <SelectEl id={item.name} onChange={(e) => this.handleChange(e)}>
+        <SelectEl
+          id={item.name}
+          value={this.state.selectedOption}
+          onChange={(e) => this.handleChange(e)}
+        >
           <option>-</option>
           {options.map((option) => {
             return (
@@ -57,5 +96,6 @@ export default class Select extends PureComponent {
 }
 Select.propTypes = {
   item: PropTypes.object.isRequired,
+  searchQueries: PropTypes.array,
   updateSearchQueries: PropTypes.func.isRequired,
 };

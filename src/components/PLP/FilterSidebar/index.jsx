@@ -25,12 +25,21 @@ class FilterSidebar extends PureComponent {
   componentDidMount() {
     document.addEventListener('click', this.handleClickOutside, true);
     this.setScreenDimmer(true);
+    this.setState((prevState) => ({
+      ...prevState,
+      searchQueries: this.props.searchParams.getAll('attr'),
+    }));
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(_prevProps, prevState) {
     const { setFilterSlidebar } = this.props;
     if (!this.state.screenDimmer) {
       setFilterSlidebar(false);
+    }
+    if (prevState.searchQueries !== this.state.searchQueries) {
+      this.props.setSearchParams({
+        attr: this.state.searchQueries,
+      });
     }
   }
 
@@ -43,7 +52,12 @@ class FilterSidebar extends PureComponent {
     if (method === 'add') {
       arr.push(newAttr);
     } else if (method === 'remove') {
-      arr = arr.filter((attr) => attr !== newAttr);
+      // arr = arr.filter((attr) => attr !== newAttr);
+      arr = arr.filter((attr) => {
+        const str1 = attr.split('?')[0];
+        const str2 = newAttr.split('?')[0];
+        return str1 !== str2;
+      });
     } else if (method === 'addExclusive') {
       arr = arr.filter((attr) => {
         const str1 = attr.split('?')[0];
@@ -103,7 +117,6 @@ class FilterSidebar extends PureComponent {
       return null;
     }
     const items = this.filterAttributes();
-    console.log('searchQueries =>', this.state.searchQueries);
     return (
       <>
         <MainContainer>
@@ -111,6 +124,7 @@ class FilterSidebar extends PureComponent {
             <FilterItem
               item={item}
               key={item.name}
+              searchQueries={this.state.searchQueries}
               updateSearchQueries={this.updateSearchQueries}
             />
           ))}
@@ -127,5 +141,7 @@ FilterSidebar.propTypes = {
   allAttributes: PropTypes.array.isRequired,
   showFilterSidebar: PropTypes.bool.isRequired,
   setFilterSlidebar: PropTypes.func.isRequired,
+  searchParams: PropTypes.object.isRequired,
+  setSearchParams: PropTypes.func.isRequired,
 };
 export default withRouter(FilterSidebar);

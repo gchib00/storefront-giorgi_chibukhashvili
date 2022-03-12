@@ -29,10 +29,6 @@ const Selector = styled.input`
   }
 `;
 export default class Colorbox extends PureComponent {
-  state = {
-    active: false,
-  };
-
   wrapStyle = (backgroundColor) => {
     return {
       backgroundColor,
@@ -40,33 +36,28 @@ export default class Colorbox extends PureComponent {
   };
 
   handleChange = (e) => {
-    const { active } = this.state;
+    const active = e.target.value === this.props.activeBox;
     const { attrName } = this.props;
     const attrString = `${attrName}?${e.target.value}`;
     if (!active) {
-      this.props.updateSearchQueries(attrString, 'add');
-      this.setState((prevState) => ({
-        ...prevState,
-        active: true,
-      }));
+      console.log('attrString=', attrString);
+      this.props.updateSearchQueries(attrString, 'addExclusive');
+      this.props.setActiveBox(e.target.value);
     } else {
       this.props.updateSearchQueries(attrString, 'remove');
-      this.setState((prevState) => ({
-        ...prevState,
-        active: false,
-      }));
+      this.props.setActiveBox('');
     }
   };
 
   render() {
-    const { option } = this.props;
+    const { option, activeBox } = this.props;
     return (
       <div key={option.value}>
         <Selector
           type="radio"
           value={option.value}
           readOnly
-          checked={this.state.active}
+          checked={option.value === activeBox}
           onClick={(e) => this.handleChange(e)}
           id={option.value}
         />
@@ -81,5 +72,7 @@ export default class Colorbox extends PureComponent {
 Colorbox.propTypes = {
   attrName: PropTypes.string.isRequired,
   option: PropTypes.object.isRequired,
+  activeBox: PropTypes.string.isRequired,
   updateSearchQueries: PropTypes.func.isRequired,
+  setActiveBox: PropTypes.func.isRequired,
 };

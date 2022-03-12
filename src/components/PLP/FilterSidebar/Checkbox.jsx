@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -31,6 +32,16 @@ export default class Checkbox extends PureComponent {
     checked: false,
   };
 
+  componentDidUpdate() {
+    const { searchQueries, item } = this.props;
+    if (searchQueries && searchQueries.includes(item.name)) {
+      this.setState((prevState) => ({
+        ...prevState,
+        checked: true,
+      }));
+    }
+  }
+
   handleChange = () => {
     const { name } = this.props.item;
     if (!this.state.checked) {
@@ -61,5 +72,6 @@ export default class Checkbox extends PureComponent {
 }
 Checkbox.propTypes = {
   item: PropTypes.object.isRequired,
+  searchQueries: PropTypes.array,
   updateSearchQueries: PropTypes.func.isRequired,
 };

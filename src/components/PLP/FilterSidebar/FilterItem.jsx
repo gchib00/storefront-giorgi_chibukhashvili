@@ -31,6 +31,7 @@ export default class FilterItem extends PureComponent {
           <MainContainer>
             <Checkbox
               item={this.props.item}
+              searchQueries={this.props.searchQueries}
               updateSearchQueries={this.props.updateSearchQueries}
             />
           </MainContainer>
@@ -41,6 +42,7 @@ export default class FilterItem extends PureComponent {
           <MainContainer>
             <Colorboxes
               item={this.props.item}
+              searchQueries={this.props.searchQueries}
               updateSearchQueries={this.props.updateSearchQueries}
             />
           </MainContainer>
@@ -51,6 +53,7 @@ export default class FilterItem extends PureComponent {
           <MainContainer>
             <Select
               item={this.props.item}
+              searchQueries={this.props.searchQueries}
               updateSearchQueries={this.props.updateSearchQueries}
             />
           </MainContainer>
@@ -61,5 +64,6 @@ export default class FilterItem extends PureComponent {
 }
 FilterItem.propTypes = {
   item: PropTypes.object.isRequired,
+  searchQueries: PropTypes.array,
   updateSearchQueries: PropTypes.func.isRequired,
 };

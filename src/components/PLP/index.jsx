@@ -1,3 +1,9 @@
+/* eslint-disable consistent-return */
+/* eslint-disable prefer-const */
+/* eslint-disable max-len */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-destructuring */
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
@@ -57,9 +63,63 @@ class PLP extends PureComponent {
     }));
   };
 
-  renderProducts = (data) => {
+  filterList = (data) => {
+    const filters = this.props.searchParams.getAll('attr');
+    if (filters.length === 0) {
+      return data;
+    }
+    let filteredProducts = [];
+    let filterCycles = [];
+    filters.map((attr) => {
+      const matchingProducts = data.filter((product) => {
+        let pass = false;
+        if (product.attributes.length === 0) {
+          return pass;
+        }
+        for (let i = 0; i < product.attributes.length; i++) {
+          if (attr.includes('?')) {
+            const attrName = attr.split('?')[0];
+            const attrValue = attr.split('?')[1];
+            if (product.attributes[i].name === attrName) {
+              for (let ii = 0; ii < product.attributes[i].items.length; ii++) {
+                if (product.attributes[i].items[ii]?.value === attrValue) {
+                  pass = true;
+                }
+              }
+            }
+          } else if (attr === product.attributes[i].name) {
+            pass = true;
+          }
+        }
+        return pass;
+      });
+      filterCycles.push(matchingProducts);
+    });
+    const cyclesCount = filterCycles.length;
+    filterCycles = filterCycles.flat();
+    // console.log('cyclesCount=', cyclesCount);
+    // console.log('filterCycles=', filterCycles);
+    filterCycles.map((product) => {
+      const repeated = filterCycles.filter((x) => x.id === product.id).length;
+      // console.log('---------------------------------------------');
+      // console.log('product=', product);
+      // console.log('repeated=', repeated);
+      // console.log('cyclesCount=', cyclesCount);
+      // console.log('Matched ???? =>', repeated === cyclesCount);
+      // console.log('---------------------------------------------');
+      if (repeated === cyclesCount) {
+        if (filteredProducts.some((product2) => product2.id === product.id)) {
+          return null;
+        }
+        return filteredProducts.push(product);
+      }
+    });
+    return filteredProducts;
+  };
+
+  renderProducts = (filteredData) => {
     return (
-      data.category.products.map((product) => {
+      filteredData.map((product) => {
         return <ProductCard product={product} key={product.id} />;
       })
     );
@@ -71,6 +131,7 @@ class PLP extends PureComponent {
       <Query query={FETCH_PRODUCTS} variables={{ selectedCategory: category }}>
         { ({ loading, data }) => {
           if (loading) { return null; }
+          const filteredData = this.filterList(data.category.products);
           const allAttributes = data.category.products.map((product) => product.attributes);
           return (
             <>
@@ -86,7 +147,7 @@ class PLP extends PureComponent {
                 />
               ) : null}
               <ProductsGrid>
-                {this.renderProducts(data)}
+                {this.renderProducts(filteredData)}
               </ProductsGrid>
             </>
           );
@@ -97,5 +158,6 @@ class PLP extends PureComponent {
 }
 PLP.propTypes = {
   params: PropTypes.object,
+  searchParams: PropTypes.object.isRequired,
 };
 export default withRouter(PLP);
