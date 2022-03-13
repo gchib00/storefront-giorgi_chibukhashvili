@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import ScreenDimmer from '../../Misc/ScreenDimmer';
 import FilterItem from './FilterItem';
 import withRouter from '../../HigherOrderComponents';
+import SidebarButtons from './SidebarButtons';
 
 const MainContainer = styled.div`
   position: absolute;
   top: 80px;
-  height: 100vh;
   width: 20vw;
   padding-top: 40px;
   background-color: #ffffff;
@@ -20,6 +20,9 @@ class FilterSidebar extends PureComponent {
   state = {
     screenDimmer: false,
     searchQueries: [],
+    keyExtraVal: '',
+    // keyExtraVal is useful for resetting the state of child-components when
+    // the reset button is clicked. Changing the key will force-reset child-components
   };
 
   componentDidMount() {
@@ -52,7 +55,6 @@ class FilterSidebar extends PureComponent {
     if (method === 'add') {
       arr.push(newAttr);
     } else if (method === 'remove') {
-      // arr = arr.filter((attr) => attr !== newAttr);
       arr = arr.filter((attr) => {
         const str1 = attr.split('?')[0];
         const str2 = newAttr.split('?')[0];
@@ -65,6 +67,12 @@ class FilterSidebar extends PureComponent {
         return str1 !== str2;
       });
       arr.push(newAttr);
+    } else { // reset
+      arr = [];
+      this.setState((prevState) => ({
+        ...prevState,
+        keyExtraVal: Date.now(),
+      }));
     }
     this.setState((prevState) => ({
       ...prevState,
@@ -123,11 +131,15 @@ class FilterSidebar extends PureComponent {
           {items.map((item) => (
             <FilterItem
               item={item}
-              key={item.name}
+              key={item.name + this.state.keyExtraVal}
               searchQueries={this.state.searchQueries}
               updateSearchQueries={this.updateSearchQueries}
             />
           ))}
+          <SidebarButtons
+            setFilterSlidebar={this.props.setFilterSlidebar}
+            updateSearchQueries={this.updateSearchQueries}
+          />
         </MainContainer>
         <ScreenDimmer
           screenDimmer={this.state.screenDimmer}

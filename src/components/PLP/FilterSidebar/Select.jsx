@@ -14,29 +14,20 @@ const MainContainer = styled.div`
 const SelectEl = styled.select`
   width: 100%;
   min-height: 30px;
-  border-radius: 6px;
+  border: 1px solid black;
+  border-radius: 2px;
+  font-size: 16px;
   cursor: pointer;
   background: #ffffff;
 `;
 const Label = styled.label`
+  font-size: 16px;
   margin-bottom: 5px;
 `;
 export default class Select extends PureComponent {
   state = {
     selectedOption: '',
   };
-  // componentDidUpdate() {
-  //   const { searchQueries, item } = this.props;
-  //   if (searchQueries && searchQueries.some((attr) => attr.includes(item.name))) {
-  //     let selectedColorVal = searchQueries.find((attr) => attr.includes(item.name));
-  //     // eslint-disable-next-line prefer-destructuring
-  //     selectedColorVal = selectedColorVal.split('?')[1];
-  //     this.setState((prevState) => ({
-  //       ...prevState,
-  //       activeBox: selectedColorVal,
-  //     }));
-  //   }
-  // }
 
   componentDidUpdate(_prevProps, prevState) {
     const { selectedOption } = this.state;

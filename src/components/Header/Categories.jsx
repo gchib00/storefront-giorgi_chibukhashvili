@@ -29,7 +29,7 @@ class Categories extends PureComponent {
   componentDidMount() {
     // ensure that the category param matches the selectedCategory state value:
     const currentPath = this.props.location.pathname.split('/')[1];
-    if (this.state.selectedCategory !== currentPath) {
+    if (currentPath && this.state.selectedCategory !== currentPath) {
       this.setState((prevState) => ({
         ...prevState,
         selectedCategory: currentPath,
