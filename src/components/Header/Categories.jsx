@@ -26,6 +26,17 @@ class Categories extends PureComponent {
     selectedCategory: 'all',
   };
 
+  componentDidMount() {
+    // ensure that the category param matches the selectedCategory state value:
+    const currentPath = this.props.location.pathname.split('/')[1];
+    if (this.state.selectedCategory !== currentPath) {
+      this.setState((prevState) => ({
+        ...prevState,
+        selectedCategory: currentPath,
+      }));
+    }
+  }
+
   handleCategoryChange = (category) => {
     this.setState((prevState) => ({
       ...prevState,
@@ -55,6 +66,7 @@ class Categories extends PureComponent {
   }
 }
 Categories.propTypes = {
+  location: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
 };
 export default withRouter(Categories);
