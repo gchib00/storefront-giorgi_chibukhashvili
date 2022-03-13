@@ -40,7 +40,6 @@ export default class Colorbox extends PureComponent {
     const { attrName } = this.props;
     const attrString = `${attrName}?${e.target.value}`;
     if (!active) {
-      console.log('attrString=', attrString);
       this.props.updateSearchQueries(attrString, 'addExclusive');
       this.props.setActiveBox(e.target.value);
     } else {

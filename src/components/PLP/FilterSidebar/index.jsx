@@ -21,8 +21,8 @@ class FilterSidebar extends PureComponent {
     screenDimmer: false,
     searchQueries: [],
     keyExtraVal: '',
-    // keyExtraVal is useful for resetting the state of child-components when
-    // the reset button is clicked. Changing the key will force-reset child-components
+    // keyExtraVal is needed for resetting the state of child-components when
+    // the reset button is clicked. Changing the key will force-reset the states of child-components
   };
 
   componentDidMount() {

@@ -18,7 +18,8 @@ export default class FilterItem extends PureComponent {
     if (item.type === 'swatch') {
       return 'colorboxes';
     }
-    if (item.type === 'text' && item.items.length === 2 && item.items.some((opt) => opt.value === 'Yes')) {
+    if (item.type === 'text'
+    && item.items.length === 2 && item.items.some((opt) => opt.value === 'Yes')) {
       return 'checkbox';
     }
     return 'select';

@@ -56,7 +56,6 @@ export default class Checkbox extends PureComponent {
 
   render() {
     const { item } = this.props;
-    console.log('RENDERED');
     return (
       <MainContainer>
         {item.name}

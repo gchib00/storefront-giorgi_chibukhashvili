@@ -97,16 +97,8 @@ class PLP extends PureComponent {
     });
     const cyclesCount = filterCycles.length;
     filterCycles = filterCycles.flat();
-    // console.log('cyclesCount=', cyclesCount);
-    // console.log('filterCycles=', filterCycles);
     filterCycles.map((product) => {
       const repeated = filterCycles.filter((x) => x.id === product.id).length;
-      // console.log('---------------------------------------------');
-      // console.log('product=', product);
-      // console.log('repeated=', repeated);
-      // console.log('cyclesCount=', cyclesCount);
-      // console.log('Matched ???? =>', repeated === cyclesCount);
-      // console.log('---------------------------------------------');
       if (repeated === cyclesCount) {
         if (filteredProducts.some((product2) => product2.id === product.id)) {
           return null;
