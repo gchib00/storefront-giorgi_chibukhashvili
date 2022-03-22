@@ -30,17 +30,18 @@ class ProductDescription extends PureComponent {
   };
 
   render() {
-    const { name, prices, selectedCurrency } = this.props;
+    const { brand, name, prices, selectedCurrency } = this.props;
     const price = this.determineAmount(prices, selectedCurrency);
     return (
       <>
-        <ProductName>{name}</ProductName>
+        <ProductName>{brand} {name}</ProductName>
         <Price>{price.symbol} {price.amount}</Price>
       </>
     );
   }
 }
 ProductDescription.propTypes = {
+  brand: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   prices: PropTypes.array.isRequired,
   selectedCurrency: PropTypes.object.isRequired,

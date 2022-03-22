@@ -14,7 +14,7 @@ const ColorSelectorBox = styled.label`
   cursor: pointer;
   padding-top: 14px;
   padding-bottom: 14px;
-  margin-right: 1rem;
+  margin-right: 0.6rem;
   margin-bottom: 1rem;
   background-color: black;
   opacity: 1;

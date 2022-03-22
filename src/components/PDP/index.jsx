@@ -22,6 +22,7 @@ const FETCH_PRODUCT = gql`
     product(id: $id){
       id,
       name,
+      brand,
       inStock,
       gallery,
       description,

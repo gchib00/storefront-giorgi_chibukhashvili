@@ -39,6 +39,7 @@ export default class ProductCard extends PureComponent {
           />
         </LinkPDP>
         <ProductDescription
+          brand={product.brand}
           name={product.name}
           prices={product.prices}
         />

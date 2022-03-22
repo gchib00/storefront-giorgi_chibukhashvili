@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { updateCartItemPrice, updateCartItemOption } from '../../../store/actions';
 import ProductAttributes from '../../PDP/ProductAttributes';
+import ItemTitle from './ItemTitle';
 
 const MainContainer = styled.div`
   display: flex;
@@ -13,14 +14,6 @@ const MainContainer = styled.div`
   text-overflow: none;
   margin: 0.6rem 0rem 0.6rem 1rem;
 `;
-const ItemTitle = styled.p`
-  font-family: 'Raleway', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  align-items: center;
-  color: #1D1F22;
-`;
 const ItemPrice = styled.p`
   font-family: 'Raleway';
   font-style: normal;
@@ -29,7 +22,7 @@ const ItemPrice = styled.p`
   align-items: center;
   color: #1D1F22;
   margin-right: 1rem;
-  margin-bottom: 46px;
+  margin-bottom: 40px;
   line-height: 3px;
 `;
 class ItemInfo extends PureComponent {
@@ -66,7 +59,10 @@ class ItemInfo extends PureComponent {
     const price = this.determineAmount();
     return (
       <MainContainer>
-        <ItemTitle>{product.name}</ItemTitle>
+        <ItemTitle
+          brand={product.brand}
+          name={product.name}
+        />
         <ItemPrice>{price.symbol} {price.amount}</ItemPrice>
         <ProductAttributes
           product={product}

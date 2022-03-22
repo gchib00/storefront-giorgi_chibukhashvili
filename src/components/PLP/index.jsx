@@ -28,6 +28,7 @@ const FETCH_PRODUCTS = gql`
         id,
         inStock,
         name,
+        brand,
         prices{
           amount,
           currency {

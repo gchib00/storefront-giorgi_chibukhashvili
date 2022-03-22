@@ -43,6 +43,7 @@ export default class ProductDetails extends PureComponent {
     return (
       <MainContainer>
         <ProductName
+          brand={product.brand}
           name={product.name}
         />
         <ProductAttributes

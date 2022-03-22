@@ -1,26 +1,28 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const MainContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 16px;
 `;
 const BrandName = styled.p`
-  font-weight: 600;
-  font-size: 30px;
+  font-weight: 300;
+  font-size: 16px;
   color: #1D1F22;
-  margin: 0 0 8px 0;
+  margin: 0;
+  margin-bottom: 8px;
 `;
 const ItemName = styled.p`
-  font-weight: 400;
-  font-size: 30px;
+  font-weight: 300;
+  font-size: 16px;
   color: #1D1F22;
-  margin: 0 0 25px 0;
+  margin: 0;
 `;
-export default class ProductTitle extends PureComponent {
+export default class ItemTitle extends PureComponent {
   render() {
     const { brand, name } = this.props;
     return (
@@ -31,7 +33,7 @@ export default class ProductTitle extends PureComponent {
     );
   }
 }
-ProductTitle.propTypes = {
+ItemTitle.propTypes = {
   brand: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };

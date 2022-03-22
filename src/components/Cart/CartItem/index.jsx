@@ -39,6 +39,7 @@ const FETCH_PRODUCT = gql`
     product(id: $id){
       id,
       name,
+      brand,
       inStock,
       gallery,
       description,
@@ -76,7 +77,10 @@ class CartItem extends PureComponent {
           return (
             <MainContainer>
               <FirstDiv>
-                <ProductTitle productName={data.product.name} />
+                <ProductTitle
+                  brand={data.product.brand}
+                  name={data.product.name}
+                />
                 <ProductPrice prices={data.product.prices} />
                 <br />
                 <ProductAttributes
