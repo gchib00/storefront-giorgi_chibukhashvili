@@ -6,7 +6,7 @@ import { addItemToCart } from '../../store/actions';
 
 const Button = styled.button`
   padding: 16px 32px;
-  width: 338px;
+  width: 292px;
   height: 52px;
   background: #5ECE7B;
   color: white;
@@ -22,6 +22,7 @@ const Button = styled.button`
     opacity: 0.7;
   }
 `;
+
 class CTAButton extends PureComponent {
   componentDidUpdate(prevProps) { // save new state to localStorage
     if (prevProps.cartItems !== this.props.cartItems) {

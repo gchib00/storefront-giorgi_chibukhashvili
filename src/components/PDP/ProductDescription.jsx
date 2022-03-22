@@ -8,6 +8,7 @@ const Description = styled.div`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
+    text-align: left;
 `;
 export default class ProductDescription extends PureComponent {
   render() {

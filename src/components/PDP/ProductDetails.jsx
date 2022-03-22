@@ -9,7 +9,7 @@ import ProductAttributes from './ProductAttributes';
 
 const MainContainer = styled.div`
   font-family: 'Raleway', sans-serif;
-  width: 340px;
+  width: 292px;
 `;
 export default class ProductDetails extends PureComponent {
   state = {

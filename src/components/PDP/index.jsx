@@ -14,8 +14,7 @@ const MainContainer = styled.main`
   margin-top: 3rem;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
 `;
 const FETCH_PRODUCT = gql`
   query($id: String!){ 
@@ -65,12 +64,12 @@ class PDP extends PureComponent {
           if (loading) { return null; }
           return (
             <MainContainer>
-              <MainImage
-                image={data.product.gallery[this.state.mainImgIndex]}
-              />
               <SideImages
                 images={data.product.gallery}
                 changeMainImage={this.changeMainImage}
+              />
+              <MainImage
+                image={data.product.gallery[this.state.mainImgIndex]}
               />
               <ProductDetails
                 product={data.product}

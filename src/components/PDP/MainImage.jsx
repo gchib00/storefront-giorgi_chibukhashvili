@@ -4,11 +4,10 @@ import styled from 'styled-components';
 
 const MainImageContainer = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 704px;
   width: 610px;
-  margin: 25px;
+  margin: 0 25px 0 25px;
+  margin: 0;
 `;
 const Image = styled.img`
   max-height: 100%;
