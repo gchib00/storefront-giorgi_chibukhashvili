@@ -14,6 +14,8 @@ const MainContainer = styled.div`
   position: absolute;
   z-index: 3;
   min-height: 300px;
+  max-height: 70vh;
+  overflow-y: auto;
   min-width: 385px;
   background: white;
   top: 80px;
