@@ -15,7 +15,7 @@ const ColorSelectorBox = styled.label`
   padding-top: 14px;
   padding-bottom: 14px;
   margin-right: 0.6rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   background-color: black;
   opacity: 1;
   &:hover {

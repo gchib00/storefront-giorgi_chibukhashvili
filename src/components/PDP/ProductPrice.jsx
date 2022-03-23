@@ -18,7 +18,7 @@ const Price = styled.p`
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
-    line-height: 18px;
+    line-height: 9px;
     color: #1D1F22;
 `;
 class ProductPrice extends PureComponent {
@@ -49,7 +49,7 @@ class ProductPrice extends PureComponent {
     const price = this.determineAmount();
     return (
       <div>
-        <AttributeTitle>Price:</AttributeTitle>
+        <AttributeTitle>PRICE:</AttributeTitle>
         <Price>{price.symbol} {price.amount}</Price>
       </div>
     );

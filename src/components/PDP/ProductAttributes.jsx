@@ -9,9 +9,7 @@ const AttributeTitle = styled.h2`
   flex: flex-start;
   font-family: 'Roboto Condensed';
   font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 18px;
+  font-weight: 700;
 `;
 const AttributesContainer = styled.div`
   display: flex;
@@ -26,7 +24,13 @@ export default class ProductAttributes extends PureComponent {
     return (
       product.attributes.map((attribute) => (
         <div key={attribute.name + product.name}>
-          {optionBoxSize === 'small' ? null : <AttributeTitle>{attribute.name}:</AttributeTitle>}
+          <AttributeTitle
+            style={optionBoxSize === 'small'
+              ? { fontSize: 14, lineHeight: '0px' }
+              : { fontSize: 18, lineHeight: '8px' }}
+          >
+            {attribute.name.toUpperCase()}:
+          </AttributeTitle>
           <AttributesContainer>
             {attribute.type === 'swatch'
               ? (

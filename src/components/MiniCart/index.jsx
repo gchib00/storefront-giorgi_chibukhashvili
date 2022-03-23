@@ -14,13 +14,15 @@ const MainContainer = styled.div`
   position: absolute;
   z-index: 3;
   min-height: 300px;
-  max-height: 70vh;
-  overflow-y: auto;
   min-width: 385px;
   background: white;
   top: 80px;
   right: 4vw;
   z-index: 3;    
+`;
+const ItemsContainer = styled.div`
+  max-height: 50vh;
+  overflow-y: auto;
 `;
 class MiniCart extends PureComponent {
   state = {
@@ -78,19 +80,21 @@ class MiniCart extends PureComponent {
       <>
         <MainContainer>
           <MiniCartTitle />
-          {
-            cartItems.map((cartItem) => {
-              return (
-                <MiniCartItem
-                  productID={cartItem.productID}
-                  uniqueItemID={cartItem.uniqueItemID}
-                  quantity={cartItem.quantity}
-                  selectedAttributes={cartItem.selectedAttributes}
-                  key={cartItem.uniqueItemID}
-                />
-              );
-            })
-          }
+          <ItemsContainer>
+            {
+              cartItems.map((cartItem) => {
+                return (
+                  <MiniCartItem
+                    productID={cartItem.productID}
+                    uniqueItemID={cartItem.uniqueItemID}
+                    quantity={cartItem.quantity}
+                    selectedAttributes={cartItem.selectedAttributes}
+                    key={cartItem.uniqueItemID}
+                  />
+                );
+              })
+            }
+          </ItemsContainer>
           <MiniCartTotal />
           <CTAButtons />
         </MainContainer>

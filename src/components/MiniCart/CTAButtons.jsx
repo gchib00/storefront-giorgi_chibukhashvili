@@ -7,10 +7,10 @@ import { setMiniCart } from '../../store/actions';
 
 const MainContainer = styled.div`
   height: 43px;
-  width: 100%;
+  max-width: 100%;
   display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  margin: 0 15px 20px 15px;
 `;
 const ViewbagButton = styled.button`
   font-family: 'Raleway', sans-serif;
@@ -20,7 +20,6 @@ const ViewbagButton = styled.button`
   background-color: white;
   border: 1px solid black;
   color: black;
-  text-align: center;
   cursor: pointer;
   &:hover{
     opacity: 0.5;
@@ -45,7 +44,7 @@ class CTAButtons extends PureComponent {
     const { cartItems, navigate } = this.props;
     if (cartItems.length < 1) {
       return (
-        <MainContainer>
+        <MainContainer style={{ justifyContent: 'center' }}>
           <h4>Your cart is empty</h4>
         </MainContainer>
       );

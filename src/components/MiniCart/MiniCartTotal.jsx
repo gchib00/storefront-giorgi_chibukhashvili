@@ -10,7 +10,7 @@ const MainContainer = styled.div`
   align-items: center;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  margin: 1.5rem 15px 1.5rem 15px;
+  margin: 1.5rem 0px 1.5rem 0px;
 `;
 const TotalTitle = styled.p`
   font-family: 'Raleway', sans-serif;

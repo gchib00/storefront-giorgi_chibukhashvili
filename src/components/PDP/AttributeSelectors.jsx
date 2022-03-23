@@ -15,7 +15,7 @@ const SelectorBox = styled.label`
   padding-top: 14px;
   padding-bottom: 14px;
   margin-right: 0.6rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   &:hover {
     background-color: black;
     color: white;

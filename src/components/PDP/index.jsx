@@ -70,6 +70,7 @@ class PDP extends PureComponent {
               />
               <MainImage
                 image={data.product.gallery[this.state.mainImgIndex]}
+                available={data.product.inStock}
               />
               <ProductDetails
                 product={data.product}
