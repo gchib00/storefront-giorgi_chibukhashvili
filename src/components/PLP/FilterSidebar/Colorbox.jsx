@@ -18,16 +18,21 @@ const ColorSelectorBox = styled.label`
   background-color: black;
   opacity: 1;
   &:hover {
-    border: 2px black solid;
+    opacity: 0.8;
   }
 `;
 const Selector = styled.input`
   display: none;
   &:checked + label {
-    border: 2px black solid;
+    border: 2px white solid;
+    border-radius: 2px;
+    box-shadow: 
+      inset -1px 1px 6px 3px #959595c1,
+      0px 0px 0px 2px black;
     opacity: 0.6;
   }
 `;
+
 export default class Colorbox extends PureComponent {
   wrapStyle = (backgroundColor) => {
     return {

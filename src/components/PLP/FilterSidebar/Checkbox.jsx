@@ -21,7 +21,7 @@ const CheckboxEl = styled.label`
   border-radius: 4px;
   border: 1px solid black;
   cursor: pointer;
-  transition: 180ms;
+  transition: 100ms;
 `;
 const CheckmarkEl = styled.img`
   width: 100%;
