@@ -23,7 +23,8 @@ const Filter = styled.img`
 `;
 export default class FilterButton extends PureComponent {
   setFilterSidebar = () => {
-    this.props.setFilterSlidebar(true);
+    const { setFilterSlidebar } = this.props;
+    setFilterSlidebar(true);
   };
 
   render() {

@@ -17,6 +17,7 @@ const CartIcon = styled.div`
 class CartOverlay extends PureComponent {
   cartDisplay = () => {
     const { miniCart } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.setMiniCart(!miniCart);
   };
 

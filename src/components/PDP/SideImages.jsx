@@ -22,8 +22,9 @@ const SideImage = styled.img`
 `;
 export default class SideImages extends PureComponent {
   handleChange = (img, images) => {
+    const { changeMainImage } = this.props;
     const newIndex = images.indexOf(img); // determine index of the clicked image
-    this.props.changeMainImage(newIndex);
+    changeMainImage(newIndex);
   };
 
   renderSideImages = (images) => {
@@ -45,12 +46,13 @@ export default class SideImages extends PureComponent {
   };
 
   render() {
+    const { images } = this.props;
     return (
-      <MainContainer>{this.renderSideImages(this.props.images)}</MainContainer>
+      <MainContainer>{this.renderSideImages(images)}</MainContainer>
     );
   }
 }
 SideImages.propTypes = {
-  images: PropTypes.array.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
   changeMainImage: PropTypes.func.isRequired,
 };

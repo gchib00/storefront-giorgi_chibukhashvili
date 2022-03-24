@@ -23,32 +23,30 @@ const OutOfStockText = styled.p`
   font-size: 34px;
   color: grey;
 `;
+const outofstockStyle = (inStock) => {
+  if (!inStock) {
+    return { opacity: 0.3 };
+  }
+  return null;
+};
+const outofstockText = (inStock) => {
+  if (!inStock) {
+    return 'OUT OF STOCK';
+  }
+  return null;
+};
 export default class MainImage extends PureComponent {
-  outofstockStyle = (inStock) => {
-    if (!inStock) {
-      return { opacity: 0.3 };
-    }
-    return null;
-  };
-
-  outofstockText = (inStock) => {
-    if (!inStock) {
-      return 'OUT OF STOCK';
-    }
-    return null;
-  };
-
   render() {
-    const { available } = this.props;
+    const { available, image } = this.props;
     return (
       <MainImageContainer>
         <div>
           <Image
             alt="main image"
-            src={this.props.image}
-            style={this.outofstockStyle(available)}
+            src={image}
+            style={outofstockStyle(available)}
           />
-          <OutOfStockText>{this.outofstockText(available)}</OutOfStockText>
+          <OutOfStockText>{outofstockText(available)}</OutOfStockText>
         </div>
       </MainImageContainer>
     );

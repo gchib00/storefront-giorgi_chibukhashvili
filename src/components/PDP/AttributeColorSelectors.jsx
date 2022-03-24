@@ -1,4 +1,3 @@
-/* eslint-disable no-sequences */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -36,6 +35,12 @@ const Selector = styled.input`
     opacity: 0.6;
   }
 `;
+const timestampID = (str1) => {
+  // timestamping id or key values is necessary because user might select
+  // items that are of the same exact name and option(s)
+  const id = str1 + Date.now();
+  return id;
+};
 export default class AttributeColorSelectors extends PureComponent {
   // AttributeSelectors is reused in multiple locations and it's necessary
   // to have a way to determine via props whether the option boxes should be small or standard
@@ -71,27 +76,21 @@ export default class AttributeColorSelectors extends PureComponent {
     return false;
   };
 
-  timestampID = (str1) => {
-    // timestamping id or key values is necessary because user might select
-    // items that are of the same exact name and option(s)
-    return str1 + Date.now();
-  };
-
   render() {
     const { attribute } = this.props;
     return (
       attribute.items.map((option) => (
-        <div key={this.timestampID(option.id)}>
+        <div key={timestampID(option.id)}>
           <Selector
             type="radio"
             value={option.value}
             checked={this.populateOption(attribute.name, option.value)}
             readOnly
             onClick={() => this.saveChoice(option)}
-            id={this.timestampID(option.id)}
+            id={timestampID(option.id)}
           />
           <ColorSelectorBox
-            htmlFor={this.timestampID(option.id)}
+            htmlFor={timestampID(option.id)}
             style={this.wrapStyle(option.value)}
           />
         </div>
@@ -100,8 +99,9 @@ export default class AttributeColorSelectors extends PureComponent {
   }
 }
 AttributeColorSelectors.propTypes = {
-  attribute: PropTypes.object.isRequired,
+  attribute: PropTypes.objectOf(PropTypes.any).isRequired,
+  // eslint-disable-next-line react/require-default-props
   optionBoxSize: PropTypes.string,
-  selectedAttributes: PropTypes.array.isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
   setSelectedAttributes: PropTypes.func.isRequired,
 };

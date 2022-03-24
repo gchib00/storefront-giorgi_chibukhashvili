@@ -20,7 +20,9 @@ const AttributesContainer = styled.div`
 `;
 export default class ProductAttributes extends PureComponent {
   render() {
-    const { product, optionBoxSize, setSelectedAttributes, selectedAttributes } = this.props;
+    const {
+      product, optionBoxSize, setSelectedAttributes, selectedAttributes,
+    } = this.props;
     return (
       product.attributes.map((attribute) => (
         <div key={attribute.name + product.name}>
@@ -29,7 +31,8 @@ export default class ProductAttributes extends PureComponent {
               ? { fontSize: 14, lineHeight: '0px' }
               : { fontSize: 18, lineHeight: '8px' }}
           >
-            {attribute.name.toUpperCase()}:
+            {attribute.name.toUpperCase()}
+            :
           </AttributeTitle>
           <AttributesContainer>
             {attribute.type === 'swatch'
@@ -56,9 +59,10 @@ export default class ProductAttributes extends PureComponent {
   }
 }
 ProductAttributes.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
   // optionBoxSize lets the attribute selector components know if the option boxes should be small:
+  // eslint-disable-next-line react/require-default-props
   optionBoxSize: PropTypes.string,
   setSelectedAttributes: PropTypes.func.isRequired,
-  selectedAttributes: PropTypes.array.isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
 };

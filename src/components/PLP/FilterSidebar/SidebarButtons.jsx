@@ -25,11 +25,13 @@ const Button = styled.button`
 `;
 export default class SidebarButtons extends PureComponent {
   handleClose = () => {
-    this.props.setFilterSlidebar(false);
+    const { setFilterSlidebar } = this.props;
+    setFilterSlidebar(false);
   };
 
   handleReset = () => {
-    this.props.updateSearchQueries(null, 'reset');
+    const { updateSearchQueries } = this.props;
+    updateSearchQueries(null, 'reset');
   };
 
   render() {

@@ -18,24 +18,31 @@ const ProductName = styled.p`
   margin-left: 1rem;
   line-height: 10px;
 `;
-class ProductDescription extends PureComponent {
-  determineAmount = (prices, selectedCurrency) => {
-    const relevantPriceObj = prices.find((priceObj) => (
-      priceObj.currency.label === selectedCurrency.label
-    ));
-    return {
-      amount: relevantPriceObj.amount,
-      symbol: relevantPriceObj.currency.symbol,
-    };
+const determineAmount = (prices, selectedCurrency) => {
+  const relevantPriceObj = prices.find((priceObj) => (
+    priceObj.currency.label === selectedCurrency.label
+  ));
+  return {
+    amount: relevantPriceObj.amount,
+    symbol: relevantPriceObj.currency.symbol,
   };
-
+};
+class ProductDescription extends PureComponent {
   render() {
-    const { brand, name, prices, selectedCurrency } = this.props;
-    const price = this.determineAmount(prices, selectedCurrency);
+    const {
+      brand, name, prices, selectedCurrency,
+    } = this.props;
+    const price = determineAmount(prices, selectedCurrency);
     return (
       <>
-        <ProductName>{brand} {name}</ProductName>
-        <Price>{price.symbol} {price.amount}</Price>
+        <ProductName>
+          {brand}
+          {name}
+        </ProductName>
+        <Price>
+          {price.symbol}
+          {price.amount}
+        </Price>
       </>
     );
   }
@@ -43,8 +50,8 @@ class ProductDescription extends PureComponent {
 ProductDescription.propTypes = {
   brand: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  prices: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.object.isRequired,
+  prices: PropTypes.arrayOf(PropTypes.any).isRequired,
+  selectedCurrency: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,

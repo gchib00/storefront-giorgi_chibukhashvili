@@ -12,20 +12,24 @@ const MainContainer = styled.div`
   width: 292px;
 `;
 export default class ProductDetails extends PureComponent {
-  state = {
-    selectedAttributes: [],
-    productPrice: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedAttributes: [],
+      productPrice: 0,
+    };
+  }
 
   setProductPrice = (relevantPriceObj) => {
-    return this.setState((prevState) => ({
+    this.setState((prevState) => ({
       ...prevState,
       productPrice: relevantPriceObj,
     }));
   };
 
   setSelectedAttributes = (attribute) => {
-    const currentAttributes = [...this.state.selectedAttributes];
+    const { selectedAttributes } = this.state;
+    const currentAttributes = [...selectedAttributes];
     if (!currentAttributes.find((attr) => attr.name === attribute.name)) {
       currentAttributes.push(attribute);
     } else {
@@ -40,6 +44,7 @@ export default class ProductDetails extends PureComponent {
 
   render() {
     const { product } = this.props;
+    const { selectedAttributes, productPrice } = this.state;
     return (
       <MainContainer>
         <ProductName
@@ -48,7 +53,7 @@ export default class ProductDetails extends PureComponent {
         />
         <ProductAttributes
           product={product}
-          selectedAttributes={this.state.selectedAttributes}
+          selectedAttributes={selectedAttributes}
           setSelectedAttributes={this.setSelectedAttributes}
         />
         <ProductPrice
@@ -57,8 +62,8 @@ export default class ProductDetails extends PureComponent {
         />
         <CTAButton
           product={product}
-          selectedAttributes={this.state.selectedAttributes}
-          productPrice={this.state.productPrice}
+          selectedAttributes={selectedAttributes}
+          productPrice={productPrice}
         />
         <ProductDescription
           description={product.description}
@@ -68,5 +73,5 @@ export default class ProductDetails extends PureComponent {
   }
 }
 ProductDetails.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
 };

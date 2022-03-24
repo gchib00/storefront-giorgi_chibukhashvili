@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 const miniCartReducer = (state = false, action) => {
   switch (action.type) {
     case ('SWITCH_MINICART'): {

@@ -32,24 +32,22 @@ const Selector = styled.input`
     opacity: 0.6;
   }
 `;
-
+const wrapStyle = (color) => ({
+  backgroundColor: color,
+});
 export default class Colorbox extends PureComponent {
-  wrapStyle = (backgroundColor) => {
-    return {
-      backgroundColor,
-    };
-  };
-
   handleChange = (e) => {
-    const active = e.target.value === this.props.activeBox;
-    const { attrName } = this.props;
+    const {
+      activeBox, attrName, setActiveBox, updateSearchQueries,
+    } = this.props;
+    const active = e.target.value === activeBox;
     const attrString = `${attrName}?${e.target.value}`;
     if (!active) {
-      this.props.updateSearchQueries(attrString, 'addExclusive');
-      this.props.setActiveBox(e.target.value);
+      updateSearchQueries(attrString, 'addExclusive');
+      setActiveBox(e.target.value);
     } else {
-      this.props.updateSearchQueries(attrString, 'remove');
-      this.props.setActiveBox('');
+      updateSearchQueries(attrString, 'remove');
+      setActiveBox('');
     }
   };
 
@@ -67,7 +65,7 @@ export default class Colorbox extends PureComponent {
         />
         <ColorSelectorBox
           htmlFor={option.value}
-          style={this.wrapStyle(option.value)}
+          style={wrapStyle(option.value)}
         />
       </div>
     );
@@ -75,7 +73,7 @@ export default class Colorbox extends PureComponent {
 }
 Colorbox.propTypes = {
   attrName: PropTypes.string.isRequired,
-  option: PropTypes.object.isRequired,
+  option: PropTypes.objectOf(PropTypes.any).isRequired,
   activeBox: PropTypes.string.isRequired,
   updateSearchQueries: PropTypes.func.isRequired,
   setActiveBox: PropTypes.func.isRequired,

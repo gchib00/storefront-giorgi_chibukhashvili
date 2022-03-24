@@ -26,14 +26,15 @@ export default class FilterItem extends PureComponent {
   };
 
   render() {
+    const { item, searchQueries, updateSearchQueries } = this.props;
     switch (this.determineComp()) {
       case ('checkbox'): {
         return (
           <MainContainer>
             <Checkbox
-              item={this.props.item}
-              searchQueries={this.props.searchQueries}
-              updateSearchQueries={this.props.updateSearchQueries}
+              item={item}
+              searchQueries={searchQueries}
+              updateSearchQueries={updateSearchQueries}
             />
           </MainContainer>
         );
@@ -42,9 +43,9 @@ export default class FilterItem extends PureComponent {
         return (
           <MainContainer>
             <Colorboxes
-              item={this.props.item}
-              searchQueries={this.props.searchQueries}
-              updateSearchQueries={this.props.updateSearchQueries}
+              item={item}
+              searchQueries={searchQueries}
+              updateSearchQueries={updateSearchQueries}
             />
           </MainContainer>
         );
@@ -53,9 +54,9 @@ export default class FilterItem extends PureComponent {
         return (
           <MainContainer>
             <Select
-              item={this.props.item}
-              searchQueries={this.props.searchQueries}
-              updateSearchQueries={this.props.updateSearchQueries}
+              item={item}
+              searchQueries={searchQueries}
+              updateSearchQueries={updateSearchQueries}
             />
           </MainContainer>
         );
@@ -64,7 +65,8 @@ export default class FilterItem extends PureComponent {
   }
 }
 FilterItem.propTypes = {
-  item: PropTypes.object.isRequired,
-  searchQueries: PropTypes.array,
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
+  // eslint-disable-next-line react/require-default-props
+  searchQueries: PropTypes.arrayOf(PropTypes.string),
   updateSearchQueries: PropTypes.func.isRequired,
 };

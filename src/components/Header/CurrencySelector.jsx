@@ -30,10 +30,13 @@ const Chevron = styled.img`
   transform: scaleY(1);
 `;
 class CurrencySelector extends PureComponent {
-  state = {
-    dropdown: false,
-    chevronDirection: 1,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      dropdown: false,
+      chevronDirection: 1,
+    };
+  }
 
   flipChevron = () => {
     this.setState((prevState) => ({
@@ -58,6 +61,7 @@ class CurrencySelector extends PureComponent {
 
   render() {
     const { selectedCurrency } = this.props;
+    const { chevronDirection, dropdown } = this.state;
     return (
       <MainContainer>
         <CurrencySelectorDiv
@@ -70,16 +74,16 @@ class CurrencySelector extends PureComponent {
           <Chevron
             src={ChevronDown}
             alt="chevron"
-            style={{ transform: `scaleY(${this.state.chevronDirection})` }}
+            style={{ transform: `scaleY(${chevronDirection})` }}
           />
         </CurrencySelectorDiv>
-        {!this.state.dropdown ? null : <CurrencyOptions switchDropdown={this.switchDropdown} />}
+        {!dropdown ? null : <CurrencyOptions switchDropdown={this.switchDropdown} />}
       </MainContainer>
     );
   }
 }
 CurrencySelector.propTypes = {
-  selectedCurrency: PropTypes.object.isRequired,
+  selectedCurrency: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,

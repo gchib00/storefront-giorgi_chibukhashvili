@@ -13,7 +13,8 @@ const Dimmer = styled.div`
 `;
 class ScreenDimmer extends PureComponent {
   closeModal = () => {
-    this.props.setScreenDimmer(false);
+    const { setScreenDimmer } = this.props;
+    setScreenDimmer(false);
   };
 
   render() {

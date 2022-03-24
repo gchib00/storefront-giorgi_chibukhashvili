@@ -25,8 +25,9 @@ const Button = styled.button`
 
 class CTAButton extends PureComponent {
   componentDidUpdate(prevProps) { // save new state to localStorage
-    if (prevProps.cartItems !== this.props.cartItems) {
-      const updatedState = JSON.stringify(this.props.cartItems);
+    const { cartItems } = this.props;
+    if (prevProps.cartItems !== cartItems) {
+      const updatedState = JSON.stringify(cartItems);
       localStorage.setItem('cartItems', updatedState);
     }
   }
@@ -40,6 +41,7 @@ class CTAButton extends PureComponent {
       productPrice,
       selectedAttributes,
     };
+    // eslint-disable-next-line react/destructuring-assignment
     return this.props.addItemToCart(item);
   };
 
@@ -52,16 +54,17 @@ class CTAButton extends PureComponent {
     return (
       <Button
         onClick={() => this.saveToCart(id, selectedAttributes, attributes, productPrice)}
-      >ADD TO CART
+      >
+        ADD TO CART
       </Button>
     );
   }
 }
 CTAButton.propTypes = {
-  product: PropTypes.object.isRequired,
-  selectedAttributes: PropTypes.array.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
   addItemToCart: PropTypes.func.isRequired,
-  cartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
   productPrice: PropTypes.number.isRequired,
 };
 const mapStateToProps = (state) => ({

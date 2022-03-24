@@ -28,13 +28,16 @@ class ProductPrice extends PureComponent {
   render() {
     const price = this.determineAmount();
     return (
-      <Price>{price.symbol}{price.amount}</Price>
+      <Price>
+        {price.symbol}
+        {price.amount}
+      </Price>
     );
   }
 }
 ProductPrice.propTypes = {
-  prices: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.object.isRequired,
+  prices: PropTypes.arrayOf(PropTypes.any).isRequired,
+  selectedCurrency: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,

@@ -29,32 +29,30 @@ const OutOfStockText = styled.p`
   font-size: 24px;
   color: grey;
 `;
+const outofstockStyle = (inStock) => {
+  if (!inStock) {
+    return { opacity: '0.5', marginBottom: '-8rem' };
+  }
+  return null;
+};
+const outofstockText = (inStock) => {
+  if (!inStock) {
+    return 'OUT OF STOCK';
+  }
+  return null;
+};
 export default class ProductImage extends PureComponent {
-  outofstockStyle = (inStock) => {
-    if (!inStock) {
-      return { opacity: '0.5', marginBottom: '-8rem' };
-    }
-    return null;
-  };
-
-  outofstockText = (inStock) => {
-    if (!inStock) {
-      return 'OUT OF STOCK';
-    }
-    return null;
-  };
-
   render() {
     const { source, available } = this.props;
     return (
       <>
         <ImageContainer
           onClick={this.showProductPage}
-          style={this.outofstockStyle(available)}
+          style={outofstockStyle(available)}
         >
           <Image src={source} alt="product-image" />
         </ImageContainer>
-        <OutOfStockText>{this.outofstockText(available)}</OutOfStockText>
+        <OutOfStockText>{outofstockText(available)}</OutOfStockText>
       </>
     );
   }

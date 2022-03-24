@@ -32,9 +32,12 @@ const Right = styled.img`
 `;
 
 export default class ImageSlider extends PureComponent {
-  state = {
-    index: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+    };
+  }
 
   changeImage = (direction) => {
     const { images } = this.props;
@@ -58,6 +61,7 @@ export default class ImageSlider extends PureComponent {
 
   render() {
     const { images } = this.props;
+    const { index } = this.state;
     return (
       <MainContainer>
         <Left
@@ -66,7 +70,7 @@ export default class ImageSlider extends PureComponent {
           alt="chevron-left"
           style={this.hideArrow()}
         />
-        <Image src={images[this.state.index]} />
+        <Image src={images[index]} />
         <Right
           onClick={() => this.changeImage(+1)}
           src={ChevronRight}
@@ -78,5 +82,5 @@ export default class ImageSlider extends PureComponent {
   }
 }
 ImageSlider.propTypes = {
-  images: PropTypes.array.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };

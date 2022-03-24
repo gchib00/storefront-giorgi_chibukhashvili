@@ -1,9 +1,4 @@
-/* eslint-disable consistent-return */
-/* eslint-disable prefer-const */
-/* eslint-disable max-len */
-/* eslint-disable array-callback-return */
 /* eslint-disable no-plusplus */
-/* eslint-disable prefer-destructuring */
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
@@ -52,12 +47,19 @@ const FETCH_PRODUCTS = gql`
     }
   }
 `;
+const renderProducts = (filteredData) => (
+  filteredData.map((product) => <ProductCard product={product} key={product.id} />)
+);
 class PLP extends PureComponent {
-  state = {
-    showFilterSidebar: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showFilterSidebar: false,
+    };
+  }
 
   setFilterSlidebar = (bool) => {
+    console.log('test');
     this.setState((prevState) => ({
       ...prevState,
       showFilterSidebar: bool,
@@ -65,11 +67,12 @@ class PLP extends PureComponent {
   };
 
   filterList = (data) => {
-    const filters = this.props.searchParams.getAll('attr');
+    const { searchParams } = this.props;
+    const filters = searchParams.getAll('attr');
     if (filters.length === 0) {
       return data;
     }
-    let filteredProducts = [];
+    const filteredProducts = [];
     let filterCycles = [];
     filters.map((attr) => {
       const matchingProducts = data.filter((product) => {
@@ -94,7 +97,7 @@ class PLP extends PureComponent {
         }
         return pass;
       });
-      filterCycles.push(matchingProducts);
+      return filterCycles.push(matchingProducts);
     });
     const cyclesCount = filterCycles.length;
     filterCycles = filterCycles.flat();
@@ -106,20 +109,15 @@ class PLP extends PureComponent {
         }
         return filteredProducts.push(product);
       }
+      return null;
     });
     return filteredProducts;
   };
 
-  renderProducts = (filteredData) => {
-    return (
-      filteredData.map((product) => {
-        return <ProductCard product={product} key={product.id} />;
-      })
-    );
-  };
-
   render() {
-    const { category } = this.props.params;
+    const { params } = this.props;
+    const { category } = params;
+    const { showFilterSidebar } = this.state;
     return (
       <Query query={FETCH_PRODUCTS} variables={{ selectedCategory: category }}>
         { ({ loading, data }) => {
@@ -132,15 +130,15 @@ class PLP extends PureComponent {
               <FilterButton
                 setFilterSlidebar={this.setFilterSlidebar}
               />
-              {this.state.showFilterSidebar ? (
+              {showFilterSidebar ? (
                 <FilterSiderbar
                   allAttributes={allAttributes}
-                  showFilterSidebar={this.state.showFilterSidebar}
+                  showFilterSidebar={showFilterSidebar}
                   setFilterSlidebar={this.setFilterSlidebar}
                 />
               ) : null}
               <ProductsGrid>
-                {this.renderProducts(filteredData)}
+                {renderProducts(filteredData)}
               </ProductsGrid>
             </>
           );
@@ -150,7 +148,8 @@ class PLP extends PureComponent {
   }
 }
 PLP.propTypes = {
-  params: PropTypes.object,
-  searchParams: PropTypes.object.isRequired,
+  searchParams: PropTypes.objectOf(PropTypes.string).isRequired,
+  // eslint-disable-next-line react/require-default-props
+  params: PropTypes.objectOf(PropTypes.any),
 };
 export default withRouter(PLP);

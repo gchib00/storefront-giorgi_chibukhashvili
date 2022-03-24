@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
@@ -25,9 +26,12 @@ const ItemsContainer = styled.div`
   overflow-y: auto;
 `;
 class MiniCart extends PureComponent {
-  state = {
-    screenDimmer: true,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      screenDimmer: true,
+    };
+  }
 
   componentDidMount() {
     document.addEventListener('click', this.handleClickOutside, true);
@@ -35,12 +39,15 @@ class MiniCart extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.cartItems !== this.props.cartItems) {
-      const updatedState = JSON.stringify(this.props.cartItems);
+    const { cartItems } = this.props;
+    const { screenDimmer } = this.state;
+    if (prevProps.cartItems !== cartItems) {
+      const updatedState = JSON.stringify(cartItems);
       localStorage.setItem('cartItems', updatedState);
     }
     const { miniCart } = this.props;
-    if (!miniCart || !this.state.screenDimmer) {
+    if (!miniCart || !screenDimmer) {
+      // eslint-disable-next-line react/destructuring-assignment
       this.props.setMiniCart(false);
     }
   }
@@ -65,6 +72,7 @@ class MiniCart extends PureComponent {
       return null;
     }
     if (!domNode || !domNode.contains(e.target)) {
+      // eslint-disable-next-line react/destructuring-assignment
       return this.props.setMiniCart(false);
     }
     return null;
@@ -82,17 +90,15 @@ class MiniCart extends PureComponent {
           <MiniCartTitle />
           <ItemsContainer>
             {
-              cartItems.map((cartItem) => {
-                return (
-                  <MiniCartItem
-                    productID={cartItem.productID}
-                    uniqueItemID={cartItem.uniqueItemID}
-                    quantity={cartItem.quantity}
-                    selectedAttributes={cartItem.selectedAttributes}
-                    key={cartItem.uniqueItemID}
-                  />
-                );
-              })
+              cartItems.map((cartItem) => (
+                <MiniCartItem
+                  productID={cartItem.productID}
+                  uniqueItemID={cartItem.uniqueItemID}
+                  quantity={cartItem.quantity}
+                  selectedAttributes={cartItem.selectedAttributes}
+                  key={cartItem.uniqueItemID}
+                />
+              ))
             }
           </ItemsContainer>
           <MiniCartTotal />
@@ -109,7 +115,7 @@ class MiniCart extends PureComponent {
 MiniCart.propTypes = {
   miniCart: PropTypes.bool.isRequired,
   setMiniCart: PropTypes.func.isRequired,
-  cartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 const mapStateToProps = (state) => ({
   miniCart: state.miniCart,

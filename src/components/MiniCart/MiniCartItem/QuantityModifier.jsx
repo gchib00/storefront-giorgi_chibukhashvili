@@ -44,6 +44,7 @@ const Quantity = styled.h2`
 class QuantityModifier extends PureComponent {
   changeQuantity = (uniqueItemID, quantity, change) => {
     const newQuantity = quantity + change;
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.updateCartItemQuantity(uniqueItemID, newQuantity);
   };
 

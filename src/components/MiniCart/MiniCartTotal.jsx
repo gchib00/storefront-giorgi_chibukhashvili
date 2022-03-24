@@ -33,20 +33,25 @@ const TotalPrice = styled.p`
   line-height: 3px;
 `;
 class MiniCartTotal extends PureComponent {
-  state = {
-    total: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      total: 0,
+    };
+  }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectedCurrency !== prevProps.selectedCurrency
-      || this.props.cartItems !== prevProps.cartItems) {
+    const { selectedCurrency, cartItems } = this.props;
+    if (selectedCurrency !== prevProps.selectedCurrency
+      || cartItems !== prevProps.cartItems) {
       this.updateTotal();
     }
   }
 
   updateTotal = () => {
+    const { cartItems } = this.props;
     let newTotal = 0;
-    this.props.cartItems.forEach((item) => {
+    cartItems.forEach((item) => {
       const itemCost = item.productPrice * item.quantity;
       newTotal += itemCost;
     });
@@ -58,20 +63,24 @@ class MiniCartTotal extends PureComponent {
 
   render() {
     const { selectedCurrency, cartItems } = this.props;
+    const { total } = this.state;
     if (cartItems.length < 1) {
       return null;
     }
     return (
       <MainContainer>
         <TotalTitle>Total</TotalTitle>
-        <TotalPrice>{selectedCurrency.symbol} {this.state.total}</TotalPrice>
+        <TotalPrice>
+          {selectedCurrency.symbol}
+          {total}
+        </TotalPrice>
       </MainContainer>
     );
   }
 }
 MiniCartTotal.propTypes = {
-  selectedCurrency: PropTypes.object.isRequired,
-  cartItems: PropTypes.array.isRequired,
+  selectedCurrency: PropTypes.objectOf(PropTypes.string).isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 const mapStateToProps = (state) => ({
   selectedCurrency: state.selectedCurrency,

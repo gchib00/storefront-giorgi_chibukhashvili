@@ -28,13 +28,17 @@ const ItemPrice = styled.p`
 class ItemInfo extends PureComponent {
   componentDidMount() {
     const newPrice = this.determineAmount();
-    this.props.updateCartItemPrice(this.props.uniqueItemID, newPrice.amount);
+    const { uniqueItemID } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.updateCartItemPrice(uniqueItemID, newPrice.amount);
   }
 
   componentDidUpdate(prevState) {
-    if (prevState.selectedCurrency.label !== this.props.selectedCurrency.label) {
+    const { selectedCurrency, uniqueItemID } = this.props;
+    if (prevState.selectedCurrency.label !== selectedCurrency.label) {
       const newPrice = this.determineAmount();
-      this.props.updateCartItemPrice(this.props.uniqueItemID, newPrice.amount);
+      // eslint-disable-next-line react/destructuring-assignment
+      this.props.updateCartItemPrice(uniqueItemID, newPrice.amount);
     }
   }
 
@@ -51,6 +55,7 @@ class ItemInfo extends PureComponent {
 
   setSelectedAttributes = (attribute) => {
     const { uniqueItemID } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.updateCartItemOption(uniqueItemID, attribute);
   };
 
@@ -63,7 +68,10 @@ class ItemInfo extends PureComponent {
           brand={product.brand}
           name={product.name}
         />
-        <ItemPrice>{price.symbol} {price.amount}</ItemPrice>
+        <ItemPrice>
+          {price.symbol}
+          {price.amount}
+        </ItemPrice>
         <ProductAttributes
           product={product}
           selectedAttributes={selectedAttributes}
@@ -75,10 +83,10 @@ class ItemInfo extends PureComponent {
   }
 }
 ItemInfo.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
   uniqueItemID: PropTypes.string.isRequired,
-  selectedAttributes: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.object.isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
+  selectedCurrency: PropTypes.objectOf(PropTypes.string).isRequired,
   updateCartItemPrice: PropTypes.func.isRequired,
   updateCartItemOption: PropTypes.func.isRequired,
 };

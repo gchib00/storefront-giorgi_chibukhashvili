@@ -14,6 +14,12 @@ const Cart = styled.img`
   cursor: pointer;
   margin: 0;
 `;
+const outofstockCart = (inStock) => {
+  if (!inStock) {
+    return { visibility: 'hidden' };
+  }
+  return null;
+};
 class CartButton extends PureComponent {
   handleCartClick = (e, product) => {
     if (product.attributes.length === 0) {
@@ -23,16 +29,10 @@ class CartButton extends PureComponent {
         productPrice: product.prices,
         selectedAttributes: [],
       };
+      // eslint-disable-next-line react/destructuring-assignment
       this.props.addItemToCart(item);
       alert('Item has been added to cart');
     }
-  };
-
-  outofstockCart = (inStock) => {
-    if (!inStock) {
-      return { visibility: 'hidden' };
-    }
-    return null;
   };
 
   render() {
@@ -42,13 +42,13 @@ class CartButton extends PureComponent {
       <Cart
         src={RoundCartSVG}
         onClick={(e) => this.handleCartClick(e, product)}
-        style={(this.outofstockCart(available))}
+        style={(outofstockCart(available))}
       />
     );
   }
 }
 CartButton.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
   addItemToCart: PropTypes.func.isRequired,
 };
 const mapDispatchToProps = () => ({

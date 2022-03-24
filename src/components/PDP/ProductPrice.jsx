@@ -23,14 +23,16 @@ const Price = styled.p`
 `;
 class ProductPrice extends PureComponent {
   componentDidMount() {
-    const newPrice = this.determineAmount(this.props.prices, this.props.selectedCurrency);
-    this.props.setProductPrice(newPrice.amount);
+    const { prices, selectedCurrency, setProductPrice } = this.props;
+    const newPrice = this.determineAmount(prices, selectedCurrency);
+    setProductPrice(newPrice.amount);
   }
 
   componentDidUpdate(prevState) {
-    if (prevState.selectedCurrency.label !== this.props.selectedCurrency.label) {
+    const { selectedCurrency, setProductPrice } = this.props;
+    if (prevState.selectedCurrency.label !== selectedCurrency.label) {
       const newPrice = this.determineAmount();
-      this.props.setProductPrice(newPrice.amount);
+      setProductPrice(newPrice.amount);
     }
   }
 
@@ -50,14 +52,17 @@ class ProductPrice extends PureComponent {
     return (
       <div>
         <AttributeTitle>PRICE:</AttributeTitle>
-        <Price>{price.symbol} {price.amount}</Price>
+        <Price>
+          {price.symbol}
+          {price.amount}
+        </Price>
       </div>
     );
   }
 }
 ProductPrice.propTypes = {
-  prices: PropTypes.array.isRequired,
-  selectedCurrency: PropTypes.object.isRequired,
+  prices: PropTypes.arrayOf(PropTypes.any).isRequired,
+  selectedCurrency: PropTypes.objectOf(PropTypes.string).isRequired,
   setProductPrice: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({

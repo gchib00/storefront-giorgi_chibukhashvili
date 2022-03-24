@@ -24,20 +24,23 @@ const Label = styled.label`
   margin-bottom: 5px;
 `;
 export default class Select extends PureComponent {
-  state = {
-    selectedOption: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedOption: '',
+    };
+  }
 
   componentDidUpdate(_prevProps, prevState) {
     const { selectedOption } = this.state;
-    const { searchQueries, item } = this.props;
+    const { searchQueries, item, updateSearchQueries } = this.props;
     if (prevState.selectedOption !== selectedOption) {
       const attrName = item.name;
       const attrString = `${attrName}?${selectedOption}`;
       if (selectedOption !== '-') {
-        return this.props.updateSearchQueries(attrString, 'addExclusive');
+        return updateSearchQueries(attrString, 'addExclusive');
       }
-      return this.props.updateSearchQueries(attrString, 'remove');
+      return updateSearchQueries(attrString, 'remove');
     }
     if (searchQueries && searchQueries.some((attr) => attr.includes(item.name))) {
       let selectedColorVal = searchQueries.find((attr) => attr.includes(item.name));
@@ -60,32 +63,33 @@ export default class Select extends PureComponent {
 
   render() {
     const { item } = this.props;
+    const { selectedOption } = this.state;
     const options = [...item.items];
     return (
       <MainContainer>
         <Label htmlFor={item.name}>
-          {item.name}:
+          {item.name}
+          :
         </Label>
         <SelectEl
           id={item.name}
-          value={this.state.selectedOption}
+          value={selectedOption}
           onChange={(e) => this.handleChange(e)}
         >
           <option>-</option>
-          {options.map((option) => {
-            return (
-              <option value={option.value} key={option.value}>
-                {option.value}
-              </option>
-            );
-          })}
+          {options.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.value}
+            </option>
+          ))}
         </SelectEl>
       </MainContainer>
     );
   }
 }
 Select.propTypes = {
-  item: PropTypes.object.isRequired,
-  searchQueries: PropTypes.array,
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
+  // eslint-disable-next-line react/require-default-props
+  searchQueries: PropTypes.arrayOf(PropTypes.string),
   updateSearchQueries: PropTypes.func.isRequired,
 };

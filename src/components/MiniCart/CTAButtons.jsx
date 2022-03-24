@@ -54,23 +54,27 @@ class CTAButtons extends PureComponent {
         <ViewbagButton
           onClick={() => {
             navigate('/cart');
+            // eslint-disable-next-line react/destructuring-assignment
             this.props.setMiniCart(false);
           }}
-        >VIEW BAG
+        >
+          VIEW BAG
         </ViewbagButton>
         <CheckoutButton
           onClick={() => {
             navigate('/cart');
+            // eslint-disable-next-line react/destructuring-assignment
             this.props.setMiniCart(false);
           }}
-        >CHECK OUT
+        >
+          CHECK OUT
         </CheckoutButton>
       </MainContainer>
     );
   }
 }
 CTAButtons.propTypes = {
-  cartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
   navigate: PropTypes.func.isRequired,
   setMiniCart: PropTypes.func.isRequired,
 };

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -11,9 +10,12 @@ const MainContainer = styled.div`
   flex-wrap: wrap;
 `;
 export default class Colorboxes extends PureComponent {
-  state = {
-    activeBox: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeBox: '',
+    };
+  }
 
   componentDidUpdate() {
     const { searchQueries, item } = this.props;
@@ -21,6 +23,7 @@ export default class Colorboxes extends PureComponent {
       let selectedColorVal = searchQueries.find((attr) => attr.includes(item.name));
       // eslint-disable-next-line prefer-destructuring
       selectedColorVal = selectedColorVal.split('?')[1];
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState((prevState) => ({
         ...prevState,
         activeBox: selectedColorVal,
@@ -36,16 +39,17 @@ export default class Colorboxes extends PureComponent {
   };
 
   render() {
-    const { item } = this.props;
+    const { item, updateSearchQueries } = this.props;
+    const { activeBox } = this.state;
     return (
       <MainContainer>
         {item.items.map((option) => (
           <Colorbox
             attrName={item.name}
             option={option}
-            updateSearchQueries={this.props.updateSearchQueries}
+            updateSearchQueries={updateSearchQueries}
             setActiveBox={this.setActiveBox}
-            activeBox={this.state.activeBox}
+            activeBox={activeBox}
             key={option.value}
           />
         ))}
@@ -54,7 +58,8 @@ export default class Colorboxes extends PureComponent {
   }
 }
 Colorboxes.propTypes = {
-  item: PropTypes.object.isRequired,
-  searchQueries: PropTypes.array,
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
+  // eslint-disable-next-line react/require-default-props
+  searchQueries: PropTypes.arrayOf(PropTypes.string),
   updateSearchQueries: PropTypes.func.isRequired,
 };

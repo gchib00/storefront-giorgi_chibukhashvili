@@ -5,7 +5,9 @@
 
 // react-router-dom v6 stopped supporting 'withRouter and 'withNavigation',
 // so we need to create a custom HOC in order to access params in class components
-import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import {
+  useParams, useNavigate, useLocation, useSearchParams,
+} from 'react-router-dom';
 
 const withRouter = (WrappedComponent) => (props) => {
   const params = useParams();

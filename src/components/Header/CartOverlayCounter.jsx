@@ -19,8 +19,9 @@ class CartOverlayCounter extends PureComponent {
     const { cartItems } = this.props;
     let counter = 0;
     if (cartItems.length > 0) {
+      // eslint-disable-next-line array-callback-return
       cartItems.map((item) => {
-        return counter += item.quantity;
+        counter += item.quantity;
       });
       return counter;
     }
@@ -28,7 +29,8 @@ class CartOverlayCounter extends PureComponent {
   };
 
   render() {
-    if (this.props.cartItems.length < 1) {
+    const { cartItems } = this.props;
+    if (cartItems.length < 1) {
       return null;
     }
     return (
@@ -37,7 +39,7 @@ class CartOverlayCounter extends PureComponent {
   }
 }
 CartOverlayCounter.propTypes = {
-  cartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 const mapStateToProps = (state) => ({
   cartItems: state.cartItems,

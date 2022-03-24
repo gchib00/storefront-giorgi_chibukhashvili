@@ -12,7 +12,8 @@ const Title = styled.h1`
 `;
 class CartTitle extends PureComponent {
   getCartTitle = () => {
-    if (this.props.cartItems.length < 1) {
+    const { cartItems } = this.props;
+    if (cartItems.length < 1) {
       return 'CART IS EMPTY';
     }
     return 'CART';
@@ -25,7 +26,7 @@ class CartTitle extends PureComponent {
   }
 }
 CartTitle.propTypes = {
-  cartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 const mapStateToProps = (state) => ({
   cartItems: state.cartItems,

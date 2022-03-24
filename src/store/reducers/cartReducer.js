@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 /* eslint-disable no-param-reassign */
 
 const itemExistsInCart = (newItem, state) => {
@@ -9,8 +10,9 @@ const itemExistsInCart = (newItem, state) => {
 };
 const createUniqueID = (productID, selectedAttributes) => {
   let stringifiedAttributes = productID;
+  // eslint-disable-next-line array-callback-return
   selectedAttributes.map((selectedAttr) => {
-    return stringifiedAttributes += selectedAttr.option.value;
+    stringifiedAttributes += selectedAttr.option.value;
   });
   return stringifiedAttributes;
 };

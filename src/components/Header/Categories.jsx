@@ -22,14 +22,19 @@ const GET_CATEGORIES = gql`
   }
 `;
 class Categories extends PureComponent {
-  state = {
-    selectedCategory: 'all',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedCategory: 'all',
+    };
+  }
 
   componentDidMount() {
+    const { location } = this.props;
+    const { selectedCategory } = this.state;
     // ensure that the category param matches the selectedCategory state value:
-    const currentPath = this.props.location.pathname.split('/')[1];
-    if (currentPath && this.state.selectedCategory !== currentPath) {
+    const currentPath = location.pathname.split('/')[1];
+    if (currentPath && selectedCategory !== currentPath) {
       this.setState((prevState) => ({
         ...prevState,
         selectedCategory: currentPath,
@@ -38,14 +43,16 @@ class Categories extends PureComponent {
   }
 
   handleCategoryChange = (category) => {
+    const { navigate } = this.props;
     this.setState((prevState) => ({
       ...prevState,
       selectedCategory: category,
     }));
-    this.props.navigate(`/${category}`);
+    navigate(`/${category}`);
   };
 
   render() {
+    const { selectedCategory } = this.state;
     return (
       <MainContainer>
         <Query query={GET_CATEGORIES}>
@@ -55,7 +62,7 @@ class Categories extends PureComponent {
               <CategoryButton
                 key={option.name}
                 category={option.name}
-                selectedCategory={this.state.selectedCategory}
+                selectedCategory={selectedCategory}
                 handleCategoryChange={this.handleCategoryChange}
               />
             ));
@@ -66,7 +73,7 @@ class Categories extends PureComponent {
   }
 }
 Categories.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.objectOf(PropTypes.string).isRequired,
   navigate: PropTypes.func.isRequired,
 };
 export default withRouter(Categories);

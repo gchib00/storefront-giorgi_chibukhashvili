@@ -10,23 +10,21 @@ class CartPage extends PureComponent {
     return (
       <>
         <CartTitle />
-        {cartItems.map((cartItem) => {
-          return (
-            <CartItem
-              productID={cartItem.productID}
-              quantity={cartItem.quantity}
-              uniqueItemID={cartItem.uniqueItemID}
-              selectedAttributes={cartItem.selectedAttributes}
-              key={cartItem.uniqueItemID}
-            />
-          );
-        })}
+        {cartItems.map((cartItem) => (
+          <CartItem
+            productID={cartItem.productID}
+            quantity={cartItem.quantity}
+            uniqueItemID={cartItem.uniqueItemID}
+            selectedAttributes={cartItem.selectedAttributes}
+            key={cartItem.uniqueItemID}
+          />
+        ))}
       </>
     );
   }
 }
 CartPage.propTypes = {
-  cartItems: PropTypes.array.isRequired,
+  cartItems: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 const mapStateToProps = (state) => ({
   cartItems: state.cartItems,

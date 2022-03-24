@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
@@ -45,19 +46,22 @@ class CurrencyOptions extends PureComponent {
   handleClickOutside = (e) => {
     const domNode = ReactDOM.findDOMNode(this);
     const targetPathArr = e.composedPath();
+    const { switchDropdown } = this.props;
     // currencySelector div(along with its children) should be an exception:
     if (e.target.id === 'currencySelector' || targetPathArr[1].id === 'currencySelector') {
       return null;
     }
     if (!domNode || !domNode.contains(e.target)) {
-      return this.props.switchDropdown(false);
+      return switchDropdown(false);
     }
     return null;
   };
 
   handleCurrencyChange = (currencyObj) => {
+    const { switchDropdown } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.setActiveCurrency(currencyObj);
-    this.props.switchDropdown(false);
+    switchDropdown(false);
   };
 
   render() {

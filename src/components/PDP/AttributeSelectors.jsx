@@ -29,6 +29,12 @@ const Selector = styled.input`
     color: white;
   }
 `;
+const timestampID = (str1) => {
+  // timestamping id or key values is necessary because user might select
+  // items that are of the same exact name and option(s)
+  const id = str1 + Date.now();
+  return id;
+};
 export default class AttributeSelectors extends PureComponent {
   determineBoxSize = () => {
     // AttributeSelectors is reused in multiple locations and it's necessary
@@ -63,27 +69,21 @@ export default class AttributeSelectors extends PureComponent {
     return false;
   };
 
-  timestampID = (str1, str2) => {
-    // timestamping id or key values is necessary because user might select
-    // items that are of the same exact name and option(s)
-    return str1 + str2 + Date.now();
-  };
-
   render() {
     const { attribute } = this.props;
     return (
       attribute.items.map((option) => (
-        <div key={this.timestampID(attribute.name + option.id)}>
+        <div key={timestampID(attribute.name + option.id)}>
           <Selector
             type="radio"
             value={option.value}
             checked={this.populateOption(attribute.name, option.value)}
             readOnly
             onClick={() => this.saveChoice(option)}
-            id={this.timestampID(attribute.name + option.id)}
+            id={timestampID(attribute.name + option.id)}
           />
           <SelectorBox
-            htmlFor={this.timestampID(attribute.name + option.id)}
+            htmlFor={timestampID(attribute.name + option.id)}
             style={this.determineBoxSize()}
           >
             {option.value}
@@ -94,8 +94,9 @@ export default class AttributeSelectors extends PureComponent {
   }
 }
 AttributeSelectors.propTypes = {
-  attribute: PropTypes.object.isRequired,
+  attribute: PropTypes.objectOf(PropTypes.any).isRequired,
+  // eslint-disable-next-line react/require-default-props
   optionBoxSize: PropTypes.string,
-  selectedAttributes: PropTypes.array.isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
   setSelectedAttributes: PropTypes.func.isRequired,
 };

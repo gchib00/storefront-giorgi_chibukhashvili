@@ -51,7 +51,9 @@ const FETCH_PRODUCT = gql`
 `;
 export default class MiniCartItem extends PureComponent {
   render() {
-    const { productID, uniqueItemID, quantity, selectedAttributes } = this.props;
+    const {
+      productID, uniqueItemID, quantity, selectedAttributes,
+    } = this.props;
     return (
       <Query query={FETCH_PRODUCT} variables={{ id: productID }}>
         { ({ loading, data }) => {
@@ -84,5 +86,5 @@ MiniCartItem.propTypes = {
   productID: PropTypes.string.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
-  selectedAttributes: PropTypes.array.isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
 };

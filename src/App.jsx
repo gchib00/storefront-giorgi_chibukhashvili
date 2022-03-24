@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter, Routes, Route, Navigate,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { initializeCart } from './store/actions';
@@ -23,6 +25,7 @@ class App extends PureComponent {
   getSavedCart = () => {
     const savedCart = JSON.parse(localStorage.getItem('cartItems'));
     if (savedCart) {
+      // eslint-disable-next-line react/destructuring-assignment
       return this.props.initializeCart(savedCart);
     }
     return null;

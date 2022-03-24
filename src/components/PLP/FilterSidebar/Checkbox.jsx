@@ -1,4 +1,3 @@
-/* eslint-disable react/no-did-update-set-state */
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -28,13 +27,17 @@ const CheckmarkEl = styled.img`
   height: 100%;
 `;
 export default class Checkbox extends PureComponent {
-  state = {
-    checked: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      checked: false,
+    };
+  }
 
   componentDidUpdate() {
     const { searchQueries, item } = this.props;
     if (searchQueries && searchQueries.includes(item.name)) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState((prevState) => ({
         ...prevState,
         checked: true,
@@ -43,11 +46,13 @@ export default class Checkbox extends PureComponent {
   }
 
   handleChange = () => {
-    const { name } = this.props.item;
-    if (!this.state.checked) {
-      this.props.updateSearchQueries(name, 'add');
+    const { item, updateSearchQueries } = this.props;
+    const { name } = item;
+    const { checked } = this.state;
+    if (!checked) {
+      updateSearchQueries(name, 'add');
     } else {
-      this.props.updateSearchQueries(name, 'remove');
+      updateSearchQueries(name, 'remove');
     }
     this.setState((prevState) => ({
       checked: !prevState.checked,
@@ -56,12 +61,13 @@ export default class Checkbox extends PureComponent {
 
   render() {
     const { item } = this.props;
+    const { checked } = this.state;
     return (
       <MainContainer>
         {item.name}
         <CheckboxEl
           htmlFor={item.name}
-          style={this.state.checked ? { background: '#5ECE7B' } : { background: '#FFFFFF' }}
+          style={checked ? { background: '#5ECE7B' } : { background: '#FFFFFF' }}
         >
           <Input type="checkbox" id={item.name} onChange={() => this.handleChange()} />
           <CheckmarkEl src={CheckmarkSVG} />
@@ -71,7 +77,8 @@ export default class Checkbox extends PureComponent {
   }
 }
 Checkbox.propTypes = {
-  item: PropTypes.object.isRequired,
-  searchQueries: PropTypes.array,
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
+  // eslint-disable-next-line react/require-default-props
+  searchQueries: PropTypes.arrayOf(PropTypes.string),
   updateSearchQueries: PropTypes.func.isRequired,
 };

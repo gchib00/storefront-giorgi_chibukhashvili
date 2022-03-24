@@ -12,13 +12,15 @@ const Title = styled.h1`
 `;
 class CategoryTitle extends PureComponent {
   render() {
-    const selectedCategory = this.props.params.category;
+    const { params } = this.props;
+    const { category } = params;
+    const selectedCategory = category;
     return (
       <Title>{selectedCategory.toUpperCase()}</Title>
     );
   }
 }
 CategoryTitle.propTypes = {
-  params: PropTypes.object.isRequired,
+  params: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 export default withRouter(CategoryTitle);

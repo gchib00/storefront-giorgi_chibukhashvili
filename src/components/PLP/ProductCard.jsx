@@ -48,5 +48,5 @@ export default class ProductCard extends PureComponent {
   }
 }
 ProductCard.propTypes = {
-  product: PropTypes.object.isRequired,
+  product: PropTypes.objectOf(PropTypes.any).isRequired,
 };

@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Query } from '@apollo/react-components';
 import { gql } from '@apollo/client';
+import PropTypes from 'prop-types';
 import withRouter from '../HigherOrderComponents';
 import ProductDetails from './ProductDetails';
 import SideImages from './SideImages';
@@ -46,9 +46,12 @@ const FETCH_PRODUCT = gql`
 `;
 
 class PDP extends PureComponent {
-  state = {
-    mainImgIndex: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      mainImgIndex: 0,
+    };
+  }
 
   changeMainImage = (newIndex) => {
     this.setState({
@@ -57,7 +60,9 @@ class PDP extends PureComponent {
   };
 
   render() {
-    const { id } = this.props.params;
+    const { mainImgIndex } = this.state;
+    const { params } = this.props;
+    const { id } = params;
     return (
       <Query query={FETCH_PRODUCT} variables={{ id }}>
         { ({ loading, data }) => {
@@ -69,7 +74,7 @@ class PDP extends PureComponent {
                 changeMainImage={this.changeMainImage}
               />
               <MainImage
-                image={data.product.gallery[this.state.mainImgIndex]}
+                image={data.product.gallery[mainImgIndex]}
                 available={data.product.inStock}
               />
               <ProductDetails
@@ -82,4 +87,7 @@ class PDP extends PureComponent {
     );
   }
 }
+PDP.propTypes = {
+  params: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 export default withRouter(PDP);

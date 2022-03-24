@@ -65,11 +65,14 @@ const FETCH_PRODUCT = gql`
 class CartItem extends PureComponent {
   setSelectedAttributes = (attribute) => {
     const { uniqueItemID } = this.props;
+    // eslint-disable-next-line react/destructuring-assignment
     this.props.updateCartItemOption(uniqueItemID, attribute);
   };
 
   render() {
-    const { quantity, uniqueItemID, productID, selectedAttributes } = this.props;
+    const {
+      quantity, uniqueItemID, productID, selectedAttributes,
+    } = this.props;
     return (
       <Query query={FETCH_PRODUCT} variables={{ id: productID }}>
         { ({ loading, data }) => {
@@ -106,7 +109,7 @@ class CartItem extends PureComponent {
 CartItem.propTypes = {
   productID: PropTypes.string.isRequired,
   uniqueItemID: PropTypes.string.isRequired,
-  selectedAttributes: PropTypes.array.isRequired,
+  selectedAttributes: PropTypes.arrayOf(PropTypes.any).isRequired,
   quantity: PropTypes.number.isRequired,
   updateCartItemOption: PropTypes.func.isRequired,
 };
