@@ -59,7 +59,6 @@ class PLP extends PureComponent {
   }
 
   setFilterSlidebar = (bool) => {
-    console.log('test');
     this.setState((prevState) => ({
       ...prevState,
       showFilterSidebar: bool,
